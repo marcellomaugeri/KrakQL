@@ -1,4 +1,4 @@
-FROM graphql-base:latest
+FROM base_image
 
 # Install nodejs
 RUN apt-get install -y nodejs npm curl wget

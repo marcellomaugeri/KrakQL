@@ -13,3 +13,20 @@ graphql-ncs and graphql-scs are adapted from RESTful APIs.
 ##### Others
 - [DVGA](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application)
 - [Gitlab](https://docs.gitlab.com/install/docker/)
+
+### Build the base image
+```shell
+cd base_image
+docker build -t graphql-base .
+cd ..
+```
+
+### Build the image for a specific case study
+```shell
+cd targets/<case_study>
+docker build -t graphql-<case_study> .
+cd ../..
+```
+
+### Useful Resources
+- [Graphql-schema-diff](https://github.com/Ambro17/graphql-schema-diff)

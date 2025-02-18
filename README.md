@@ -17,14 +17,14 @@ graphql-ncs and graphql-scs are adapted from RESTful APIs.
 ### Build the base image
 ```shell
 cd base_image
-docker build -t graphql-base .
+docker build --platform=linux/amd64 -t graphql-base .
 cd ..
 ```
 
 ### Build the image for a specific case study
 ```shell
 cd targets/<case_study>
-docker build -t graphql-<case_study> .
+docker build --platform=linux/amd64 -t graphql-<case_study> .
 cd ../..
 ```
 

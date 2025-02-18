@@ -11,8 +11,8 @@ RUN n 22.14.0
 
 # Clone the repo and install dependencies
 RUN git clone https://github.com/react-shop/react-ecommerce.git
-RUN git checkout 90e18e2
 WORKDIR /react-ecommerce
+RUN git checkout 90e18e2
 
 # Install dependencies
 RUN yarn

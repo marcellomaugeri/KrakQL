@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  react-app:
+    build:
+      context: ./targets/react-finland
+      dockerfile: Dockerfile
+    ports:
+      - "5000:3000"
+    networks:
+      - my-network
+
+  test-app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    networks:
+      - my-network
+    depends_on:
+      - react-app
+    command: ./react.sh
+    volumes:
+      - ./results/react-finland:/test-app
+networks:
+  my-network:

@@ -83,11 +83,6 @@ for arg in "$@"; do
         fi
         docker build -t $petclinic_graphql ./targets/$petclinic_graphql
         CONTAINER_ID=(docker run -d --name $petclinic_graphql -p 5000:9977 $petclinic_graphql)
-        clairvoyance http://localhost:5000/graphql -o schema.json
-        mv schema.json results/$petclinic_graphql
-        docker kill $CONTAINER_ID
-        docker rm $CONTAINER_ID
-        docker rmi $patio_api
 
     elif [[ $arg == $react_finland ]]; then
         echo "running react-finland..."
@@ -101,11 +96,13 @@ for arg in "$@"; do
         docker build -t $react_finland ./targets/$react_finland
         CONTAINER_ID=$(docker run -d -p3000:3000 $react_finland)
         sleep 40
-        clairvoyance http://localhost:3000/graphql -o schema.json
+        wget https://github.com/first20hours/google-10000-english/blob/master/20k.txt
+        clairvoyance http://localhost:3000/graphql -o schema.json -w ./20k.txt
+        rm ./20k.txt
         pip install graphql-schema-diff
         pip install argparse
         python3 introspection_to_sql.py ./schema.json ./schema.graphql
-        mv -t results/$react_finland ./schema.json ./schema.graphql
+        mv -t results/$react_finland schema.json schema.graphql
         schemadiff -o targets/$react_finland/schema.graphqls -n results/$react_finland/schema.graphql --as-json >./results/$react_finland/changes.json
         docker kill $CONTAINER_ID
         docker rm $(docker p s -aq --filter ancestor=$react_finland)
@@ -120,12 +117,7 @@ for arg in "$@"; do
                 exit 1
             fi
         fi
-        docker build -t $timbuctoo ./targets/$timbuctoo
-        docker run -d --name $timbuctoo -p 5000:80 $timbuctoo
-        CONTAINER_ID=(docker run -p5000:80 huygensing/timbuctoo)
         docker run -d -p5000:80 huygensing/timbuctoo
-        sleep 40
-        echo $CONTAINER_ID
         clairvoyance http://localhost:5000/static/graphiq -o schema.json
         mv schema.json results/$timbuctoo
 

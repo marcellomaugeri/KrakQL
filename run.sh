@@ -64,7 +64,8 @@ for arg in "$@"; do
                 exit 1
             fi
         fi
-        docker compose up --build
+        docker compose -f ./targets/$patio_api/docker-compose.yml -p patio-api up --build
+        docker compose -p patio-api down
         # docker build -t $patio_api ./targets/$patio_api
         # docker run -d --name $patio_api -p 5000:5000 $patio_api
         # clairvoyance localhost:5000 -o schema.json

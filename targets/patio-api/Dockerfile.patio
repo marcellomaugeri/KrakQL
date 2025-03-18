@@ -13,4 +13,3 @@ ENV PATH=$JAVA_HOME/bin:$PATH
 RUN git clone https://github.com/patio-team/patio-api.git
 WORKDIR /patio-api
 RUN cp src/main/resources/application-prod.yml src/main/resources/application.yml
-CMD ["./gradlew", "run"]

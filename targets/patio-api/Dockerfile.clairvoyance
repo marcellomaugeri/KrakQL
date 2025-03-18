@@ -1,6 +1,6 @@
 FROM python:latest
 
-COPY ./introspection_to_sql.py /introspection_to_sql.py
+COPY introspection_to_sql.py /introspection_to_sql.py
 COPY ./targets/patio-api/schema.graphqls /schema.graphqls
 COPY ./targets/patio-api/patio.sh /patio.sh
 RUN apt update

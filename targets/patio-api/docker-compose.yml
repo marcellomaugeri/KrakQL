@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   db:
     image: postgres:13
@@ -12,7 +11,9 @@ services:
       - mynetwork1
 
   patio-api:
-    build: ./patio
+    build:
+      context: ./../..
+      dockerfile: ./targets/patio-api/Dockerfile.patio
     depends_on:
       - db
     environment:
@@ -40,13 +41,16 @@ services:
       - mynetwork1
     ports:
       - "8080:8080"
+    command: ./gradlew run && exit 0
   clairvoyance:
-    build: .
+    build:
+      context: ./../..
+      dockerfile: ./targets/patio-api/Dockerfile.clairvoyance
     depends_on:
       - patio-api
     networks:
       - mynetwork1
-    command: ./patio.sh
+    command: ./patio.sh && docker stop patio-api
     volumes:
       - ./results:/results
 networks:

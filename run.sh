@@ -55,8 +55,9 @@ for arg in "$@"; do
         docker stop $(docker ps -q --filter "ancestor=$e_commerce_server")
         docker rm $(docker ps -a -q --filter "ancestor=$e_commerce_server")
         docker rmi $e_commerce_server
-    elif [[ $arg == $patio_api ]]; then
+    elif [[ $arg == $patio_api ]]; then        
         echo "running patio-api..."
+        start_time=$(date +%s)
         if [ ! -d "$folder_name/$patio_api" ]; then
             mkdir "$folder_name/$patio_api"
             if [ ! $? -eq 0 ]; then
@@ -66,6 +67,9 @@ for arg in "$@"; do
         fi
         docker compose -f ./targets/$patio_api/docker-compose.yml -p patio-api up --build
         docker compose -p patio-api down
+        end_time=$(date +%s)
+        duration=$((end_time - start_time))
+        echo "The process took $duration seconds."
         # docker build -t $patio_api ./targets/$patio_api
         # docker run -d --name $patio_api -p 5000:5000 $patio_api
         # clairvoyance localhost:5000 -o schema.json

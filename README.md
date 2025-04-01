@@ -1,4 +1,4 @@
-# graphql-schema-retriever-with-llm
+# KrakQL: LLM-Guided Retrieval of GraphQL Schemas
 
 #### Case studies
 ##### From 'Random Testing and Evolutionary Testing for Fuzzing GraphQL APIs' paper

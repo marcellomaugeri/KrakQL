@@ -16,6 +16,9 @@ graphql-ncs and graphql-scs are adapted from RESTful APIs.
 ##### Others
 - [DVGA](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application)
 - [Gitlab](https://docs.gitlab.com/install/docker/)
+- [Rick and Morty API](https://github.com/afuh/rick-and-morty-api)
+- [Countries](https://github.com/trevorblades/countries)
+- [Poke-GQL](https://github.com/GregLyons/poke-gql)
 
 ### Build the base image
 ```shell

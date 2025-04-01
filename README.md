@@ -4,11 +4,12 @@
 ##### From 'Random Testing and Evolutionary Testing for Fuzzing GraphQL APIs' paper
 | Project                                                                 | Framework | Field suggestion | Introspection available | Build status |
 |-------------------------------------------------------------------------|-----------|------------------|--------------------------|--------------|
-| [e-commerce-server](https://github.com/react-shop/react-ecommerce)     |           | [x]              | [x]                      | [x]          |
-| [patio-api](https://github.com/patio-team/patio-api)                   |           | [x]              | [x]                      | [x]          |
-| [react-finland](https://github.com/ReactFinland/graphql-api)           |           | [x]              | [x]                      | [x]          |
-| [petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) |           | [x]              | [x]                      | [x]          |
-| [timbuctoo](https://github.com/HuygensING/timbuctoo)                   |           | [x]              | [x]                      | [x]          |
+| [e-commerce-server](https://github.com/react-shop/react-ecommerce)     |           | :x:              | :x:                      | :x:          |
+| [patio-api](https://github.com/patio-team/patio-api)                   |           | :x:              | :x:                      | :x:          |
+| [react-finland](https://github.com/ReactFinland/graphql-api)           |           | :x:              | :x:                      | :x:          |
+| [petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) |           | :x:              | :x:                      | :x:          |
+| [timbuctoo](https://github.com/HuygensING/timbuctoo)                   |           | :x:              | :x:                      | :x:          |
+
 
 graphql-ncs and graphql-scs are adapted from RESTful APIs.
 

@@ -8,29 +8,29 @@ react_finland="react-finland"
 timbuctoo="timbuctoo"
 
 if [ ! -d "$folder_name" ]; then
-    mkdir "$folder_name"
-    if [ ! $? -eq 0 ]; then
-        echo "Error: Failed to create folder '$folder_name'."
-        exit 1
-    fi
+  mkdir "$folder_name"
+  if [ ! $? -eq 0 ]; then
+    echo "Error: Failed to create folder '$folder_name'."
+    exit 1
+  fi
 fi
 
 for arg in "$@"; do
-    if [[ $arg == $e_commerce_server ]]; then
-        continue
-    elif [[ $arg == $patio_api ]]; then
-        continue
-    elif [[ $arg == $petclinic_graphql ]]; then
-        continue
-    elif [[ $arg == $react_finland ]]; then
-        continue
-    elif [[ $arg == $timbuctoo ]]; then
-        continue
-    else
-        echo "'$arg' wrong argument!"
-        exit 1
+  if [[ $arg == $e_commerce_server ]]; then
+    continue
+  elif [[ $arg == $patio_api ]]; then
+    continue
+  elif [[ $arg == $petclinic_graphql ]]; then
+    continue
+  elif [[ $arg == $react_finland ]]; then
+    continue
+  elif [[ $arg == $timbuctoo ]]; then
+    continue
+  else
+    echo "'$arg' wrong argument!"
+    exit 1
 
-    fi
+  fi
 
 done
 

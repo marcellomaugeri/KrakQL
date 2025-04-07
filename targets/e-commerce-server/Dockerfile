@@ -9,13 +9,10 @@ RUN npm install -g yarn n
 # Clone the repo and install dependencies
 RUN git clone https://github.com/react-shop/react-ecommerce.git
 WORKDIR /react-ecommerce
-RUN git checkout 90e18e2
+RUN git checkout bc0f268e6d38806910e6d1c198460a0c3fdd81d1
 
-# Change node version
-RUN n 14.21.3
-
-# Set the environment variable (necessary for the babel-loader dependency)
-ENV SKIP_PREFLIGHT_CHECK=true
+# Remove yarn.lock file
+#RUN rm yarn.lock
 
 # Install dependencies
 RUN yarn

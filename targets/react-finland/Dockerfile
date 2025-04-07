@@ -8,9 +8,12 @@ RUN apt-get install -y nodejs npm
 
 RUN git clone https://github.com/ReactFinland/graphql-api.git
 
-WORKDIR /ReactFinland
+WORKDIR /graphql-api
 
-RUN NODE_ENV="development" npm start
+RUN NODE_ENV="production"
+RUN npm install
+# RUN npm run build
+CMD ["npm", "start"]
 
 # Set the environment variable (necessary for the babel-loader dependency)
 # ENV SKIP_PREFLIGHT_CHECK=true

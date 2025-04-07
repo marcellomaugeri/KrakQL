@@ -1,3 +1,4 @@
+
 FROM node:14.21.3
 
 # Clone the repo and install dependencies
@@ -12,4 +13,4 @@ RUN git checkout bc0f268e6d38806910e6d1c198460a0c3fdd81d1
 RUN yarn
 
 # Run the server
-#CMD ["yarn", "start"]
+CMD ["yarn", "start"]

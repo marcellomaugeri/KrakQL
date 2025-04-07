@@ -1,0 +1,21 @@
+services: 
+
+  react-finland:
+    build:
+      context: ./../..
+      dockerfile: ./targets/react-finland/Dockerfile.react-finland
+
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: "production"
+    command: npm start
+  clairvoyance:
+    build:
+      context: ./../..
+      dockerfile: ./targets/react-finland/Dockerfile.clairvoyance
+    depends_on:
+      - react-finland
+    command: ./react-finland.sh && docker stop react-finland
+    volumes:
+      - ../../results:/results

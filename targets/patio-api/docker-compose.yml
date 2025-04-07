@@ -19,7 +19,7 @@ services:
     environment:
       PATIO_JDBC_URL: "jdbc:postgresql://db:5432/patio"
       PATIO_JDBC_USER: "patio"
-      PATIO_JDBC_PASSWORD: "yourpassword"
+      PATIO_JDBC_PASSWORD: "patio"
       PATIO_JDBC_DRIVER: "org.postgresql.Driver"
       PATIO_ACCESS_KEY: ""
       PATIO_SECRET_KEY: ""

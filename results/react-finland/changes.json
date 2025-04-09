@@ -1,13 +1,553 @@
 [
     {
-        "message": "`Contact.social` type changed from `Social!` to `Social`",
-        "path": "Contact.social",
+        "message": "`Session.sessions` type changed from `[Session!]` to `Session`",
+        "path": "Session.sessions",
         "is_safe_change": false,
         "criticality": {
             "level": "BREAKING",
             "reason": "Changing a field type will break queries that assume its type"
         },
-        "checksum": "1ac880b7e7f51026f11fbdd64a6d2735"
+        "checksum": "310803f395545ee2b7325629c03d7773"
+    },
+    {
+        "message": "`Session.people` type changed from `[Contact!]` to `Contact`",
+        "path": "Session.people",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "5d59cec7ead3510699e3b15e4ffa1287"
+    },
+    {
+        "message": "Deprecation reason on field `Session.speakers` changed from `Use `people` instead` to `None`",
+        "path": "Session.speakers",
+        "is_safe_change": true,
+        "criticality": {
+            "level": "NON_BREAKING",
+            "reason": "This change won't break any preexisting query"
+        },
+        "checksum": "2cd84b9ae79ccba4e544efe1ef758922"
+    },
+    {
+        "message": "`Session.speakers` type changed from `[Contact!]!` to `Contact`",
+        "path": "Session.speakers",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "c1e6be605739c8226e7111d9de32b94b"
+    },
+    {
+        "message": "`Session.parent` type changed from `Interval!` to `Interval`",
+        "path": "Session.parent",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "b020896c69442fc5440e09c493d1862d"
+    },
+    {
+        "message": "`Query.theme` type changed from `Theme!` to `Theme`",
+        "path": "Query.theme",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "16283b3b1952149842783a811bc5d540"
+    },
+    {
+        "message": "`Query.contact` type changed from `Contact!` to `Contact`",
+        "path": "Query.contact",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "a89aaaec765a5c33a6b6088b453bccf1"
+    },
+    {
+        "message": "`Query.schedule` type changed from `Schedule!` to `Schedule`",
+        "path": "Query.schedule",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "43ce4d6840887b480fb20ce616d97b88"
+    },
+    {
+        "message": "`Query.people` type changed from `[Contact!]!` to `Contact`",
+        "path": "Query.people",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "2fdc4e9d44b01e8392c080d45061a91a"
+    },
+    {
+        "message": "`Query.series` type changed from `Series!` to `Series`",
+        "path": "Query.series",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "3ae852de151e5d6e7fae5a0a64f59b74"
+    },
+    {
+        "message": "`Query.sponsors` type changed from `[Contact!]!` to `Contact`",
+        "path": "Query.sponsors",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "30d65dc50e2da628b8b2e99435719816"
+    },
+    {
+        "message": "`Query.conferences` type changed from `[Conference!]!` to `Conference`",
+        "path": "Query.conferences",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "ffb5648b03ec78f6f26a22428f08a148"
+    },
+    {
+        "message": "`Query.allSeries` type changed from `[Series!]!` to `Series`",
+        "path": "Query.allSeries",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "8aefd5656f30fd03b8fa8c3e1cdb1070"
+    },
+    {
+        "message": "`Query.conference` type changed from `Conference!` to `Conference`",
+        "path": "Query.conference",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "fc89bfd861ad80fa800ee90c20ca7284"
+    },
+    {
+        "message": "`Query.interval` type changed from `Interval!` to `Interval`",
+        "path": "Query.interval",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "d82817636e8a42d79b00e6da452e82ae"
+    },
+    {
+        "message": "Deprecation reason on field `Query.allConferences` changed from `Use `conferences` instead` to `None`",
+        "path": "Query.allConferences",
+        "is_safe_change": true,
+        "criticality": {
+            "level": "NON_BREAKING",
+            "reason": "This change won't break any preexisting query"
+        },
+        "checksum": "37a35f8237d577a2ca82ab3afee652c8"
+    },
+    {
+        "message": "`Query.allConferences` type changed from `[Conference!]!` to `Conference`",
+        "path": "Query.allConferences",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "45118838abbde30270b432d277a88e91"
+    },
+    {
+        "message": "`Query.themes` type changed from `[Theme!]!` to `Theme`",
+        "path": "Query.themes",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "58413d28810b93474188c9f88e11f65f"
+    },
+    {
+        "message": "`Query.locations` type changed from `[Location!]!` to `Location`",
+        "path": "Query.locations",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "ad44722cdd01dac29d1f9edb535ea065"
+    },
+    {
+        "message": "`Theme.colors` type changed from `Colors!` to `Colors`",
+        "path": "Theme.colors",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "f96f89c8f2af386bff5ce0b39f38dbb9"
+    },
+    {
+        "message": "`Theme.textures` type changed from `[Image!]!` to `Image`",
+        "path": "Theme.textures",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "cef3dfd329709aed6338c68d09ad369f"
+    },
+    {
+        "message": "`Theme.fonts` type changed from `Fonts!` to `Fonts`",
+        "path": "Theme.fonts",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "4ae9695c9e9bb1c19f0799dffce5acd2"
+    },
+    {
+        "message": "`Theme.logos` type changed from `Logos!` to `Logos`",
+        "path": "Theme.logos",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "3c71adc0f72c172b70652206722ec128"
+    },
+    {
+        "message": "`Logos.colored` type changed from `WithWithoutText!` to `WithWithoutText`",
+        "path": "Logos.colored",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "6ff19abe5563726d7c4617de7882b2a3"
+    },
+    {
+        "message": "`Logos.white` type changed from `WithWithoutText!` to `WithWithoutText`",
+        "path": "Logos.white",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "b8ba5f4009227126976f837db3b49fa8"
+    },
+    {
+        "message": "`Logos.black` type changed from `WithWithoutText!` to `WithWithoutText`",
+        "path": "Logos.black",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "cfad698ec9068107fb2df55cb930cab7"
+    },
+    {
+        "message": "Field `panelOnlySpeakers` was removed from object type `Conference`",
+        "path": "Conference.panelOnlySpeakers",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Removing a field is a breaking change. It is preferred to deprecate the field before removing it."
+        },
+        "checksum": "ce5a622a316acb8ea04b44b124555dd3"
+    },
+    {
+        "message": "Field `fullTalkSpeakers` was removed from object type `Conference`",
+        "path": "Conference.fullTalkSpeakers",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Removing a field is a breaking change. It is preferred to deprecate the field before removing it."
+        },
+        "checksum": "11b07a6cf8ef8def09d005f239afecc7"
+    },
+    {
+        "message": "Field `lightningTalkSpeakers` was removed from object type `Conference`",
+        "path": "Conference.lightningTalkSpeakers",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Removing a field is a breaking change. It is preferred to deprecate the field before removing it."
+        },
+        "checksum": "f4c9fd4dc8e2a34d6b02e31bcd8c9634"
+    },
+    {
+        "message": "Field `keynoteSpeakers` was removed from object type `Conference`",
+        "path": "Conference.keynoteSpeakers",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Removing a field is a breaking change. It is preferred to deprecate the field before removing it."
+        },
+        "checksum": "afeefae16e4335b345ac3dc20088647a"
+    },
+    {
+        "message": "`Conference.series` type changed from `Series!` to `Series`",
+        "path": "Conference.series",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "ed942ec655db0b580cbffc97116565cd"
+    },
+    {
+        "message": "`Conference.goldSponsors` type changed from `[Contact!]` to `Contact`",
+        "path": "Conference.goldSponsors",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "088ed502439fc1fe8ec5fbe30f550e57"
+    },
+    {
+        "message": "`Conference.lightningTalks` type changed from `[Session!]!` to `Session`",
+        "path": "Conference.lightningTalks",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "9fbd52144875479a852653b713d67402"
+    },
+    {
+        "message": "`Conference.talks` type changed from `[Session!]` to `Session`",
+        "path": "Conference.talks",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "1cae2ec05c4943cbd43f69c197c6f3e6"
+    },
+    {
+        "message": "`Conference.mcs` type changed from `[Contact!]` to `Contact`",
+        "path": "Conference.mcs",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "feef190bf88874af7c7a31bfccbcf5ad"
+    },
+    {
+        "message": "`Conference.keynotes` type changed from `[Session!]!` to `Session`",
+        "path": "Conference.keynotes",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "3f430cfcf850bff357a9961cbeb0adb5"
+    },
+    {
+        "message": "`Conference.workshopInstructors` type changed from `[Contact!]` to `Contact`",
+        "path": "Conference.workshopInstructors",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "ff1380741aeadadcbacc2d6d65c00fc2"
+    },
+    {
+        "message": "`Conference.attendees` type changed from `[Contact!]!` to `Contact`",
+        "path": "Conference.attendees",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "2f88f027070a664a11ffbaf6635c10b1"
+    },
+    {
+        "message": "`Conference.workshops` type changed from `[Session!]` to `Session`",
+        "path": "Conference.workshops",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "227f59fd3911c00ecac8da5da954ea07"
+    },
+    {
+        "message": "`Conference.allSpeakers` type changed from `[Contact!]` to `Contact`",
+        "path": "Conference.allSpeakers",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "81710d5cccc3e9d66977b5c4edff71c4"
+    },
+    {
+        "message": "`Conference.schedules` type changed from `[Schedule!]!` to `Schedule`",
+        "path": "Conference.schedules",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "4548b3c48a7433039d1a2b3918e9232b"
+    },
+    {
+        "message": "`Conference.platformSponsors` type changed from `[Contact!]` to `Contact`",
+        "path": "Conference.platformSponsors",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "f61753fcc40f3e1c00f0e2843f395f32"
+    },
+    {
+        "message": "`Conference.fullTalks` type changed from `[Session!]!` to `Session`",
+        "path": "Conference.fullTalks",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "c778175fc7806dce7869dbeb215cbf79"
+    },
+    {
+        "message": "`Conference.locations` type changed from `[Location!]` to `Location`",
+        "path": "Conference.locations",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "84f584d5f76b1388ce4c5bb276c1a381"
+    },
+    {
+        "message": "`Conference.organizers` type changed from `[Contact!]!` to `Contact`",
+        "path": "Conference.organizers",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "112b8f6ab9ddd70cc00d1af22d4469bf"
+    },
+    {
+        "message": "`Conference.silverSponsors` type changed from `[Contact!]` to `Contact`",
+        "path": "Conference.silverSponsors",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "ae453a18b0c220d3e8a5f80a5e5a0e48"
+    },
+    {
+        "message": "`Conference.sponsors` type changed from `[Contact!]!` to `Contact`",
+        "path": "Conference.sponsors",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "6b718a46d85351bad76f82fc12c050f7"
+    },
+    {
+        "message": "`Conference.bronzeSponsors` type changed from `[Contact!]` to `Contact`",
+        "path": "Conference.bronzeSponsors",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "76a8012d358d009a9d7d142cf42db6ad"
+    },
+    {
+        "message": "`Conference.partners` type changed from `[Contact!]` to `Contact`",
+        "path": "Conference.partners",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "f3d32e58fdcf5fa614fb68a02ed26a21"
+    },
+    {
+        "message": "`Conference.organizer` type changed from `Contact!` to `Contact`",
+        "path": "Conference.organizer",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "dacb878e16e0544a31273f198aed426b"
+    },
+    {
+        "message": "`Conference.speakers` type changed from `[Contact!]` to `Contact`",
+        "path": "Conference.speakers",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "5590be6cca94dd6c093575e10371d920"
+    },
+    {
+        "message": "Description for type `ContactType` changed from `Type of the contact` to `None`",
+        "path": "ContactType",
+        "is_safe_change": true,
+        "criticality": {
+            "level": "NON_BREAKING",
+            "reason": "This change won't break any preexisting query"
+        },
+        "checksum": "42daf8542c34c503eb8d87f72ae8c8bb"
+    },
+    {
+        "message": "`ContactType` kind changed from `ENUM` to `OBJECT`",
+        "path": "ContactType",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing the kind of a type is a breaking change because it can cause existing queries to error. For example, turning an object type to a scalar type would break queries that define a selection set for this type."
+        },
+        "checksum": "164ac3eb6f2ae30a79c18919fef8f7e8"
+    },
+    {
+        "message": "`WithWithoutText.withText` type changed from `Image!` to `Image`",
+        "path": "WithWithoutText.withText",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "77c91a97e991d0fc01137de808f3a56e"
+    },
+    {
+        "message": "`WithWithoutText.withoutText` type changed from `Image!` to `Image`",
+        "path": "WithWithoutText.withoutText",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "dae0845beec100e81d9157f08e2397a0"
     },
     {
         "message": "`Contact.workshops` type changed from `[Session!]` to `Session`",
@@ -18,6 +558,16 @@
             "reason": "Changing a field type will break queries that assume its type"
         },
         "checksum": "f84d504857c534dd5a8dddf38fb60bc1"
+    },
+    {
+        "message": "`Contact.image` type changed from `Image!` to `Image`",
+        "path": "Contact.image",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "e6f8d946acc6b2aee689908db5380a89"
     },
     {
         "message": "Deprecation reason on field `Contact.country` changed from `Use `location` instead` to `None`",
@@ -60,584 +610,14 @@
         "checksum": "98e1eb81117b99df98e743bb1a443a95"
     },
     {
-        "message": "`Contact.image` type changed from `Image!` to `Image`",
-        "path": "Contact.image",
+        "message": "`Contact.social` type changed from `Social!` to `Social`",
+        "path": "Contact.social",
         "is_safe_change": false,
         "criticality": {
             "level": "BREAKING",
             "reason": "Changing a field type will break queries that assume its type"
         },
-        "checksum": "e6f8d946acc6b2aee689908db5380a89"
-    },
-    {
-        "message": "Field `panelOnlySpeakers` was removed from object type `Conference`",
-        "path": "Conference.panelOnlySpeakers",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Removing a field is a breaking change. It is preferred to deprecate the field before removing it."
-        },
-        "checksum": "ce5a622a316acb8ea04b44b124555dd3"
-    },
-    {
-        "message": "Field `keynoteSpeakers` was removed from object type `Conference`",
-        "path": "Conference.keynoteSpeakers",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Removing a field is a breaking change. It is preferred to deprecate the field before removing it."
-        },
-        "checksum": "afeefae16e4335b345ac3dc20088647a"
-    },
-    {
-        "message": "Field `lightningTalkSpeakers` was removed from object type `Conference`",
-        "path": "Conference.lightningTalkSpeakers",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Removing a field is a breaking change. It is preferred to deprecate the field before removing it."
-        },
-        "checksum": "f4c9fd4dc8e2a34d6b02e31bcd8c9634"
-    },
-    {
-        "message": "Field `fullTalkSpeakers` was removed from object type `Conference`",
-        "path": "Conference.fullTalkSpeakers",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Removing a field is a breaking change. It is preferred to deprecate the field before removing it."
-        },
-        "checksum": "11b07a6cf8ef8def09d005f239afecc7"
-    },
-    {
-        "message": "`Conference.bronzeSponsors` type changed from `[Contact!]` to `Contact`",
-        "path": "Conference.bronzeSponsors",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "76a8012d358d009a9d7d142cf42db6ad"
-    },
-    {
-        "message": "`Conference.goldSponsors` type changed from `[Contact!]` to `Contact`",
-        "path": "Conference.goldSponsors",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "088ed502439fc1fe8ec5fbe30f550e57"
-    },
-    {
-        "message": "`Conference.talks` type changed from `[Session!]` to `Session`",
-        "path": "Conference.talks",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "1cae2ec05c4943cbd43f69c197c6f3e6"
-    },
-    {
-        "message": "`Conference.speakers` type changed from `[Contact!]` to `Contact`",
-        "path": "Conference.speakers",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "5590be6cca94dd6c093575e10371d920"
-    },
-    {
-        "message": "`Conference.locations` type changed from `[Location!]` to `Location`",
-        "path": "Conference.locations",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "84f584d5f76b1388ce4c5bb276c1a381"
-    },
-    {
-        "message": "`Conference.workshops` type changed from `[Session!]` to `Session`",
-        "path": "Conference.workshops",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "227f59fd3911c00ecac8da5da954ea07"
-    },
-    {
-        "message": "`Conference.organizer` type changed from `Contact!` to `Contact`",
-        "path": "Conference.organizer",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "dacb878e16e0544a31273f198aed426b"
-    },
-    {
-        "message": "`Conference.partners` type changed from `[Contact!]` to `Contact`",
-        "path": "Conference.partners",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "f3d32e58fdcf5fa614fb68a02ed26a21"
-    },
-    {
-        "message": "`Conference.organizers` type changed from `[Contact!]!` to `Contact`",
-        "path": "Conference.organizers",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "112b8f6ab9ddd70cc00d1af22d4469bf"
-    },
-    {
-        "message": "`Conference.allSpeakers` type changed from `[Contact!]` to `Contact`",
-        "path": "Conference.allSpeakers",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "81710d5cccc3e9d66977b5c4edff71c4"
-    },
-    {
-        "message": "`Conference.keynotes` type changed from `[Session!]!` to `Session`",
-        "path": "Conference.keynotes",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "3f430cfcf850bff357a9961cbeb0adb5"
-    },
-    {
-        "message": "`Conference.mcs` type changed from `[Contact!]` to `Contact`",
-        "path": "Conference.mcs",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "feef190bf88874af7c7a31bfccbcf5ad"
-    },
-    {
-        "message": "`Conference.sponsors` type changed from `[Contact!]!` to `Contact`",
-        "path": "Conference.sponsors",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "6b718a46d85351bad76f82fc12c050f7"
-    },
-    {
-        "message": "`Conference.silverSponsors` type changed from `[Contact!]` to `Contact`",
-        "path": "Conference.silverSponsors",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "ae453a18b0c220d3e8a5f80a5e5a0e48"
-    },
-    {
-        "message": "`Conference.lightningTalks` type changed from `[Session!]!` to `Session`",
-        "path": "Conference.lightningTalks",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "9fbd52144875479a852653b713d67402"
-    },
-    {
-        "message": "`Conference.workshopInstructors` type changed from `[Contact!]` to `Contact`",
-        "path": "Conference.workshopInstructors",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "ff1380741aeadadcbacc2d6d65c00fc2"
-    },
-    {
-        "message": "`Conference.series` type changed from `Series!` to `Series`",
-        "path": "Conference.series",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "ed942ec655db0b580cbffc97116565cd"
-    },
-    {
-        "message": "`Conference.platformSponsors` type changed from `[Contact!]` to `Contact`",
-        "path": "Conference.platformSponsors",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "f61753fcc40f3e1c00f0e2843f395f32"
-    },
-    {
-        "message": "`Conference.schedules` type changed from `[Schedule!]!` to `Schedule`",
-        "path": "Conference.schedules",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "4548b3c48a7433039d1a2b3918e9232b"
-    },
-    {
-        "message": "`Conference.fullTalks` type changed from `[Session!]!` to `Session`",
-        "path": "Conference.fullTalks",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "c778175fc7806dce7869dbeb215cbf79"
-    },
-    {
-        "message": "`Conference.attendees` type changed from `[Contact!]!` to `Contact`",
-        "path": "Conference.attendees",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "2f88f027070a664a11ffbaf6635c10b1"
-    },
-    {
-        "message": "`Query.contact` type changed from `Contact!` to `Contact`",
-        "path": "Query.contact",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "a89aaaec765a5c33a6b6088b453bccf1"
-    },
-    {
-        "message": "`Query.schedule` type changed from `Schedule!` to `Schedule`",
-        "path": "Query.schedule",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "43ce4d6840887b480fb20ce616d97b88"
-    },
-    {
-        "message": "`Query.conferences` type changed from `[Conference!]!` to `Conference`",
-        "path": "Query.conferences",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "ffb5648b03ec78f6f26a22428f08a148"
-    },
-    {
-        "message": "`Query.series` type changed from `Series!` to `Series`",
-        "path": "Query.series",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "3ae852de151e5d6e7fae5a0a64f59b74"
-    },
-    {
-        "message": "`Query.theme` type changed from `Theme!` to `Theme`",
-        "path": "Query.theme",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "16283b3b1952149842783a811bc5d540"
-    },
-    {
-        "message": "`Query.themes` type changed from `[Theme!]!` to `Theme`",
-        "path": "Query.themes",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "58413d28810b93474188c9f88e11f65f"
-    },
-    {
-        "message": "`Query.people` type changed from `[Contact!]!` to `Contact`",
-        "path": "Query.people",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "2fdc4e9d44b01e8392c080d45061a91a"
-    },
-    {
-        "message": "`Query.interval` type changed from `Interval!` to `Interval`",
-        "path": "Query.interval",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "d82817636e8a42d79b00e6da452e82ae"
-    },
-    {
-        "message": "`Query.sponsors` type changed from `[Contact!]!` to `Contact`",
-        "path": "Query.sponsors",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "30d65dc50e2da628b8b2e99435719816"
-    },
-    {
-        "message": "Deprecation reason on field `Query.allConferences` changed from `Use `conferences` instead` to `None`",
-        "path": "Query.allConferences",
-        "is_safe_change": true,
-        "criticality": {
-            "level": "NON_BREAKING",
-            "reason": "This change won't break any preexisting query"
-        },
-        "checksum": "37a35f8237d577a2ca82ab3afee652c8"
-    },
-    {
-        "message": "`Query.allConferences` type changed from `[Conference!]!` to `Conference`",
-        "path": "Query.allConferences",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "45118838abbde30270b432d277a88e91"
-    },
-    {
-        "message": "`Query.allSeries` type changed from `[Series!]!` to `Series`",
-        "path": "Query.allSeries",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "8aefd5656f30fd03b8fa8c3e1cdb1070"
-    },
-    {
-        "message": "`Query.conference` type changed from `Conference!` to `Conference`",
-        "path": "Query.conference",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "fc89bfd861ad80fa800ee90c20ca7284"
-    },
-    {
-        "message": "`Query.locations` type changed from `[Location!]!` to `Location`",
-        "path": "Query.locations",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "ad44722cdd01dac29d1f9edb535ea065"
-    },
-    {
-        "message": "`Schedule.intervals` type changed from `[Interval!]!` to `Interval`",
-        "path": "Schedule.intervals",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "ffc7f222f3de001eba3277e86ec944ca"
-    },
-    {
-        "message": "`Theme.colors` type changed from `Colors!` to `Colors`",
-        "path": "Theme.colors",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "f96f89c8f2af386bff5ce0b39f38dbb9"
-    },
-    {
-        "message": "`Theme.fonts` type changed from `Fonts!` to `Fonts`",
-        "path": "Theme.fonts",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "4ae9695c9e9bb1c19f0799dffce5acd2"
-    },
-    {
-        "message": "`Theme.logos` type changed from `Logos!` to `Logos`",
-        "path": "Theme.logos",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "3c71adc0f72c172b70652206722ec128"
-    },
-    {
-        "message": "`Theme.textures` type changed from `[Image!]!` to `Image`",
-        "path": "Theme.textures",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "cef3dfd329709aed6338c68d09ad369f"
-    },
-    {
-        "message": "Description for type `ContactType` changed from `Type of the contact` to `None`",
-        "path": "ContactType",
-        "is_safe_change": true,
-        "criticality": {
-            "level": "NON_BREAKING",
-            "reason": "This change won't break any preexisting query"
-        },
-        "checksum": "42daf8542c34c503eb8d87f72ae8c8bb"
-    },
-    {
-        "message": "`ContactType` kind changed from `ENUM` to `OBJECT`",
-        "path": "ContactType",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing the kind of a type is a breaking change because it can cause existing queries to error. For example, turning an object type to a scalar type would break queries that define a selection set for this type."
-        },
-        "checksum": "164ac3eb6f2ae30a79c18919fef8f7e8"
-    },
-    {
-        "message": "`Session.parent` type changed from `Interval!` to `Interval`",
-        "path": "Session.parent",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "b020896c69442fc5440e09c493d1862d"
-    },
-    {
-        "message": "`Session.sessions` type changed from `[Session!]` to `Session`",
-        "path": "Session.sessions",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "310803f395545ee2b7325629c03d7773"
-    },
-    {
-        "message": "`Session.people` type changed from `[Contact!]` to `Contact`",
-        "path": "Session.people",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "5d59cec7ead3510699e3b15e4ffa1287"
-    },
-    {
-        "message": "Deprecation reason on field `Session.speakers` changed from `Use `people` instead` to `None`",
-        "path": "Session.speakers",
-        "is_safe_change": true,
-        "criticality": {
-            "level": "NON_BREAKING",
-            "reason": "This change won't break any preexisting query"
-        },
-        "checksum": "2cd84b9ae79ccba4e544efe1ef758922"
-    },
-    {
-        "message": "`Session.speakers` type changed from `[Contact!]!` to `Contact`",
-        "path": "Session.speakers",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "c1e6be605739c8226e7111d9de32b94b"
-    },
-    {
-        "message": "`WithWithoutText.withoutText` type changed from `Image!` to `Image`",
-        "path": "WithWithoutText.withoutText",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "dae0845beec100e81d9157f08e2397a0"
-    },
-    {
-        "message": "`WithWithoutText.withText` type changed from `Image!` to `Image`",
-        "path": "WithWithoutText.withText",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "77c91a97e991d0fc01137de808f3a56e"
-    },
-    {
-        "message": "`Interval.sessions` type changed from `[Session!]!` to `Session`",
-        "path": "Interval.sessions",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "08c020a508893a6d8ab01d2c2fbc2ac6"
-    },
-    {
-        "message": "Description for type `Level` changed from `Level of the session` to `None`",
-        "path": "Level",
-        "is_safe_change": true,
-        "criticality": {
-            "level": "NON_BREAKING",
-            "reason": "This change won't break any preexisting query"
-        },
-        "checksum": "69c328a0ac264739196f2bfcf9871ad0"
-    },
-    {
-        "message": "`Level` kind changed from `ENUM` to `OBJECT`",
-        "path": "Level",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing the kind of a type is a breaking change because it can cause existing queries to error. For example, turning an object type to a scalar type would break queries that define a selection set for this type."
-        },
-        "checksum": "8929548a54205187ee9f99bf44f20e43"
-    },
-    {
-        "message": "`Fonts.variants` type changed from `[Font!]!` to `Font`",
-        "path": "Fonts.variants",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "80c41ec188400a27130625b0373bcd21"
+        "checksum": "1ac880b7e7f51026f11fbdd64a6d2735"
     },
     {
         "message": "Description for type `SessionType` changed from `Type of the session` to `None`",
@@ -660,34 +640,24 @@
         "checksum": "b5a2e7697144cf64324c6ab18f3fdaea"
     },
     {
-        "message": "`Logos.colored` type changed from `WithWithoutText!` to `WithWithoutText`",
-        "path": "Logos.colored",
+        "message": "`Interval.sessions` type changed from `[Session!]!` to `Session`",
+        "path": "Interval.sessions",
         "is_safe_change": false,
         "criticality": {
             "level": "BREAKING",
             "reason": "Changing a field type will break queries that assume its type"
         },
-        "checksum": "6ff19abe5563726d7c4617de7882b2a3"
+        "checksum": "08c020a508893a6d8ab01d2c2fbc2ac6"
     },
     {
-        "message": "`Logos.white` type changed from `WithWithoutText!` to `WithWithoutText`",
-        "path": "Logos.white",
+        "message": "`Fonts.variants` type changed from `[Font!]!` to `Font`",
+        "path": "Fonts.variants",
         "is_safe_change": false,
         "criticality": {
             "level": "BREAKING",
             "reason": "Changing a field type will break queries that assume its type"
         },
-        "checksum": "b8ba5f4009227126976f837db3b49fa8"
-    },
-    {
-        "message": "`Logos.black` type changed from `WithWithoutText!` to `WithWithoutText`",
-        "path": "Logos.black",
-        "is_safe_change": false,
-        "criticality": {
-            "level": "BREAKING",
-            "reason": "Changing a field type will break queries that assume its type"
-        },
-        "checksum": "cfad698ec9068107fb2df55cb930cab7"
+        "checksum": "80c41ec188400a27130625b0373bcd21"
     },
     {
         "message": "`Series.conferences` type changed from `[Conference!]!` to `Conference`",
@@ -698,5 +668,35 @@
             "reason": "Changing a field type will break queries that assume its type"
         },
         "checksum": "6739ee26ecf830d5692eaf47d4615e46"
+    },
+    {
+        "message": "Description for type `Level` changed from `Level of the session` to `None`",
+        "path": "Level",
+        "is_safe_change": true,
+        "criticality": {
+            "level": "NON_BREAKING",
+            "reason": "This change won't break any preexisting query"
+        },
+        "checksum": "69c328a0ac264739196f2bfcf9871ad0"
+    },
+    {
+        "message": "`Level` kind changed from `ENUM` to `OBJECT`",
+        "path": "Level",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing the kind of a type is a breaking change because it can cause existing queries to error. For example, turning an object type to a scalar type would break queries that define a selection set for this type."
+        },
+        "checksum": "8929548a54205187ee9f99bf44f20e43"
+    },
+    {
+        "message": "`Schedule.intervals` type changed from `[Interval!]!` to `Interval`",
+        "path": "Schedule.intervals",
+        "is_safe_change": false,
+        "criticality": {
+            "level": "BREAKING",
+            "reason": "Changing a field type will break queries that assume its type"
+        },
+        "checksum": "ffc7f222f3de001eba3277e86ec944ca"
     }
 ]

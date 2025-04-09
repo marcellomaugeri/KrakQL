@@ -93,20 +93,11 @@ for arg in "$@"; do
                 exit 1
             fi
         fi
-        docker build -t $react_finland ./targets/$react_finland
-        CONTAINER_ID=$(docker run -d -p3000:3000 $react_finland)
-        sleep 40
-        wget https://github.com/first20hours/google-10000-english/blob/master/20k.txt
-        clairvoyance http://localhost:3000/graphql -o schema.json -w ./20k.txt
-        rm ./20k.txt
-        pip install graphql-schema-diff
-        pip install argparse
-        python3 introspection_to_sql.py ./schema.json ./schema.graphql
-        mv -t results/$react_finland schema.json schema.graphql
-        schemadiff -o targets/$react_finland/schema.graphqls -n results/$react_finland/schema.graphql --as-json >./results/$react_finland/changes.json
-        docker kill $CONTAINER_ID
-        docker rm $(docker p s -aq --filter ancestor=$react_finland)
-        docker rmi $react_finland
+        docker compose -f ./targets/$react_finland/docker-compose.yml -p react-finland up --build
+        docker compose -p react-finland down
+        end_time=$(date +%s)
+        duration=$((end_time - start_time))
+        echo "The process took $duration seconds."
 
     else
         echo "running timbuctoo..."

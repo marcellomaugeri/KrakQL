@@ -33,7 +33,7 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "sponsors",
+                            "name": "people",
                             "type": {
                                 "kind": "OBJECT",
                                 "name": "Contact",
@@ -45,10 +45,10 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "people",
+                            "name": "locations",
                             "type": {
                                 "kind": "OBJECT",
-                                "name": "Contact",
+                                "name": "Location",
                                 "ofType": null
                             }
                         },
@@ -69,10 +69,10 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "allSeries",
+                            "name": "sponsors",
                             "type": {
                                 "kind": "OBJECT",
-                                "name": "Series",
+                                "name": "Contact",
                                 "ofType": null
                             }
                         },
@@ -81,10 +81,10 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "allConferences",
+                            "name": "allSeries",
                             "type": {
                                 "kind": "OBJECT",
-                                "name": "Conference",
+                                "name": "Series",
                                 "ofType": null
                             }
                         },
@@ -101,14 +101,29 @@
                             }
                         },
                         {
-                            "args": [],
+                            "args": [
+                                {
+                                    "defaultValue": null,
+                                    "description": null,
+                                    "name": "id",
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "SCALAR",
+                                            "name": "ID",
+                                            "ofType": null
+                                        }
+                                    }
+                                }
+                            ],
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "locations",
+                            "name": "series",
                             "type": {
                                 "kind": "OBJECT",
-                                "name": "Location",
+                                "name": "Series",
                                 "ofType": null
                             }
                         },
@@ -212,20 +227,6 @@
                                 {
                                     "defaultValue": null,
                                     "description": null,
-                                    "name": "contactName",
-                                    "type": {
-                                        "kind": "NON_NULL",
-                                        "name": null,
-                                        "ofType": {
-                                            "kind": "SCALAR",
-                                            "name": "String",
-                                            "ofType": null
-                                        }
-                                    }
-                                },
-                                {
-                                    "defaultValue": null,
-                                    "description": null,
                                     "name": "conferenceId",
                                     "type": {
                                         "kind": "NON_NULL",
@@ -233,6 +234,20 @@
                                         "ofType": {
                                             "kind": "SCALAR",
                                             "name": "ID",
+                                            "ofType": null
+                                        }
+                                    }
+                                },
+                                {
+                                    "defaultValue": null,
+                                    "description": null,
+                                    "name": "contactName",
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "SCALAR",
+                                            "name": "String",
                                             "ofType": null
                                         }
                                     }
@@ -290,29 +305,14 @@
                             }
                         },
                         {
-                            "args": [
-                                {
-                                    "defaultValue": null,
-                                    "description": null,
-                                    "name": "id",
-                                    "type": {
-                                        "kind": "NON_NULL",
-                                        "name": null,
-                                        "ofType": {
-                                            "kind": "SCALAR",
-                                            "name": "ID",
-                                            "ofType": null
-                                        }
-                                    }
-                                }
-                            ],
+                            "args": [],
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "series",
+                            "name": "allConferences",
                             "type": {
                                 "kind": "OBJECT",
-                                "name": "Series",
+                                "name": "Conference",
                                 "ofType": null
                             }
                         }
@@ -332,59 +332,11 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "lastName",
-                            "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "name",
-                            "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "tagline",
+                            "name": "aboutShort",
                             "type": {
                                 "kind": "SCALAR",
                                 "name": "String",
                                 "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "firstName",
-                            "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
                             }
                         },
                         {
@@ -412,6 +364,22 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
+                            "name": "name",
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
                             "name": "noPhotography",
                             "type": {
                                 "kind": "SCALAR",
@@ -424,7 +392,19 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "aboutShort",
+                            "name": "tagline",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "company",
                             "type": {
                                 "kind": "SCALAR",
                                 "name": "String",
@@ -452,11 +432,31 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "company",
+                            "name": "lastName",
                             "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "firstName",
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
                             }
                         },
                         {
@@ -468,6 +468,18 @@
                             "type": {
                                 "kind": "OBJECT",
                                 "name": "Image",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "country",
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Country",
                                 "ofType": null
                             }
                         },
@@ -488,10 +500,10 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "country",
+                            "name": "workshops",
                             "type": {
                                 "kind": "OBJECT",
-                                "name": "Country",
+                                "name": "Session",
                                 "ofType": null
                             }
                         },
@@ -516,18 +528,6 @@
                             "type": {
                                 "kind": "OBJECT",
                                 "name": "Location",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "workshops",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Session",
                                 "ofType": null
                             }
                         },
@@ -571,7 +571,102 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "year",
+                            "name": "about",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "city",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "address",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "name",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "country",
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Country",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "social",
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Social",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "image",
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Image",
+                                "ofType": null
+                            }
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "kind": "OBJECT",
+                    "name": "Location",
+                    "possibleTypes": null
+                },
+                {
+                    "description": null,
+                    "enumValues": null,
+                    "fields": [
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "endDate",
                             "type": {
                                 "kind": "NON_NULL",
                                 "name": null,
@@ -619,39 +714,23 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
+                            "name": "year",
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
                             "name": "startDate",
-                            "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "endDate",
-                            "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "slogan",
                             "type": {
                                 "kind": "NON_NULL",
                                 "name": null,
@@ -683,6 +762,22 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
+                            "name": "slogan",
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
                             "name": "speakers",
                             "type": {
                                 "kind": "OBJECT",
@@ -695,82 +790,10 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "mcs",
+                            "name": "schedules",
                             "type": {
                                 "kind": "OBJECT",
-                                "name": "Contact",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "platformSponsors",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Contact",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "workshops",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Session",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "goldSponsors",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Contact",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "locations",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Location",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "allSpeakers",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Contact",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "organizer",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Contact",
+                                "name": "Schedule",
                                 "ofType": null
                             }
                         },
@@ -791,6 +814,30 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
+                            "name": "locations",
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Location",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "workshopInstructors",
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Contact",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
                             "name": "lightningTalks",
                             "type": {
                                 "kind": "OBJECT",
@@ -803,67 +850,7 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "keynotes",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Session",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "partners",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Contact",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "bronzeSponsors",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Contact",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "fullTalks",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Session",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "attendees",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Contact",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "workshopInstructors",
+                            "name": "platformSponsors",
                             "type": {
                                 "kind": "OBJECT",
                                 "name": "Contact",
@@ -887,7 +874,7 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "sponsors",
+                            "name": "mcs",
                             "type": {
                                 "kind": "OBJECT",
                                 "name": "Contact",
@@ -899,7 +886,55 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "organizers",
+                            "name": "goldSponsors",
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Contact",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "partners",
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Contact",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "organizer",
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Contact",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "keynotes",
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Session",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "attendees",
                             "type": {
                                 "kind": "OBJECT",
                                 "name": "Contact",
@@ -923,10 +958,70 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "schedules",
+                            "name": "workshops",
                             "type": {
                                 "kind": "OBJECT",
-                                "name": "Schedule",
+                                "name": "Session",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "sponsors",
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Contact",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "fullTalks",
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Session",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "bronzeSponsors",
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Contact",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "organizers",
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Contact",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "allSpeakers",
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Contact",
                                 "ofType": null
                             }
                         }
@@ -1017,34 +1112,10 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "fonts",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Fonts",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
                             "name": "colors",
                             "type": {
                                 "kind": "OBJECT",
                                 "name": "Colors",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "logos",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Logos",
                                 "ofType": null
                             }
                         },
@@ -1059,75 +1130,16 @@
                                 "name": "Image",
                                 "ofType": null
                             }
-                        }
-                    ],
-                    "inputFields": null,
-                    "interfaces": [],
-                    "kind": "OBJECT",
-                    "name": "Theme",
-                    "possibleTypes": null
-                },
-                {
-                    "description": null,
-                    "enumValues": null,
-                    "fields": [
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "name",
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
                         },
                         {
                             "args": [],
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "address",
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "city",
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "about",
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "social",
+                            "name": "fonts",
                             "type": {
                                 "kind": "OBJECT",
-                                "name": "Social",
+                                "name": "Fonts",
                                 "ofType": null
                             }
                         },
@@ -1136,22 +1148,10 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "image",
+                            "name": "logos",
                             "type": {
                                 "kind": "OBJECT",
-                                "name": "Image",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "country",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Country",
+                                "name": "Logos",
                                 "ofType": null
                             }
                         }
@@ -1159,7 +1159,7 @@
                     "inputFields": null,
                     "interfaces": [],
                     "kind": "OBJECT",
-                    "name": "Location",
+                    "name": "Theme",
                     "possibleTypes": null
                 },
                 {
@@ -1234,6 +1234,22 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
+                            "name": "begin",
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
                             "name": "end",
                             "type": {
                                 "kind": "NON_NULL",
@@ -1274,15 +1290,23 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "begin",
+                            "name": "urls",
                             "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
+                                "kind": "OBJECT",
+                                "name": "SessionUrls",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "location",
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Location",
+                                "ofType": null
                             }
                         },
                         {
@@ -1306,30 +1330,6 @@
                             "type": {
                                 "kind": "OBJECT",
                                 "name": "Session",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "urls",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "SessionUrls",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "location",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Location",
                                 "ofType": null
                             }
                         }
@@ -1423,7 +1423,118 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
+                            "name": "code",
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "name",
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            }
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "kind": "OBJECT",
+                    "name": "Country",
+                    "possibleTypes": null
+                },
+                {
+                    "description": null,
+                    "enumValues": null,
+                    "fields": [
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "begin",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "end",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "hasTitle",
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "Boolean",
+                                    "ofType": null
+                                }
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "title",
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
                             "name": "day",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "description",
                             "type": {
                                 "kind": "SCALAR",
                                 "name": "String",
@@ -1455,87 +1566,7 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "title",
-                            "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "begin",
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "hasTitle",
-                            "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "Boolean",
-                                    "ofType": null
-                                }
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "end",
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "description",
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "parent",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Interval",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "speakers",
+                            "name": "people",
                             "type": {
                                 "kind": "OBJECT",
                                 "name": "Contact",
@@ -1547,19 +1578,7 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "sessions",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Session",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "people",
+                            "name": "speakers",
                             "type": {
                                 "kind": "OBJECT",
                                 "name": "Contact",
@@ -1583,10 +1602,10 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "location",
+                            "name": "parent",
                             "type": {
                                 "kind": "OBJECT",
-                                "name": "Location",
+                                "name": "Interval",
                                 "ofType": null
                             }
                         },
@@ -1595,15 +1614,23 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "level",
+                            "name": "sessions",
                             "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "OBJECT",
-                                    "name": "Level",
-                                    "ofType": null
-                                }
+                                "kind": "OBJECT",
+                                "name": "Session",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "location",
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Location",
+                                "ofType": null
                             }
                         },
                         {
@@ -1618,6 +1645,22 @@
                                 "ofType": {
                                     "kind": "OBJECT",
                                     "name": "SessionType",
+                                    "ofType": null
+                                }
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "level",
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "OBJECT",
+                                    "name": "Level",
                                     "ofType": null
                                 }
                             }
@@ -1638,73 +1681,6 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "name",
-                            "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "code",
-                            "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
-                            }
-                        }
-                    ],
-                    "inputFields": null,
-                    "interfaces": [],
-                    "kind": "OBJECT",
-                    "name": "Country",
-                    "possibleTypes": null
-                },
-                {
-                    "description": null,
-                    "enumValues": null,
-                    "fields": [
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "github",
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "vimeo",
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
                             "name": "linkedin",
                             "type": {
                                 "kind": "SCALAR",
@@ -1717,7 +1693,55 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "dribble",
+                            "name": "twitter",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "facebook",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "pinterest",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "vk",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "googleMaps",
                             "type": {
                                 "kind": "SCALAR",
                                 "name": "String",
@@ -1753,67 +1777,7 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "vk",
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "medium",
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "twitter",
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
                             "name": "tiktok",
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "pinterest",
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "facebook",
                             "type": {
                                 "kind": "SCALAR",
                                 "name": "String",
@@ -1861,6 +1825,30 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
+                            "name": "medium",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "github",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
                             "name": "bluesky",
                             "type": {
                                 "kind": "SCALAR",
@@ -1885,7 +1873,19 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "googleMaps",
+                            "name": "dribble",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "vimeo",
                             "type": {
                                 "kind": "SCALAR",
                                 "name": "String",
@@ -1920,6 +1920,81 @@
                     "interfaces": [],
                     "kind": "OBJECT",
                     "name": "ContactType",
+                    "possibleTypes": null
+                },
+                {
+                    "description": null,
+                    "enumValues": null,
+                    "fields": [
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "text",
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "primary",
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "secondary",
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "background",
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            }
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "kind": "OBJECT",
+                    "name": "Colors",
                     "possibleTypes": null
                 },
                 {
@@ -1986,76 +2061,13 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "primary",
+                            "name": "black",
                             "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
+                                "kind": "OBJECT",
+                                "name": "WithWithoutText",
+                                "ofType": null
                             }
                         },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "secondary",
-                            "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "background",
-                            "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "text",
-                            "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
-                            }
-                        }
-                    ],
-                    "inputFields": null,
-                    "interfaces": [],
-                    "kind": "OBJECT",
-                    "name": "Colors",
-                    "possibleTypes": null
-                },
-                {
-                    "description": null,
-                    "enumValues": null,
-                    "fields": [
                         {
                             "args": [],
                             "deprecationReason": null,
@@ -2074,18 +2086,6 @@
                             "description": null,
                             "isDeprecated": false,
                             "name": "colored",
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "WithWithoutText",
-                                "ofType": null
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "black",
                             "type": {
                                 "kind": "OBJECT",
                                 "name": "WithWithoutText",
@@ -2120,7 +2120,7 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "video",
+                            "name": "slides",
                             "type": {
                                 "kind": "SCALAR",
                                 "name": "String",
@@ -2156,7 +2156,7 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "slides",
+                            "name": "video",
                             "type": {
                                 "kind": "SCALAR",
                                 "name": "String",
@@ -2217,7 +2217,7 @@
                     "inputFields": null,
                     "interfaces": [],
                     "kind": "OBJECT",
-                    "name": "Level",
+                    "name": "SessionType",
                     "possibleTypes": null
                 },
                 {
@@ -2240,7 +2240,7 @@
                     "inputFields": null,
                     "interfaces": [],
                     "kind": "OBJECT",
-                    "name": "SessionType",
+                    "name": "Level",
                     "possibleTypes": null
                 },
                 {
@@ -2265,18 +2265,6 @@
                                         "ofType": null
                                     }
                                 }
-                            }
-                        },
-                        {
-                            "args": [],
-                            "deprecationReason": null,
-                            "description": null,
-                            "isDeprecated": false,
-                            "name": "family",
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
                             }
                         },
                         {
@@ -2326,6 +2314,18 @@
                                 "name": "String",
                                 "ofType": null
                             }
+                        },
+                        {
+                            "args": [],
+                            "deprecationReason": null,
+                            "description": null,
+                            "isDeprecated": false,
+                            "name": "family",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
                         }
                     ],
                     "inputFields": null,
@@ -2343,7 +2343,7 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "withoutText",
+                            "name": "withText",
                             "type": {
                                 "kind": "OBJECT",
                                 "name": "Image",
@@ -2355,7 +2355,7 @@
                             "deprecationReason": null,
                             "description": null,
                             "isDeprecated": false,
-                            "name": "withText",
+                            "name": "withoutText",
                             "type": {
                                 "kind": "OBJECT",
                                 "name": "Image",

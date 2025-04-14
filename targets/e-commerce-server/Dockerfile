@@ -1,3 +1,7 @@
+FROM base_image
+
+# Install nodejs
+RUN apt-get install -y nodejs npm curl wget
 
 FROM node:14.21.3
 

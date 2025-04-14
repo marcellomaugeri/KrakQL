@@ -7,9 +7,8 @@ if [ ! -d "/results" ]; then
         exit 1
     fi
 fi
-echo "started sleeping"
 sleep 120
-clairvoyance http://react-finland:3000/graphql -o /results/schema.json & exit 0
+clairvoyance http://patio-app:8000/graphql -o /results/schema.json
 python3 introspection_to_sql.py /results/schema.json /results/schema.graphql
 schemadiff -o /schema.graphqls -n /results/schema.graphql --as-json >/results/changes.json
 

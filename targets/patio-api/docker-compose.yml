@@ -1,0 +1,58 @@
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: patio
+      POSTGRES_USER: patio
+      POSTGRES_PASSWORD: yourpassword
+    #ports:
+    # - "5432:5432"
+    networks:
+      - mynetwork1
+
+  patio-api:
+    build:
+      context: ./../..
+      dockerfile: ./targets/patio-api/Dockerfile.patio
+    depends_on:
+      - db
+    environment:
+      PATIO_JDBC_URL: "jdbc:postgresql://db:5432/patio"
+      PATIO_JDBC_USER: "patio"
+      PATIO_JDBC_PASSWORD: "patio"
+      PATIO_JDBC_DRIVER: "org.postgresql.Driver"
+      PATIO_ACCESS_KEY: ""
+      PATIO_SECRET_KEY: ""
+      PATIO_AWS_EMAIL_SOURCE: ""
+      PATIO_AWS_EMAIL_REGION: ""
+      PATIO_AWS_EMAIL_ENABLED: ""
+      PATIO_JWT_SECRET: "mysupersecret"
+      PATIO_JWT_ALGO: "HS256"
+      PATIO_JWT_ISSUER: "patio"
+      PATIO_JWT_DAYS: 7
+      PATIO_OAUTH2_KEY: ""
+      PATIO_OAUTH2_SECRET: ""
+      PATIO_OAUTH2_CALLBACK: ""
+      PATIO_DUSER_ENABLED: false
+      PATIO_DUSER_NAME: ""
+      PATIO_DUSER_EMAIL: ""
+      PATIO_DUSER_PASSWORD: ""
+    networks:
+      - mynetwork1
+    ports:
+      - "8080:8080"
+    command: ./gradlew run && exit 0
+  clairvoyance:
+    build:
+      context: ./../..
+      dockerfile: ./targets/patio-api/Dockerfile.clairvoyance
+    depends_on:
+      - patio-api
+    networks:
+      - mynetwork1
+    command: ./patio.sh && docker stop patio-api
+    volumes:
+      - ./results:/results
+networks:
+  mynetwork1:
+    driver: bridge

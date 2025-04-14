@@ -34,5 +34,8 @@ docker build --platform=linux/amd64 -t graphql-<case_study> .
 cd ../..
 ```
 
+#### TO DO (Before releasing)
+- [ ] Add a script to start/stop a set of specific case studies (e.g. ./script.sh start/stop <case_study_1> <case_study_2>)
+
 ### Useful Resources
 - [Graphql-schema-diff](https://github.com/Ambro17/graphql-schema-diff)

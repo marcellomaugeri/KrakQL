@@ -1,5 +1,6 @@
 services:
   db:
+    platform: linux/amd64
     image: postgres:13
     environment:
       POSTGRES_DB: patio
@@ -11,9 +12,10 @@ services:
       - mynetwork1
 
   patio-api:
+    platform: linux/amd64
     build:
       context: ./../..
-      dockerfile: ./targets/patio-api/Dockerfile.patio
+      dockerfile: ./case_studies/patio-api/Dockerfile
     depends_on:
       - db
     environment:
@@ -42,17 +44,17 @@ services:
     ports:
       - "8080:8080"
     command: ./gradlew run && exit 0
-  clairvoyance:
-    build:
-      context: ./../..
-      dockerfile: ./targets/patio-api/Dockerfile.clairvoyance
-    depends_on:
-      - patio-api
-    networks:
-      - mynetwork1
-    command: ./patio.sh && docker stop patio-api
-    volumes:
-      - ./results:/results
+  #clairvoyance:
+  #  build:
+  #    context: ./../..
+  #    dockerfile: ./targets/patio-api/Dockerfile.clairvoyance
+  #  depends_on:
+  #    - patio-api
+  #  networks:
+  #    - mynetwork1
+  #  command: ./patio.sh && docker stop patio-api
+  #  volumes:
+  #    - ./results:/results
 networks:
   mynetwork1:
     driver: bridge

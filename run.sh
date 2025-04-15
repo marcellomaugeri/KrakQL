@@ -34,9 +34,6 @@ for arg in "$@"; do
 
 done
 
-docker build -t base_image ./base_image
-docker run base_image --name base_image
-
 for arg in "$@"; do
     if [[ $arg == $e_commerce_server ]]; then
         echo "running e-commerce-server..."
@@ -70,10 +67,6 @@ for arg in "$@"; do
         end_time=$(date +%s)
         duration=$((end_time - start_time))
         echo "The process took $duration seconds."
-        # docker build -t $patio_api ./targets/$patio_api
-        # docker run -d --name $patio_api -p 5000:5000 $patio_api
-        # clairvoyance localhost:5000 -o schema.json
-        # mv schema.json results/$patio_api
 
     elif [[ $arg == $petclinic_graphql ]]; then
         echo "running petclinic-graphql..."
@@ -98,14 +91,11 @@ for arg in "$@"; do
                 exit 1
             fi
         fi
-        docker build -t $react_finland ./targets/$react_finland
-        docker run -d --name $react_finland -p 5000:5000 $react_finland
-        RUNNING_CONTAINER_ID=$(docker ps -qf "name=$react_finland")
-        clairvoyance http://localhost:3000/graphql -o schema.json
-        mv schema.json results/$react_finland
-        docker stop $(docker ps -q --filter "ancestor=$react_finland")
-        docker rm $(docker ps -a -q --filter "ancestor=$react_finland")
-        docker rmi $react_finland
+        docker compose -f ./targets/$react_finland/docker-compose.yml -p react-finland up --build
+        docker compose -p react-finland down
+        end_time=$(date +%s)
+        duration=$((end_time - start_time))
+        echo "The process took $duration seconds."
 
     else
         echo "running timbuctoo..."

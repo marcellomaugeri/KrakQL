@@ -1,0 +1,34 @@
+services:
+  db:
+    platform: linux/amd64
+    image: postgres:13
+    environment:
+      POSTGRES_DB: react-ecommerce
+      POSTGRES_USER: react-ecommerce
+      POSTGRES_PASSWORD: react-ecommerce
+    #ports:
+    # - "5432:5432"
+    networks:
+      - mynetwork1
+
+  react-ecommerce:
+    platform: linux/amd64
+    image: react-ecommerce
+    build:
+      dockerfile: ./Dockerfile
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST : "db"
+      DATABASE_PORT : 5432
+      DATABASE_USER : "react-ecommerce"
+      DATABASE_PASSWORD : "react-ecommerce"
+      DATABASE_NAME : "react-ecommerce"
+    networks:
+      - mynetwork1
+    ports:
+      - "3000:3000"
+    command: tail -f /dev/null
+networks:
+  mynetwork1:
+    driver: bridge

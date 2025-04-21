@@ -15,6 +15,8 @@ RUN git checkout bc0f268e6d38806910e6d1c198460a0c3fdd81d1
 
 # Install dependencies
 RUN yarn
+WORKDIR /react-ecommerce/packages/server
+#RUN npm install
 
 # Run the server
-CMD ["yarn", "start"]
+#CMD ["yarn", "start"]

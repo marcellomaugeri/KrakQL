@@ -1,0 +1,9 @@
+services:
+  dvga:
+    platform: linux/amd64
+    image: dvga
+    build:
+      dockerfile: ./Dockerfile
+    ports:
+      - "5013:5013"
+    command: python app.py

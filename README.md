@@ -1,7 +1,7 @@
 # KrakQL: LLM-Guided Retrieval of GraphQL Schemas
 
 #### Case studies
-##### From 'Random Testing and Evolutionary Testing for Fuzzing GraphQL APIs' paper
+First 5 from 'Random Testing and Evolutionary Testing for Fuzzing GraphQL APIs' paper
 | Project                                                                 | Framework | Field suggestion | Introspection available | Build status |
 |-------------------------------------------------------------------------|-----------|------------------|--------------------------|--------------|
 | [e-commerce-server](https://github.com/react-shop/react-ecommerce)     |           | :x:              | :x:                      | :x:          |
@@ -9,6 +9,7 @@
 | [react-finland](https://github.com/ReactFinland/graphql-api)           |           | :x:              | :x:                      | :heavy_check_mark:          |
 | [petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) |           | :x:              | :x:                      | :x:          |
 | [timbuctoo](https://github.com/HuygensING/timbuctoo)                   |           | :x:              | :x:                      | :x:          |
+| [dvga](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) |           | :x:              | :x:                      | :heavy_check_mark:          |
 
 
 graphql-ncs and graphql-scs are adapted from RESTful APIs.

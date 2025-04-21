@@ -6,4 +6,6 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - "5013:5013"
+    environment:
+      - WEB_HOST=0.0.0.0
     command: python app.py

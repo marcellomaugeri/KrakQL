@@ -1,4 +1,13 @@
 # KrakQL: LLM-Guided Retrieval of GraphQL Schemas
+This repository contains the code and resources for the paper "KrakQL: LLM-Guided Retrieval of GraphQL Schemas". 
+
+
+### Repository structure
+- `case_studies`: Contains the case studies (Consisting of a Dockerfile and a docker-compose.yml file). See [./docs/CASE_STUDIES.md](./docs/CASE_STUDIES.md) to add new case studies.
+- `tools`: Contains the tools used to test the case studies. See [./docs/TOOLS.md](./docs/TOOLS.md) to add new tools.
+- `analysis`: Contains the scripts to analyse the results. See [./docs/ANALYSIS.md](./docs/ANALYSIS.md) to add new analysis scripts.
+- `results`: This is the default location for the results of the tests. `analysis` scripts should look for the results here.
+- `utils`: Contains miscellaneous scripts.
 
 #### Case studies
 First 5 from 'Random Testing and Evolutionary Testing for Fuzzing GraphQL APIs' paper
@@ -40,3 +49,7 @@ cd ../..
 
 ### Useful Resources
 - [Graphql-schema-diff](https://github.com/Ambro17/graphql-schema-diff)
+
+#### Future Work
+- [ ] Add Artillery for load testing
+- [ ] Add Wendigo for load testing

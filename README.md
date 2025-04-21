@@ -10,18 +10,15 @@ This repository contains the code and resources for the paper "KrakQL: LLM-Guide
 - `utils`: Contains miscellaneous scripts.
 
 #### Case studies
-First 5 from 'Random Testing and Evolutionary Testing for Fuzzing GraphQL APIs' paper
-| Project                                                                 | Framework | Field suggestion | Introspection available | Build status |
-|-------------------------------------------------------------------------|-----------|------------------|--------------------------|--------------|
-| [e-commerce-server](https://github.com/react-shop/react-ecommerce)     |           | :x:              | :x:                      | :x:          |
-| [patio-api](https://github.com/patio-team/patio-api)                   |           | :x:              | :x:                      | :heavy_check_mark:          |
-| [react-finland](https://github.com/ReactFinland/graphql-api)           |           | :x:              | :x:                      | :heavy_check_mark:          |
-| [petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) |           | :x:              | :x:                      | :x:          |
-| [timbuctoo](https://github.com/HuygensING/timbuctoo)                   |           | :x:              | :x:                      | :x:          |
-| [dvga](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) |           | :x:              | :x:                      | :heavy_check_mark:          |
+| Project | Framework | Field suggestion | Introspection available | Build status | Endpoint | Default port |
+| ------- | --------- | ---------------- | ----------------------- | ------------ | -------- | ------------ |
+| [e-commerce-server](https://github.com/react-shop/react-ecommerce) | Nestjs/GraphQL | :x: | :x: | :x: | /graphql | 4000 |
+| [patio-api](https://github.com/patio-team/patio-api) |  | :x: | :x: | :heavy_check_mark: | /graphql | 4000 |
+| [react-finland](https://github.com/ReactFinland/graphql-api) | | :x: | :x: | :heavy_check_mark: | /graphql | 4000 |
+| [petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) | Spring | :x: | :x: | :heavy_check_mark: | /graphql | 8080 |
+| [timbuctoo](https://github.com/HuygensING/timbuctoo) | | :x: | :x: | :x: | /graphql | 8080 |
+| [dvga](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) | | :x: | :x: | :heavy_check_mark: | /graphql | 8080 |
 
-
-graphql-ncs and graphql-scs are adapted from RESTful APIs.
 
 ##### Others
 - [DVGA](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application)

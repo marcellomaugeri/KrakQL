@@ -6,16 +6,13 @@ services:
       POSTGRES_DB: patio
       POSTGRES_USER: patio
       POSTGRES_PASSWORD: yourpassword
-    #ports:
-    # - "5432:5432"
     networks:
-      - mynetwork1
+      - patio-network
 
   patio-api:
     platform: linux/amd64
     build:
-      context: ./../..
-      dockerfile: ./case_studies/patio-api/Dockerfile
+      dockerfile: ./Dockerfile
     depends_on:
       - db
     environment:
@@ -40,21 +37,10 @@ services:
       PATIO_DUSER_EMAIL: ""
       PATIO_DUSER_PASSWORD: ""
     networks:
-      - mynetwork1
+      - patio-network
     ports:
       - "8080:8080"
-    command: ./gradlew run && exit 0
-  #clairvoyance:
-  #  build:
-  #    context: ./../..
-  #    dockerfile: ./targets/patio-api/Dockerfile.clairvoyance
-  #  depends_on:
-  #    - patio-api
-  #  networks:
-  #    - mynetwork1
-  #  command: ./patio.sh && docker stop patio-api
-  #  volumes:
-  #    - ./results:/results
+    command: ./gradlew run
 networks:
-  mynetwork1:
+  patio-network:
     driver: bridge

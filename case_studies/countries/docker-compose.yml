@@ -1,0 +1,10 @@
+services:
+  countries:
+    platform: linux/amd64
+    build:
+      dockerfile: ./Dockerfile
+    ports:
+      - ":8787"
+    image:
+      countries
+    command: npm start

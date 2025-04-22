@@ -6,10 +6,8 @@ services:
       POSTGRES_DB: react-ecommerce
       POSTGRES_USER: react-ecommerce
       POSTGRES_PASSWORD: react-ecommerce
-    #ports:
-    # - "5432:5432"
     networks:
-      - mynetwork1
+      - react-ecommerce-network
 
   react-ecommerce:
     platform: linux/amd64
@@ -25,10 +23,10 @@ services:
       DATABASE_PASSWORD : "react-ecommerce"
       DATABASE_NAME : "react-ecommerce"
     networks:
-      - mynetwork1
+      - react-ecommerce-network
     ports:
-      - "3000:3000"
+      - ":3000"
     command: tail -f /dev/null
 networks:
-  mynetwork1:
+  react-ecommerce-network:
     driver: bridge

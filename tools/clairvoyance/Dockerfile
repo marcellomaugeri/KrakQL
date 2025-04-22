@@ -1,10 +1,14 @@
-FROM python:latest
+FROM python:3.12.10-alpine3.21
 
-COPY introspection_to_sql.py /introspection_to_sql.py
-COPY ./targets/country/schema.graphqls /schema.graphqls
-COPY ./targets/country/country.sh /country.sh
-RUN apt update
-RUN apt install python3-venv python3-pip wget -y
-RUN pip install clairvoyance
-RUN pip install graphql-schema-diff
-RUN wget https://github.com/first20hours/google-10000-english/blob/master/20k.txt
+# Install git
+RUN apk add --no-cache git
+
+# Clone the repo
+RUN git clone https://github.com/nikitastupin/clairvoyance.git
+WORKDIR /clairvoyance
+RUN git checkout 227f4c5428c18f14021a414bbaa3b203f242131b
+# Install dependencies
+RUN pip install -r requirements.txt
+
+# Copy the wordlists
+COPY ../../utils/wordlists /wordlists

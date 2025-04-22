@@ -1,0 +1,10 @@
+services: 
+
+  petclinic-graphql:
+    platform: linux/amd64
+    image: petclinic-graphql
+    build:
+      dockerfile: ./Dockerfile
+    ports:
+      - ":8080"
+    command: ./build-local.sh

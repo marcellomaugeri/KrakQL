@@ -7,6 +7,4 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - ":3000"
-    environment:
-      NODE_ENV: "production"
-    command: yarn start
+    command: npm start

@@ -40,8 +40,8 @@ services:
     networks:
       - patio-network
     ports:
-      - "8080:8080"
-    command: ./gradlew run
+      - ":8080"
+    command: gradlew run
 networks:
   patio-network:
     driver: bridge

@@ -15,15 +15,15 @@ The contribution of this repository is duplex:
 | Project | Framework | Field suggestion | Introspection available | Build status | Endpoint |
 | ------- | --------- | ---------------- | ----------------------- | ------------ | -------- |
 | [react-ecommerce](https://github.com/react-shop/react-ecommerce) | Nestjs/GraphQL | :x: | :x: | :x: | /graphql |
-| [patio-api](https://github.com/patio-team/patio-api) |  | :x: | :x: | :heavy_check_mark: | /graphql |
-| [react-finland](https://github.com/ReactFinland/graphql-api) | | :x: | :x: | :heavy_check_mark: | /graphql |
-| [petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) | Spring | :x: | :x: | :heavy_check_mark: | /graphql |
+| [patio-api](https://github.com/patio-team/patio-api) |  | :x: | :x: | :x: | /graphql |
+| [react-finland](https://github.com/ReactFinland/graphql-api) | | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | /graphql |
+| [petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) | Spring | :x: | :x: | :x: | /graphql |
 | [timbuctoo](https://github.com/HuygensING/timbuctoo) | | :x: | :x: | :x: | /graphql | 8080 |
 | [countries](https://github.com/trevorblades/countries) | Yoga | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | /graphql |
 | [dvga](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) | graphql-core | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | /graphql |
+| [Gitlab-CE](https://docs.gitlab.com/install/docker/) | | :x: | :x: | :heavy_check_mark: | /api/graphql |
 
 ##### To add:
-- [Gitlab](https://docs.gitlab.com/install/docker/)
 - [Rick and Morty API](https://github.com/afuh/rick-and-morty-api)
 - [Poke-GQL](https://github.com/GregLyons/poke-gql)
 

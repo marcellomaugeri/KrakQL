@@ -67,8 +67,8 @@ else
 fi
 
 # Validate command
-if [[ "$COMMAND" != "up" && "$COMMAND" != "down" && "$COMMAND" != "ps" ]]; then
-  echo "Usage: $0 {up|down|ps} {case1 case2 ... | all}"
+if [[ "$COMMAND" != "up" && "$COMMAND" != "down" && "$COMMAND" != "ps" && "$COMMAND" != "build" ]]; then
+  echo "Usage: $0 {up|down|ps|build} {case1 case2 ... | all}"
   exit 1
 fi
 
@@ -96,6 +96,8 @@ for CASE in $CASES; do
       (cd "$CASE_PATH" && docker compose $EXP_FLAG up -d --build)
       # Process and print exposed ports after running up
       print_summary "$CASE_PATH" "$EXP_FLAG"
+    elif [ "$COMMAND" == "build" ]; then
+      (cd "$CASE_PATH" && docker compose build)
     fi
   else
     echo "!! Skipping '$CASE' — no docker-compose file found."

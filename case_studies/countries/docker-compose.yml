@@ -1,10 +1,9 @@
 services:
   countries:
     platform: linux/amd64
+    image: countries
     build:
       dockerfile: ./Dockerfile
     ports:
       - ":8787"
-    image: countries
-    container_name: countries
     command: yarn start

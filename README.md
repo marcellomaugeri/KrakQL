@@ -12,15 +12,15 @@ The contribution of this repository is duplex:
 - `utils`: Contains miscellaneous scripts.
 
 ## Case studies
-| Project | Framework | Field suggestion | Introspection available | Build status | Endpoint | Default port |
-| ------- | --------- | ---------------- | ----------------------- | ------------ | -------- | ------------ |
-| [react-ecommerce](https://github.com/react-shop/react-ecommerce) | Nestjs/GraphQL | :x: | :x: | :x: | /graphql | 4000 |
-| [patio-api](https://github.com/patio-team/patio-api) |  | :x: | :x: | :heavy_check_mark: | /graphql | 4000 |
-| [react-finland](https://github.com/ReactFinland/graphql-api) | | :x: | :x: | :heavy_check_mark: | /graphql | 4000 |
-| [petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) | Spring | :x: | :x: | :heavy_check_mark: | /graphql | 8080 |
+| Project | Framework | Field suggestion | Introspection available | Build status | Endpoint |
+| ------- | --------- | ---------------- | ----------------------- | ------------ | -------- |
+| [react-ecommerce](https://github.com/react-shop/react-ecommerce) | Nestjs/GraphQL | :x: | :x: | :x: | /graphql |
+| [patio-api](https://github.com/patio-team/patio-api) |  | :x: | :x: | :heavy_check_mark: | /graphql |
+| [react-finland](https://github.com/ReactFinland/graphql-api) | | :x: | :x: | :heavy_check_mark: | /graphql |
+| [petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) | Spring | :x: | :x: | :heavy_check_mark: | /graphql |
 | [timbuctoo](https://github.com/HuygensING/timbuctoo) | | :x: | :x: | :x: | /graphql | 8080 |
-| [countries](https://github.com/trevorblades/countries) | | :x: | :x: | :heavy_check_mark: | /graphql | 8080 |
-| [dvga](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) | | :x: | :x: | :heavy_check_mark: | /graphql | 8080 |
+| [countries](https://github.com/trevorblades/countries) | Yoga | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | /graphql |
+| [dvga](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) | | :x: | :x: | :heavy_check_mark: | /graphql |
 
 ##### To add:
 - [Gitlab](https://docs.gitlab.com/install/docker/)
@@ -30,16 +30,18 @@ The contribution of this repository is duplex:
 ## Requirements
 - Docker
 - Docker Compose
-- Python 3.10+
 
 ## Run an experiment (TODO)
 ```bash
-python3 -m pip install -r requirements.txt
-python3 run_experiment.py
+./run_cases.sh up all
+# Stop all containers
+./run_cases.sh down all
+# Run a list of cases
+./run_cases.sh up dvga patio-api
 ```
 
-#### TO DO (Before releasing)
-- [ ] Add a script to start/stop a set of specific case studies (e.g. ./script.sh start/stop <case_study_1> <case_study_2>)
+#### TO DO
+- [ ] Add an environment variable to disable introspection/field suggestion ([See this for Yoga](https://the-guild.dev/graphql/yoga-server/docs/features/introspection))
 
 ### Useful Resources
 - [Graphql-schema-diff](https://github.com/Ambro17/graphql-schema-diff)

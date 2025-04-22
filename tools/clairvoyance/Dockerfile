@@ -8,4 +8,3 @@ RUN apt install python3-venv python3-pip wget -y
 RUN pip install clairvoyance
 RUN pip install graphql-schema-diff
 RUN wget https://github.com/first20hours/google-10000-english/blob/master/20k.txt
-RUN chmod +x /country.sh

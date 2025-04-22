@@ -1,6 +1,7 @@
 #!/bin/bash
 
 CASES_DIR="./case_studies"
+SUMMARY=""
 
 # List all available cases (subdirectories with a docker-compose.yml)
 get_all_cases() {
@@ -18,6 +19,33 @@ show_help() {
   echo "Available case studies:"
   for case in $(get_all_cases); do
     echo "- $case"
+  done
+}
+
+# Function to process and print exposed ports for the current case
+print_summary() {
+  local case_path="$1"
+  local exp_flag="$2"
+  local case_name
+  case_name=$(basename "$case_path")
+  # Capture container IDs using docker compose ps -q
+  CONTAINER_IDS=$(cd "$case_path" && docker compose $exp_flag ps -q)
+  for id in $CONTAINER_IDS; do
+    # Get the container name using docker ps filtering by the container ID
+    container_name=$(docker ps --filter "id=$id" --format "{{.Names}}")
+
+    # Only include containers that match the expected pattern (avoid other containers in the same compose file)
+    if [[ "$container_name" != *"${EXP_NAME}-${case_name}"* ]]; then
+      continue
+    fi
+
+    # Extract the host port from the docker port output.
+    # This assumes an output format like: 0.0.0.0:8080 -> 3000/tcp
+    host_port=$(docker port "$id" | sed -n 's/.*0\.0\.0\.0:\([0-9]*\).*/\1/p')
+    
+    # Print the container name and the extracted port (if any)
+    echo "$container_name : $host_port"
+    SUMMARY="${SUMMARY}\n$container_name : $host_port"
   done
 }
 
@@ -60,12 +88,22 @@ for CASE in $CASES; do
 
     if [ "$COMMAND" == "ps" ]; then
       (cd "$CASE_PATH" && docker compose $EXP_FLAG ps)
+      # Print exposed ports for ps as well
+      print_summary "$CASE_PATH" "$EXP_FLAG"
     elif [ "$COMMAND" == "down" ]; then
       (cd "$CASE_PATH" && docker compose $EXP_FLAG down)
     elif [ "$COMMAND" == "up" ]; then        
       (cd "$CASE_PATH" && docker compose $EXP_FLAG up -d --build)
+      # Process and print exposed ports after running up
+      print_summary "$CASE_PATH" "$EXP_FLAG"
     fi
   else
     echo "!! Skipping '$CASE' — no docker-compose file found."
   fi
 done
+
+# Print the final summary after processing all cases
+if [ "$COMMAND" == "up" ]; then
+  echo -e "\nExperiments Running:"
+  echo -e "$SUMMARY"
+fi

@@ -1,12 +1,12 @@
 services: 
 
   react-finland:
+    platform: linux/amd64
+    image: react-finland
     build:
       dockerfile: ./Dockerfile
-    image:
-      react-finland
     ports:
-      - "3000:3000"
+      - ":3000"
     environment:
       NODE_ENV: "production"
-    command: sh -c "timeout 60 npm start"
+    command: yarn start

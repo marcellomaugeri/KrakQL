@@ -11,6 +11,7 @@ services:
 
   patio-api:
     platform: linux/amd64
+    image: patio-api
     build:
       dockerfile: ./Dockerfile
     depends_on:

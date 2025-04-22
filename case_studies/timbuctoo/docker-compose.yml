@@ -1,0 +1,9 @@
+services:
+  timbuctoo:
+    platform: linux/amd64
+    image: timbuctoo
+    build:
+      dockerfile: ./Dockerfile
+    ports:
+      - ":8080"
+    command: run.sh

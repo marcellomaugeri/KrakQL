@@ -20,7 +20,7 @@ The contribution of this repository is duplex:
 | [petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) | Spring | :x: | :x: | :heavy_check_mark: | /graphql |
 | [timbuctoo](https://github.com/HuygensING/timbuctoo) | | :x: | :x: | :x: | /graphql | 8080 |
 | [countries](https://github.com/trevorblades/countries) | Yoga | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | /graphql |
-| [dvga](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) | | :x: | :x: | :heavy_check_mark: | /graphql |
+| [dvga](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) | graphql-core | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | /graphql |
 
 ##### To add:
 - [Gitlab](https://docs.gitlab.com/install/docker/)
@@ -41,7 +41,7 @@ The contribution of this repository is duplex:
 ```
 
 #### TO DO
-- [ ] Add an environment variable to disable introspection/field suggestion ([See this for Yoga](https://the-guild.dev/graphql/yoga-server/docs/features/introspection))
+- [ ] Add an environment variable to disable introspection/field suggestion ([See this for Yoga](https://the-guild.dev/graphql/yoga-server/docs/features/introspection), DVGA uses the HTTP Request Header X-DVGA-MODE to disable introspection)
 
 ### Useful Resources
 - [Graphql-schema-diff](https://github.com/Ambro17/graphql-schema-diff)

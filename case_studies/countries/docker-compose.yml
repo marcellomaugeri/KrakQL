@@ -5,6 +5,6 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - ":8787"
-    image:
-      countries
-    command: npm start
+    image: countries
+    container_name: countries
+    command: yarn start

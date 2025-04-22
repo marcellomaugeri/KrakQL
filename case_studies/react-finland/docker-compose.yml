@@ -3,7 +3,8 @@ services:
   react-finland:
     build:
       dockerfile: ./Dockerfile
-    container_name: react_finland
+    image:
+      react-finland
     ports:
       - "3000:3000"
     environment:

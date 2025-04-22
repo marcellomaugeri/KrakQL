@@ -50,14 +50,22 @@ for CASE in $CASES; do
 
   if [ -f "$CASE_PATH/docker-compose.yaml" ] || [ -f "$CASE_PATH/docker-compose.yml" ]; then
     echo "==> $COMMAND: $CASE"
+
+    # If EXP_NAME is set, add the project flag with the value: case-EXP_NAME
+    if [ -n "$EXP_NAME" ]; then
+      EXP_FLAG="-p ${CASE}-${EXP_NAME}"
+    else
+      EXP_FLAG=""
+    fi
+
     if [ "$COMMAND" == "ps" ]; then
-      (cd "$CASE_PATH" && docker compose ps)
+      (cd "$CASE_PATH" && docker compose $EXP_FLAG ps)
     elif [ "$COMMAND" == "down" ]; then
-      (cd "$CASE_PATH" && docker compose "$COMMAND")
+      (cd "$CASE_PATH" && docker compose $EXP_FLAG down)
     elif [ "$COMMAND" == "up" ]; then        
-      (cd "$CASE_PATH" && docker compose "$COMMAND" -d)
+      (cd "$CASE_PATH" && docker compose $EXP_FLAG up -d --build)
     fi
   else
-    echo "!! Skipping '$CASE' — no docker-compose.yml found."
+    echo "!! Skipping '$CASE' — no docker-compose file found."
   fi
 done

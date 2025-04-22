@@ -47,3 +47,6 @@ python3 run_experiment.py
 #### Future Work
 - [ ] Add Artillery for load testing
 - [ ] Add Wendigo for load testing
+
+## Known Issues
+- The `countries` case study on MacOS (ARM) sometimes fails to compile (qemu: uncaught target signal 11 (Segmentation fault) - core dumped). If this happens, just try to compile the container again and will work like a charm.

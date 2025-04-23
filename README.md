@@ -38,6 +38,10 @@ The contribution of this repository is duplex:
 ./run_cases.sh down all
 # Run a list of cases
 ./run_cases.sh up dvga patio-api
+
+# Run a tool on a case (e.g. Clairvoyance) [To change]
+cd tools/clairvoyance
+docker compose run clairvoyance poetry run clairvoyance http://host.docker.internal:55240/graphql -o /results/test.json
 ```
 
 #### TO DO

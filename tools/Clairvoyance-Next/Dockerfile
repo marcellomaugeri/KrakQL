@@ -1,12 +1,12 @@
-FROM python:3.12.10-alpine3.21
+FROM python:3.10-slim-bullseye
 
 # Install git
-RUN apk add --no-cache git
+RUN apt-get update && apt-get install -y git
 
 # Clone the repo and checkout the specific commit
-RUN git clone https://github.com/nikitastupin/clairvoyance.git
-WORKDIR /clairvoyance
-RUN git checkout 227f4c5428c18f14021a414bbaa3b203f242131b
+RUN git clone https://github.com/Escape-Technologies/ClairvoyanceNext.git
+WORKDIR /ClairvoyanceNext
+RUN git checkout 8b101f041300b52383b086ee4830764b71c9559d
 
 # Install dependencies
 RUN pip install poetry

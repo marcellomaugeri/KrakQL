@@ -19,29 +19,29 @@ services:
     environment:
       PATIO_JDBC_URL: "jdbc:postgresql://db:5432/patio"
       PATIO_JDBC_USER: "patio"
-      PATIO_JDBC_PASSWORD: "patio"
+      PATIO_JDBC_PASSWORD: "yourpassword"
       PATIO_JDBC_DRIVER: "org.postgresql.Driver"
-      PATIO_ACCESS_KEY: ""
-      PATIO_SECRET_KEY: ""
-      PATIO_AWS_EMAIL_SOURCE: ""
-      PATIO_AWS_EMAIL_REGION: ""
-      PATIO_AWS_EMAIL_ENABLED: ""
       PATIO_JWT_SECRET: "mysupersecret"
       PATIO_JWT_ALGO: "HS256"
       PATIO_JWT_ISSUER: "patio"
       PATIO_JWT_DAYS: 7
-      PATIO_OAUTH2_KEY: ""
-      PATIO_OAUTH2_SECRET: ""
-      PATIO_OAUTH2_CALLBACK: ""
-      PATIO_DUSER_ENABLED: false
-      PATIO_DUSER_NAME: ""
-      PATIO_DUSER_EMAIL: ""
-      PATIO_DUSER_PASSWORD: ""
+      #PATIO_OAUTH2_KEY: ""
+      #PATIO_OAUTH2_SECRET: ""
+      #PATIO_OAUTH2_CALLBACK: ""
+      PATIO_DUSER_ENABLED: true
+      PATIO_DUSER_NAME: "username"
+      PATIO_DUSER_EMAIL: "username@default.com"
+      PATIO_DUSER_PASSWORD: "password"
     networks:
       - patio-network
     ports:
       - ":8080"
-    command: gradlew run
+    command: ./gradlew run
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/graphql"]
+      interval: 1m
+      timeout: 5s
+      retries: 3
 networks:
   patio-network:
     driver: bridge

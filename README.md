@@ -12,16 +12,24 @@ The contribution of this repository is duplex:
 - `utils`: Contains miscellaneous scripts.
 
 ## Case studies
+
+Legend:
+- ✅: Available
+- ❌: Not available
+- ⚠️: Not enabled by default
+
 | Project | Framework | Field suggestion | Introspection available | Build status | Endpoint |
 | ------- | --------- | ---------------- | ----------------------- | ------------ | -------- |
-| [react-ecommerce](https://github.com/react-shop/react-ecommerce) | Nestjs/GraphQL | :x: | :x: | :x: | /graphql |
-| [patio-api](https://github.com/patio-team/patio-api) |  | :x: | :x: | :x: | /graphql |
-| [react-finland](https://github.com/ReactFinland/graphql-api) | | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | /graphql |
-| [petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) | Spring | :x: | :x: | :x: | /graphql |
-| [timbuctoo](https://github.com/HuygensING/timbuctoo) | | :x: | :x: | :x: | /graphql | 8080 |
-| [countries](https://github.com/trevorblades/countries) | Yoga | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | /graphql |
-| [dvga](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) | graphql-core | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | /graphql |
-| [Gitlab-CE](https://docs.gitlab.com/install/docker/) | | :x: | :x: | :heavy_check_mark: | /api/graphql |
+| [react-ecommerce](https://github.com/react-shop/react-ecommerce) | Nestjs/GraphQL | ❌ | ❌ | ❌ | /graphql |
+| [react-finland](https://github.com/ReactFinland/graphql-api) | | ✅ | ✅ | ✅ | /graphql |
+| [petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) | Spring for GraphQL (GraphQL Java) | ❌ | ❌ | ❌ | /graphql |
+| [timbuctoo](https://github.com/HuygensING/timbuctoo) | GraphQL Java | ❌ | ❌ | ❌ | /graphql | 8080 |
+| [countries](https://github.com/trevorblades/countries) | Yoga | ✅ | ✅ | ✅ | /graphql |
+| [dvga](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) | graphql-core | ✅ | ✅ | ✅ | /graphql |
+| [Gitlab-CE](https://docs.gitlab.com/install/docker/) | | ❌ | ❌ | ✅ | /api/graphql |
+
+### Dropped case studies
+- [patio-api](https://github.com/patio-team/patio-api) - The project is not maintained anymore and it does not work without a lot of effort. Also, it requires several API keys to work.
 
 ##### To add:
 - [Rick and Morty API](https://github.com/afuh/rick-and-morty-api)

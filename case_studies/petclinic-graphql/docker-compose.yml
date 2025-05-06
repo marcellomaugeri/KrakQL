@@ -15,6 +15,10 @@ services:
       - petclinic_graphql_db
     build:
       dockerfile: ./Dockerfile
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://petclinic_graphql_db:5432/petclinic_graphql_db
+      - SPRING_DATASOURCE_USERNAME=klaus
+      - SPRING_DATASOURCE_PASSWORD=secretpw
     ports:
       - ":9977"
-    command: ./build-local.sh
+    command: java -jar backend/target/backend-0.0.1-SNAPSHOT.jar

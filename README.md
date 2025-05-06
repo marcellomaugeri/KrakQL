@@ -17,16 +17,17 @@ Legend:
 - ✅: Available
 - ❌: Not available
 - ⚠️: Not enabled by default
+- ❓: Not tested
 
 | Project | Framework | Field suggestion | Introspection available | Build status | Endpoint |
 | ------- | --------- | ---------------- | ----------------------- | ------------ | -------- |
-| [react-ecommerce](https://github.com/react-shop/react-ecommerce) | Nestjs/GraphQL | ❌ | ❌ | ❌ | /graphql |
-| [react-finland](https://github.com/ReactFinland/graphql-api) | | ✅ | ✅ | ✅ | /graphql |
-| [petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) | Spring for GraphQL (GraphQL Java) | ❌ | ❌ | ❌ | /graphql |
-| [timbuctoo](https://github.com/HuygensING/timbuctoo) | GraphQL Java | ❌ | ❌ | ❌ | /graphql | 8080 |
+| [react-ecommerce](https://github.com/react-shop/react-ecommerce) | Nestjs/GraphQL | ❓ | ❓ | ❌ | /graphql |
+| [react-finland](https://github.com/ReactFinland/graphql-api) | [express-graphql](https://www.npmjs.com/package/express-graphql) | ✅ | ✅ | ✅ | /graphql |
+| [petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) | Spring for GraphQL (GraphQL Java) | ❓ | ✅ | ✅ | /graphql |
+| [timbuctoo](https://github.com/HuygensING/timbuctoo) | GraphQL Java | ❓ | ❓ | ❌ | /graphql | 8080 |
 | [countries](https://github.com/trevorblades/countries) | Yoga | ✅ | ✅ | ✅ | /graphql |
 | [dvga](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) | graphql-core | ✅ | ✅ | ✅ | /graphql |
-| [Gitlab-CE](https://docs.gitlab.com/install/docker/) | | ❌ | ❌ | ✅ | /api/graphql |
+| [Gitlab-CE](https://docs.gitlab.com/install/docker/) | GraphQL Ruby | ❓ | ❓ | ✅ | /api/graphql |
 
 ### Dropped case studies
 - [patio-api](https://github.com/patio-team/patio-api) - The project is not maintained anymore and it does not work without a lot of effort. Also, it requires several API keys to work.

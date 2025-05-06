@@ -14,8 +14,17 @@ WORKDIR /spring-petclinic-graphql
 
 # Build the application
 #RUN ./mvnw package -pl backend -DskipTests
-RUN ./mvnw validate -pl backend -am -DskipTests
 
+# Unset MAVEN_CONFIG
+ENV MAVEN_CONFIG=""
+
+RUN chmod +x mvnw
+RUN ./mvnw -X -DskipTests -pl backend package
+
+# Remove entrypoint
+ENTRYPOINT [ "" ]
+
+#CMD ["java", "-jar", "backend/target/backend-0.0.1-SNAPSHOT.jar"]
 
 #RUN chmod +x build-local.sh
 #CMD ["./build-local.sh"]

@@ -28,12 +28,13 @@ Legend:
 | [countries](https://github.com/trevorblades/countries) | Yoga | ✅ | ✅ | ✅ | /graphql | ❓/❓ |
 | [dvga](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) | graphql-core | ✅ | ✅ | ✅ | /graphql | ❓/❓ |
 | [Gitlab-CE](https://docs.gitlab.com/install/docker/) | GraphQL Ruby | ❓ | ❓ | ✅ | /api/graphql | ❓/❓ |
+| [Rick and Morty API](https://github.com/afuh/rick-and-morty-api) | apollo-server-express | ✅ | ✅ | ✅ | /api/graphql | ❓/❓ |
+
 
 ### Dropped case studies
 - [patio-api](https://github.com/patio-team/patio-api) - The project is not maintained anymore and it does not work without a lot of effort. Also, it requires several API keys to work.
 
 ##### To add:
-- [Rick and Morty API](https://github.com/afuh/rick-and-morty-api)
 - [Poke-GQL](https://github.com/GregLyons/poke-gql)
 
 ## Requirements

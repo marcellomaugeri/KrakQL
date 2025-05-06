@@ -10,6 +10,6 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - ":8080"
-    command: sh -c "npm run test:mock && npm run start"
+    command: npm start
     depends_on:
       - mongo

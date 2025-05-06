@@ -20,7 +20,7 @@ Legend:
 - ❓: Not tested
 
 | Project | Framework | Field suggestion | Introspection available | Build status | Endpoint | Clairvoyance/Next |
-| ------- | --------- | ---------------- | ----------------------- | ------------ | -------- | -------- |
+| ------- | --------- | ---------------- | ----------------------- | ------------ | -------- | --- |
 | [react-ecommerce](https://github.com/react-shop/react-ecommerce) | Nestjs/GraphQL | ❓ | ❓ | ❌ | /graphql | ❓/❓ |
 | [react-finland](https://github.com/ReactFinland/graphql-api) | [express-graphql](https://www.npmjs.com/package/express-graphql) | ✅ | ✅ | ✅ | /graphql | ❓/❓ |
 | [petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) | Spring for GraphQL (GraphQL Java) | ❓ | ✅ | ✅ | /graphql | ❓/❓ |

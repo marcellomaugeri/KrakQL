@@ -24,7 +24,7 @@ Legend:
 | [react-ecommerce](https://github.com/react-shop/react-ecommerce) | Nestjs/GraphQL | ❓ | ❓ | ❓ | ❌ | /graphql | ❓/❓ |
 | [react-finland](https://github.com/ReactFinland/graphql-api) | [express-graphql](https://www.npmjs.com/package/express-graphql) | ✅ | ✅ | ❓ | ✅ | /graphql | ❓/❓ |
 | [petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) | Spring for GraphQL (GraphQL Java) | ❓ | ✅ | ✅ (JWT) | ✅ | /graphql | ❓/❓ |
-| [timbuctoo](https://github.com/HuygensING/timbuctoo) | GraphQL Java | ❓ | ❓ | ❓ | ❌ | /graphql | ❓/❓ |
+| [timbuctoo](https://github.com/HuygensING/timbuctoo) | GraphQL Java | ❓ | ❓ | ❓ | ✅ | /graphql | ❓/❓ |
 | [countries](https://github.com/trevorblades/countries) | Yoga | ✅ | ✅ | ❓ | ✅ | /graphql | ❓/❓ |
 | [dvga](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) | graphql-core | ✅ | ✅ | ❓ | ✅ | /graphql | ❓/❓ |
 | [Gitlab-CE](https://docs.gitlab.com/install/docker/) | GraphQL Ruby | ❓ | ❓ | ❓ | ✅ | /api/graphql | ❓/❓ |

@@ -8,3 +8,5 @@ services:
     command: poetry run clairvoyance --help
     volumes:
       - ../../results:/results
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

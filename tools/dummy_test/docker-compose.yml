@@ -1,0 +1,12 @@
+services: 
+
+  dummy_test:
+    platform: linux/amd64
+    image: dummy_test
+    build:
+      dockerfile: ./Dockerfile
+    entrypoint: ["curl"]
+    volumes:
+      - ../../results:/results
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

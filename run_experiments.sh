@@ -48,10 +48,17 @@ MAX_PARALLEL_TESTS="$DEFAULT_MAX_PARALLEL_TESTS" # Maximum number of parallel te
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
-        -exp_name) EXP_NAME="$2"; shift ;;
-        -tools) INPUT_TOOLS_LIST="$2"; shift ;;
-        -case_studies) INPUT_CASE_STUDIES_LIST="$2"; shift ;;
-        -max_parallel_tests) MAX_PARALLEL_TESTS="$2"; shift ;;
+        --exp_name) EXP_NAME="$2"; shift ;;
+        --tools) INPUT_TOOLS_LIST="$2"; shift ;;
+        --case_studies) INPUT_CASE_STUDIES_LIST="$2"; shift ;;
+        --max_parallel_tests) MAX_PARALLEL_TESTS="$2"; shift ;;
+        -h|--help) 
+            echo "Usage: $0 [--exp_name EXP_NAME] [--tools TOOL1,TOOL2,... | all] [--case_studies CS1,CS2,... | all] [--max_parallel_tests N]"
+            echo "Default experiment name: $DEFAULT_EXP_NAME"
+            echo "Default max parallel tests: $DEFAULT_MAX_PARALLEL_TESTS"
+            echo "Available tools: $(get_all_tools | tr '\n' ', ')"
+            echo "Available case studies: $(get_all_case_studies | tr '\n' ', ')"
+            exit 0 ;;
         *) log "Unknown parameter passed: $1"; exit 1 ;;
     esac
     shift
@@ -66,13 +73,13 @@ log "Tool outputs will be in: $RESULTS_DIR/$EXP_NAME"
 ALL_AVAILABLE_TOOLS=($(get_all_tools))
 ALL_AVAILABLE_CASE_STUDIES=($(get_all_case_studies))
 
-if [[ -z "$INPUT_TOOLS_LIST" || "$INPUT_TOOLS_LIST" == "all" ]]; then
+if [ "$INPUT_TOOLS_LIST" == "all" ]; then
     SELECTED_TOOLS=("${ALL_AVAILABLE_TOOLS[@]}")
 else
     IFS=',' read -r -a SELECTED_TOOLS <<< "$INPUT_TOOLS_LIST"
 fi
 
-if [[ -z "$INPUT_CASE_STUDIES_LIST" || "$INPUT_CASE_STUDIES_LIST" == "all" ]]; then
+if [ "$INPUT_CASE_STUDIES_LIST" == "all" ]; then
     SELECTED_CASE_STUDIES=("${ALL_AVAILABLE_CASE_STUDIES[@]}")
 else
     IFS=',' read -r -a SELECTED_CASE_STUDIES <<< "$INPUT_CASE_STUDIES_LIST"
@@ -185,7 +192,7 @@ run_single_test() {
 
     # 4. Check Case Study Health Post-Tool
     local cs_main_service_status
-    cs_main_service_status=$(docker compose -p "$case_study_project_name" -f "${case_study_dir}/docker-compose.yml" ps --filter "service=$cs_service_name" --format '{{if .Health}}{{.Health}}{{else}}{{.State}}{{end}}' 2>/dev/null) # Get the health status of the main service in the case study project
+    cs_main_service_status=$(docker compose -p "$case_study_project_name" -f "${case_study_dir}/docker-compose.yml" ps --format '{{if .Health}}{{.Health}}{{else}}{{.State}}{{end}}' 2>/dev/null)
     log "[$test_id] Case study status after tool run: $cs_main_service_status"
 
     # If the case study service is not 'healthy' or not 'running', it's a critical failure.

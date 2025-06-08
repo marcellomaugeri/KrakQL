@@ -36,21 +36,21 @@ get_all_tools() {
 
 get_all_case_studies() {
     find "$CASE_STUDIES_DIR" -maxdepth 1 -mindepth 1 -type d \
-        \( -exec test -f '{}/docker-compose.yml' \; -o -exec test -f '{}/docker-compose.yaml' \; \) \
+        -exec test -f '{}/docker-compose.yml' \; \
         -a -exec test -f '{}/ENDPOINT' \; -print0 | xargs -0 -I {} basename '{}' | sort -u
 }
 
 # --- Argument Parsing ---
 EXP_NAME="$DEFAULT_EXP_NAME" 
 INPUT_TOOLS_LIST="" # Comma-separated list of tools to run, or "all" for all available tools
-REQUESTED_CASE_STUDIES_STR="" # Comma-separated list of case studies to run, or "all" for all available case studies
+INPUT_CASE_STUDIES_LIST="" # Comma-separated list of case studies to run, or "all" for all available case studies
 MAX_PARALLEL_TESTS="$DEFAULT_MAX_PARALLEL_TESTS" # Maximum number of parallel tests (a test consists of a pair <tool, case_study>) to run
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         -exp_name) EXP_NAME="$2"; shift ;;
         -tools) INPUT_TOOLS_LIST="$2"; shift ;;
-        -case_studies) REQUESTED_CASE_STUDIES_STR="$2"; shift ;;
+        -case_studies) INPUT_CASE_STUDIES_LIST="$2"; shift ;;
         -max_parallel_tests) MAX_PARALLEL_TESTS="$2"; shift ;;
         *) log "Unknown parameter passed: $1"; exit 1 ;;
     esac
@@ -118,7 +118,7 @@ run_single_test() {
 
     # 1. Start Case Study
     log "[$test_id] Starting case study '$case_study_name' which will be targeted by tool '$tool_name'."
-    if ! (cd "$case_study_dir" && docker compose -p "$case_study_project_name" up -d --wait --remove-orphans); then # -p sets the project name (format: [experiment name]_[case study name]_[tool name]), -d runs in detached mode, --wait waits for the service to be healthy
+    if ! (cd "$case_study_dir" && docker compose -p "$case_study_project_name" up -d --wait --remove-orphans &>/dev/null); then # -p sets the project name (format: [experiment name]_[case study name]_[tool name]), -d runs in detached mode, --wait waits for the service to be healthy
         # If the case study fails to start, we log the error and clean up.
         log "[$test_id] ERROR: Failed to start case study '$case_study_name'."
         echo "❌ (Case Study Start)" > "$result_file"
@@ -134,7 +134,8 @@ run_single_test() {
     log "[$test_id] Attempting to get exposed host port for service '$case_study_name' in project '$case_study_project_name'."
 
     # Get port mapping(s) for the service.
-    case_study_port=$(docker compose -p "$case_study_project_name" -f "${case_study_dir}/docker-compose.yml" port "$case_study_name" 2>/dev/null | head -n 1 | awk -F':' '{print $NF}')
+    case_study_port=$(docker ps --filter "label=com.docker.compose.project=$case_study_project_name" --filter "label=com.docker.compose.service=$case_study_name" --format "{{.Ports}}" 2>/dev/null | cut -d',' -f1 | sed -n 's/.*:\([0-9]*\)->.*/\1/p')
+
 
     if [ -z "$case_study_port" ] || ! [[ "$case_study_port" =~ ^[0-9]+$ ]]; then
         # If the pipeline failed (e.g., 'docker compose port' gave no output, or awk failed to parse),
@@ -151,32 +152,30 @@ run_single_test() {
     log "[$test_id] Case study target URL: $target_url"
 
     # 3. Run Tool
-    local tool_service_name="$tool_name" # Assumed service name in tool's compose file is the tool name
-    local tool_command_args_template # This will hold the arguments part of the command
+    local tool_command_args # This will hold the arguments part of the command
 
     # Define tool command arguments based on tool_name
-    # {TARGET_URL} and {OUTPUT_DIR_PATH} are available placeholders
+    # {TARGET_URL} and {OUTPUT_DIR_PATH} are available placeholders and will be replaced later.
     if [ "$tool_name" == "clairvoyance" ] || [ "$tool_name" == "Clairvoyance-Next" ]; then
         # Clairvoyance tools expect an output file path. They will create 'schema.json' inside the provided dir.
-        tool_command_args_template="poetry run clairvoyance {TARGET_URL} -o {OUTPUT_DIR_PATH}/schema.json"
+        tool_command_args="poetry run clairvoyance {TARGET_URL} -o {OUTPUT_DIR_PATH}/schema.json"
         log "[$test_id] Using specific command for tool '$tool_name'."
     # Add elif blocks for other tools with specific command structures
     # elif [ "$tool_name" == "AnotherTool" ]; then
-    #    tool_command_args_template="--input {TARGET_URL} --out-dir {OUTPUT_DIR_PATH}"
+    #    tool_command_args="--input {TARGET_URL} --out-dir {OUTPUT_DIR_PATH}"
     else
         # Default: tool's entrypoint takes target URL as its main argument.
         # Output directory is implicitly known by the tool via its mapped /results volume.
-        tool_command_args_template="{TARGET_URL}"
+        tool_command_args="{TARGET_URL}"
         log "[$test_id] Using default command for tool '$tool_name'."
     fi
 
     # Replace placeholders in the chosen command template
-    local final_tool_command_args="$tool_command_args_template"
-    final_tool_command_args="${final_tool_command_args//\{TARGET_URL\}/$target_url}"
-    final_tool_command_args="${final_tool_command_args//\{OUTPUT_DIR_PATH\}/$tool_output_dir_container_path}"
+    tool_command_args="${tool_command_args//\{TARGET_URL\}/$target_url}"
+    tool_command_args="${tool_command_args//\{OUTPUT_DIR_PATH\}/$tool_output_dir_container_path}"
 
-    log "[$test_id] Running tool '$tool_name' (project: $tool_project_name) with service '$tool_service_name' and args: $final_tool_command_args"
-    if ! (cd "$tool_dir" && docker compose -p "$tool_project_name" run --rm "$tool_service_name" $final_tool_command_args); then
+    log "[$test_id] Running tool '$tool_name' for case study '$case_study_name' with service '$tool_name' and args: $tool_command_args"
+    if ! (cd "$tool_dir" && docker compose -p "$tool_project_name" run -T --rm "$tool_name" $tool_command_args &>/dev/null); then
         log "[$test_id] ERROR: Tool '$tool_name' failed for case study '$case_study_name'."
         echo "❌ (Tool Fail)" > "$result_file"
     else
@@ -186,29 +185,21 @@ run_single_test() {
 
     # 4. Check Case Study Health Post-Tool
     local cs_main_service_status
-    cs_main_service_status=$(docker compose -p "$case_study_project_name" -f "${case_study_dir}/docker-compose.yml" ps --filter "service=$cs_service_name" --format json 2>/dev/null | jq -r '.[0].Health // .[0].State' 2>/dev/null)
+    cs_main_service_status=$(docker compose -p "$case_study_project_name" -f "${case_study_dir}/docker-compose.yml" ps --filter "service=$cs_service_name" --format '{{if .Health}}{{.Health}}{{else}}{{.State}}{{end}}' 2>/dev/null) # Get the health status of the main service in the case study project
     log "[$test_id] Case study status after tool run: $cs_main_service_status"
 
-    current_test_status_from_file=$(cat "$result_file")
-    if [[ "$cs_main_service_status" == "healthy" || ( -z "$cs_main_service_status" && "$cs_main_service_status" == "running" ) ]]; then
-        # If CS is healthy, the status from the tool run (✅ or ❌ (Tool Fail)) is maintained.
-        # No change needed here if current_test_status_from_file is already set correctly.
-        if [[ "$current_test_status_from_file" == "✅" ]]; then
-             : # Keep ✅
-        fi
-    else
-        log "[$test_id] Case study '$case_study_name' unhealthy after tool run."
-        echo "❌ (CS Unhealthy)" > "$result_file" # This overrides tool success, as CS health is critical.
+    # If the case study service is not 'healthy' or not 'running', it's a critical failure.
+    # This overrides any previous status in $result_file (e.g., if the tool reported ✅).
+    if ! [[ "$cs_main_service_status" == "healthy" || "$cs_main_service_status" == "running" ]]; then
+        log "[$test_id] Case study '$case_study_name' is not healthy/running (Status: $cs_main_service_status). Marking as unhealthy."
+        echo "❌ (Case Study Unhealthy after Tool Run)" > "$result_file"
     fi
     
     # 5. Cleanup Case Study
-    log "[$test_id] Stopping case study '$case_study_name' (project: $case_study_project_name)..."
-    (cd "$case_study_dir" && docker compose -p "$case_study_project_name" down -v --remove-orphans &>/dev/null) || \
-        log "[$test_id] Warning: Failed to cleanly stop case study $case_study_project_name
-. Manual check might be needed."
-    
-    final_result_status=$(cat "$result_file")
-    log "[$test_id] Finished test. Result: $final_result_status"
+    log "[$test_id] Stopping case study '$case_study_name' for the tool '$tool_name'."
+    (cd "$case_study_dir" && docker compose -p "$case_study_project_name" down -v &>/dev/null) || true # The true is to ignore errors if the compose file was not found or the service was already stopped.
+
+    log "[$test_id] Finished test. Result: $(cat "$result_file")"
 }
 export -f run_single_test log
 export CASE_STUDIES_DIR TOOLS_DIR RESULTS_DIR # Export simple and default config variables
@@ -225,20 +216,15 @@ for tool in "${SELECTED_TOOLS[@]}"; do
         task_counter=$((task_counter + 1))
         log "Queueing task $task_counter/$total_tasks: Tool '$tool', Case Study '$case_study'"
 
-        if ! command -v jq &> /dev/null; then
-            log "ERROR: jq is not installed. Please install jq to run this script."
-            echo "❌ (jq missing)" > "${TMP_RESULTS_DIR}/${tool}_${case_study}.result"
-            # Consider exiting if jq is critical for all operations
-        fi
-        
         if [ ! -d "${CASE_STUDIES_DIR}/${case_study}" ] || [ ! -f "${CASE_STUDIES_DIR}/${case_study}/ENDPOINT" ]; then
-            log "ERROR: Case study directory or ENDPOINT file missing for '$case_study'. Skipping."
-            echo "❌ (CS Files)" > "${TMP_RESULTS_DIR}/${tool}_${case_study}.result"
+            log "ERROR: Case study directory, docker-compose.yml or ENDPOINT file missing for '$case_study'. Skipping."
+            echo "❌ (Case Study Not Supported)" > "${TMP_RESULTS_DIR}/${tool}_${case_study}.result"
             continue
         fi
+
         if [ ! -d "${TOOLS_DIR}/${tool}" ] || [ ! -f "${TOOLS_DIR}/${tool}/docker-compose.yml" ]; then
             log "ERROR: Tool directory or docker-compose.yml missing for '$tool'. Skipping."
-            echo "❌ (Tool Files)" > "${TMP_RESULTS_DIR}/${tool}_${case_study}.result"
+            echo "❌ (Tool Not Supported)" > "${TMP_RESULTS_DIR}/${tool}_${case_study}.result"
             continue
         fi
 

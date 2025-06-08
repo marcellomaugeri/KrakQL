@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# If any command fails, the script will exit immediately and return an error code.
-set -eo pipefail
-
 # --- Configuration ---
 # Generate a 5-digit random number for default experiment name
 DEFAULT_EXP_NAME="exp-$(printf "%05d" $((RANDOM % 90000 + 10000)))"

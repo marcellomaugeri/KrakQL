@@ -296,4 +296,27 @@ for tool in "${SELECTED_TOOLS[@]}"; do
     printf "|\n"
 done
 
-log "Experiment finished. Tool outputs are in $RESULTS_DIR/$EXP_NAME. Temporary result markers were in $TMP_RESULTS_DIR (now cleaned up)."
+# Save a CSV version of the results
+RESULTS_CSV_FILE="${RESULTS_DIR}/${EXP_NAME}/results.csv"
+mkdir -p "$(dirname "$RESULTS_CSV_FILE")"
+{
+    echo "Tool,${SELECTED_CASE_STUDIES[*]}"
+    for tool in "${SELECTED_TOOLS[@]}"; do
+        line="$tool"
+        for cs in "${SELECTED_CASE_STUDIES[@]}"; do
+            result_file_path="${TMP_RESULTS_DIR}/${tool}_${cs}.result"
+            if [ -f "$result_file_path" ]; then
+                line+=",$(cat "$result_file_path")"
+            else
+                line+=",❓ (No Result)"
+            fi
+        done
+        echo "$line"
+    done
+} > "$RESULTS_CSV_FILE"
+log "Results saved to $RESULTS_CSV_FILE"
+
+# --- Cleanup Temporary Results Directory ---
+rm -rf "$TMP_RESULTS_DIR"
+
+log "Experiment finished. Tool outputs are in $RESULTS_DIR/$EXP_NAME. Summary printed in the file $RESULTS_CSV_FILE."

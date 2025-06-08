@@ -9,3 +9,11 @@ services:
     environment:
       - WEB_HOST=0.0.0.0
     command: python app.py
+    healthcheck:
+      test: ["CMD", "curl", "-X", "POST", "http://localhost:5013/graphql",
+        "-H", "Content-Type: application/json",
+        "-d", '{"query":"{ __schema { types { name } } }"}']
+      interval: 30s
+      start_period: 1m
+      timeout: 10s
+      retries: 3

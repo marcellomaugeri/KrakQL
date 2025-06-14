@@ -9,7 +9,7 @@ TOOLS_DIR="./tools" # Directory containing all tools
 CASE_STUDIES_DIR="./case_studies" # Directory containing all case studies
 
 # --- Temporary Directory for test results (status markers) ---
-TMP_RESULTS_DIR=$(mktemp -d -t ${DEFAULT_EXP_NAME}_results)
+TMP_RESULTS_DIR=$(mktemp -d "/tmp/${DEFAULT_EXP_NAME}_results_XXXXXX")
 if [ ! -d "$TMP_RESULTS_DIR" ]; then
     echo "Failed to create temporary directory. Exiting."
     exit 1

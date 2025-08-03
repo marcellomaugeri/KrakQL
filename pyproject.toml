@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "KrakQL"
+version = "1.0.0"
+description = "Obtain GraphQL API Schema even if the introspection is not enabled"
+authors = [
+    "Marcello Maugeri <marcellomaugeriphd@gmail.com>",
+    "Abenezer Kebede <aben.jacob3@gmail.com"
+]
+maintainers = [
+    "Marcello Maugeri <marcellomaugeriphd@gmail.com>",
+    "Abenezer Kebede <aben.jacob3@gmail.com"
+]
+license = "Apache-2.0"
+packages = [
+    { include = "krakql" }
+]
+readme = "README.md"
+#"homepage" = "https://github.com/nikitastupin/clairvoyance"
+#"repository" = "https://github.com/nikitastupin/clairvoyance"
+
+[tool.poetry.scripts]
+krakql = 'krakql:cli'
+
+[tool.coverage.run]
+omit = [
+    'tests/*',
+    'examples/*',
+    'docs/*',
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<4.0"
+google-adk = "^1.9.0"

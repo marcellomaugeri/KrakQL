@@ -1,65 +1,37 @@
-# KrakQL: LLM-Guided Retrieval of GraphQL Schemas
-This repository contains the code and resources for the paper "KrakQL: LLM-Guided Retrieval of GraphQL Schemas".
-The contribution of this repository is duplex:
-- Contains the source code of the KrakQL tool, which is a tool to retrieve GraphQL schemas from a set of GraphQL APIs.
-- Provide an extendable benchmark of GraphQL APIs, which can be used to test different tools and techniques for GraphQL APIs.
+# KrakQL
 
-## Repository structure
-- `case_studies`: Contains the case studies (Consisting of a Dockerfile and a docker-compose.yml file). See [./docs/CASE_STUDIES.md](./docs/CASE_STUDIES.md) to add new case studies.
-- `tools`: Contains the tools used to test the case studies. See [./docs/TOOLS.md](./docs/TOOLS.md) to add new tools.
-- `analysis`: Contains the scripts to analyse the results. See [./docs/ANALYSIS.md](./docs/ANALYSIS.md) to add new analysis scripts.
-- `results`: This is the default location for the results of the tests. `analysis` scripts should look for the results here.
-- `utils`: Contains miscellaneous scripts.
 
-## Case studies
+### Current experiment status
 
 Legend:
-- ✅: Available
-- ❌: Not available
-- ⚠️: Not enabled by default
-- ❓: Not tested
+- ✅: Clairvoyance works
+- ❌: Clairvoyance does not work (provide reason)
+- ⚠️: Clairvoyance works partially (requires manual intervention)
+- ❓: Not tested yet
 
-| Project | Framework | Field suggestion | Introspection available | Authentication Required | Build status | Clairvoyance/Next |
-| ------- | --------- | ---------------- | ----------------------- | ------------ |  ------------ | -------- | --- |
-| [react-ecommerce](https://github.com/react-shop/react-ecommerce) | Nestjs/GraphQL | ❓ | ❓ | ❓ | ❌ | /graphql | ❌/❌ |
-| [react-finland](https://github.com/ReactFinland/graphql-api) | [express-graphql](https://www.npmjs.com/package/express-graphql) | ✅ | ✅ | ❓ | ✅ | ✅/✅ |
-| [petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) | Spring for GraphQL (GraphQL Java) | ❌ | ✅ | ✅ (JWT) | ✅ | ❌/❌ |
-| [timbuctoo](https://github.com/HuygensING/timbuctoo) | GraphQL Java | ❓ | ❓ | ❓ | ❌ | ❌/❌ |
-| [countries](https://github.com/trevorblades/countries) | Yoga | ✅ | ✅ | ❓ | ✅ | ❌/❌ |
-| [dvga](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) | graphql-core | ✅ | ✅ | ❓ | ✅ | ✅/✅ |
-| [Gitlab-CE](https://docs.gitlab.com/install/docker/) | GraphQL Ruby | ❓ | ❓ | ❓ | ✅ | ❌/❌ |
-| [Rick and Morty API](https://github.com/afuh/rick-and-morty-api) | apollo-server-express | ✅ | ✅ | ❓ | ✅ | ❌/❌ |
-| [Poke-GQL](https://github.com/GregLyons/poke-gql) | apollo-server | ✅ | ✅ | ❌ | ✅ | ❌/❌ |
-
-### Dropped case studies
-- [patio-api](https://github.com/patio-team/patio-api) - The project is not maintained anymore and it does not work without a lot of effort. Also, it requires several API keys to work.
-
-## Requirements
-- Docker
-- Docker Compose
-
-## Run an experiment (TODO)
-```bash
-./run_cases.sh up all
-# Stop all containers
-./run_cases.sh down all
-# Run a list of cases
-./run_cases.sh up dvga patio-api
-
-# Run a tool on a case (e.g. Clairvoyance) [To change]
-cd tools/clairvoyance
-docker compose run clairvoyance poetry run clairvoyance http://host.docker.internal:55240/graphql -o /results/test.json
-```
-
-#### TO DO
-- [ ] Add an environment variable to disable introspection/field suggestion ([See this for Yoga](https://the-guild.dev/graphql/yoga-server/docs/features/introspection), DVGA uses the HTTP Request Header X-DVGA-MODE to disable introspection)
-
-### Useful Resources
-- [Graphql-schema-diff](https://github.com/Ambro17/graphql-schema-diff)
-
-#### Future Work
-- [ ] Add Artillery for load testing
-- [ ] Add Wendigo for load testing
-
-## Known Issues
-- The `countries` case study on MacOS (ARM) sometimes fails to compile (qemu: uncaught target signal 11 (Segmentation fault) - core dumped). If this happens, just try to compile the container again and will work like a charm.
+| Project | Clairvoyance works |
+| ------- | ------------------ |
+| [amplication](https://github.com/amplication/amplication) | ❓ |
+| [catalysis-hub](https://github.com/SUNCAT-Center/CatalysisHubBackend) | ❓ |
+| [countries](https://github.com/trevorblades/countries) | ❓ |
+| [directus](https://github.com/directus/directus) | ❓ |
+| [dvga](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) | ❓ |
+| [emb-graphql-ncs](https://github.com/WebFuzzing/EMB/) | ❓ |
+| [emb-graphql-scs](https://github.com/WebFuzzing/EMB/) | ❓ |
+| [ehri-rest](https://github.com/EHRI/ehri-rest) | ❓ |
+| [fruits-api](https://github.com/Franqsanz/fruits-api) | ❓ |
+| [gatsby-starter-default](https://github.com/gatsbyjs/gatsby) | ❓ |
+| [gitlab-ce](https://docs.gitlab.com/install/docker/) | ❓ |
+| [hey](https://github.com/heyverse/hey) | ❓ |
+| [parse-server](https://github.com/parse-community/parse-server) | ❓ |
+| [payload](https://github.com/payloadcms/payload) | ❓ |
+| [rick-and-morty-api](https://github.com/afuh/rick-and-morty-api) | ❓ |
+| [react-ecommerce](https://github.com/react-shop/react-ecommerce) | ❓ |
+| [react-finland](https://github.com/ReactFinland/graphql-api) | ❓ |
+| [redwoodjs-graphql](https://github.com/redwoodjs/graphql) | ❓ |
+| [rxdb](https://github.com/pubkey/rxdb) | ❓ |
+| [saleor](https://github.com/saleor/saleor) | ❓ |
+| [sierra](https://github.com/hivdb/sierra) | ❓ |
+| [spring-petclinic-graphql](https://github.com/spring-petclinic/spring-petclinic-graphql) | ❓ |
+| [timbuctoo](https://github.com/HuygensING/timbuctoo) | ❓ |
+| [twenty](https://github.com/twentyhq/twenty/) | ❓ |

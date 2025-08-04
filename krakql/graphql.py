@@ -1,5 +1,6 @@
 import json
 from typing import Any, Dict, List, Optional, Set
+from graphql import print_schema
 
 from krakql.entities import GraphQLPrimitive
 from krakql.entities.context import log
@@ -79,6 +80,17 @@ class Schema:
             schema["data"]["__schema"]["types"].append(t.to_json())
 
         output = json.dumps(schema, indent=4, sort_keys=True)
+        return output
+    
+    def sdl_representation(self) -> str:
+        """Returns SDL representation of the schema."""
+        # get the json representation first
+        schema = {"data": {"__schema": self._schema}}
+
+        for t in self.types.values():
+            schema["data"]["__schema"]["types"].append(t.to_json())
+
+        output = print_schema(schema)
         return output
 
     def get_path_from_root(

@@ -579,12 +579,14 @@ async def explore_field(
 
 
 async def krakql(
-    wordlist: List[str],
+    model: str,
     input_document: str,
     input_schema: Optional[Dict[str, Any]] = None,
 ) -> str:
 
     log().debug(f"input_document = {input_document}")
+
+    
 
     if not input_schema:
         root_typenames = await fetch_root_typenames()

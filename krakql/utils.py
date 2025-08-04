@@ -83,19 +83,27 @@ def parse_args(args: List[str]) -> argparse.Namespace:
         default=None,
         help="Number of concurrent requests to send to the server",
     )
+    #parser.add_argument(
+    #    "-w",
+    #    "--wordlist",
+    #    metavar="<file>",
+    #    type=argparse.FileType("r"),
+    #    help="This wordlist will be used for all brute force effots (fields, arguments and so on)",
+    #)
     parser.add_argument(
-        "-w",
-        "--wordlist",
-        metavar="<file>",
-        type=argparse.FileType("r"),
-        help="This wordlist will be used for all brute force effots (fields, arguments and so on)",
+        "-M",
+        "--model",
+        metavar="<string>",
+        default="openai/gpt-4.1-nano",
+        type=str,
+        help="Model to use for the KrakQL agent (default: openai/gpt-4.1-nano)",
     )
-    parser.add_argument(
-        "-wv",
-        "--validate",
-        action="store_true",
-        help="Validate the wordlist items match name Regex",
-    )
+    #parser.add_argument(
+    #    "-wv",
+    #    "--validate",
+    #    action="store_true",
+    #    help="Validate the wordlist items match name Regex",
+    #)
     parser.add_argument(
         "-x",
         "--proxy",

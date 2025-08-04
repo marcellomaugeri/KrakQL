@@ -39,16 +39,10 @@ def setup_context(
     logger_ctx.set(logger)
 
 
-def load_default_wordlist() -> List[str]:
-    wl = Path(__file__).parent / "wordlist.txt"
-    with open(wl, "r", encoding="utf-8") as f:
-        return [w.strip() for w in f.readlines() if w.strip()]
-
-
 async def blind_introspection(  # pylint: disable=too-many-arguments
     url: str,
     logger: logging.Logger,
-    wordlist: List[str],
+    model: str,
     concurrent_requests: Optional[int] = None,
     headers: Optional[Dict[str, str]] = None,
     input_document: Optional[str] = None,
@@ -59,9 +53,6 @@ async def blind_introspection(  # pylint: disable=too-many-arguments
     backoff: Optional[int] = None,
     disable_ssl_verify: Optional[bool] = None,
 ) -> str:
-    wordlist = wordlist or load_default_wordlist()
-    assert wordlist, "No wordlist provided"
-
     setup_context(
         url,
         logger=logger,
@@ -87,7 +78,7 @@ async def blind_introspection(  # pylint: disable=too-many-arguments
         logger.info(f"Iteration {iterations}")
         iterations += 1
         schema = await oracle.krakql(
-            wordlist,
+            model,
             input_document=input_document,
             input_schema=input_schema,
         )
@@ -124,23 +115,6 @@ def cli(argv: Optional[List[str]] = None) -> None:
         key, value = h.split(": ", 1)
         headers[key] = value
 
-    wordlist = []
-    if args.wordlist:
-        wordlist = [w.strip() for w in args.wordlist.readlines() if w.strip()]
-        # de-dupe the wordlist.
-        wordlist = list(set(wordlist))
-
-    # remove wordlist items that don't conform to graphQL regex github-issue #11
-    if args.validate:
-        wordlist_parsed = [
-            w for w in wordlist if re.match(r"[_A-Za-z][_0-9A-Za-z]*", w)
-        ]
-        logging.info(
-            f"Removed {len(wordlist) - len(wordlist_parsed)} items from wordlist, to conform to name regex. "
-            f"https://spec.graphql.org/June2018/#sec-Names"
-        )
-        wordlist = wordlist_parsed
-
     asyncio.run(
         blind_introspection(
             args.url,
@@ -150,7 +124,7 @@ def cli(argv: Optional[List[str]] = None) -> None:
             input_document=args.document,
             input_schema_path=args.input_schema,
             output_path=args.output,
-            wordlist=wordlist,
+            model=args.model,
             proxy=args.proxy,
             max_retries=args.max_retries,
             backoff=args.backoff,

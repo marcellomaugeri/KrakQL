@@ -2,6 +2,8 @@ import json
 from typing import Any, Dict, List, Optional, Set
 from graphql import print_schema
 
+from collections import Counter
+
 from krakql.entities import GraphQLPrimitive
 from krakql.entities.context import log
 from krakql.entities.primitives import GraphQLKind
@@ -58,6 +60,8 @@ class Schema:
                 self.add_type(mutation_type, "OBJECT")
             if subscription_type:
                 self.add_type(subscription_type, "OBJECT")
+        self._selection_counter = Counter()
+
 
     # Adds type to schema if it's not exists already
     def add_type(
@@ -161,11 +165,28 @@ class Schema:
 
         for t in self.types.values():
             if (
-                not t.fields
-                and t.name not in ignored
-                and t.kind != GraphQLKind.INPUT_OBJECT
+                not t.fields # No fields found
+                and t.name not in ignored # Not ignored
+                and t.kind != GraphQLKind.INPUT_OBJECT # Not an input object
             ):
+                # increment counter for this type
+                self._selection_counter[t.name] += 1
                 return t.name
+
+        return ""
+    
+    def get_least_tried_type(
+        self,
+        ignored: Optional[Set[str]] = None,
+    ) -> str:
+        """Gets the least tried fields."""
+        ignored = ignored or set()
+
+        for t in self.types.values():
+            # Find the type with the lowest self._selection_counter (for ties pick alphabetically)
+            if t.name not in ignored and t.kind != GraphQLKind.INPUT_OBJECT:
+                if not least_tried_type or self._selection_counter[t.name] < self._selection_counter[least_tried_type]:
+                    least_tried_type = t.name
 
         return ""
 

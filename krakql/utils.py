@@ -94,9 +94,9 @@ def parse_args(args: List[str]) -> argparse.Namespace:
         "-M",
         "--model",
         metavar="<string>",
-        default="openai/gpt-4.1-nano",
+        default="openai/gpt-5-nano",
         type=str,
-        help="Model to use for the KrakQL agent (default: openai/gpt-4.1-nano)",
+        help="Model to use for the KrakQL agent (default: openai/gpt-5-nano)",
     )
     #parser.add_argument(
     #    "-wv",
@@ -104,6 +104,22 @@ def parse_args(args: List[str]) -> argparse.Namespace:
     #    action="store_true",
     #    help="Validate the wordlist items match name Regex",
     #)
+    parser.add_argument(
+        "-t",
+        "--time-budget",
+        metavar="<int>",
+        type=int,
+        default=60,
+        help="Time budget for the introspection in seconds (default: 60)",
+    )
+    parser.add_argument(
+        "-mt",
+        "--max-tries",
+        metavar="<int>",
+        type=int,
+        default=10,
+        help="Maximum number of agent calls for a single type iteration (default: 10)",
+    )
     parser.add_argument(
         "-x",
         "--proxy",

@@ -5,12 +5,13 @@ import re
 import time
 from typing import Any, Dict, List, Optional, Set, Tuple
 
-from krakql import graphql
+from krakql import graphql_schema
 from krakql.entities import GraphQLPrimitive
 from krakql.entities.context import client, config, log
 from krakql.entities.errors import EndpointError
 from krakql.entities.oracle import FuzzingContext
 from krakql.utils import track
+from krakql.krakql_agent import KrakQLAgentSingleton 
 
 # yapf: disable
 
@@ -150,87 +151,74 @@ def get_valid_fields(error_message: str) -> Set[str]:
 
 
 async def probe_valid_fields(
-    wordlist: List[str],
+    agent: KrakQLAgentSingleton,
+    max_tries: int,
+    current_schema: str,
     input_document: str,
 ) -> Set[str]:
-    """Sending a wordlist to check for valid fields.
+    """Probes the GraphQL endpoint for valid fields using the KrakQL agent.
 
     Args:
-        wordlist: The words that would leads to discovery.
-        config: The config for the graphql client.
+        agent: The KrakQL agent instance.
+        max_tries: The maximum number of attempts to discover valid fields.
+        current_schema: The current GraphQL schema in SDL
         input_document: The base document.
 
     Returns:
         A set of discovered valid fields.
     """
-
-    async def __probation(i: int) -> Set[str]:
-        bucket = wordlist[i : i + config().bucket_size]
-        valid_fields = set(bucket)
+    
+    valid_fields = set()
+    for i in range(max_tries):
+    # Get new candidate fields from the agent (atomic, updated each time)
+        bucket = await agent.suggest_new_fields(current_schema=current_schema, input_document=input_document)
+        if not bucket:
+            log().error(f"No suggestions from agent after {i + 1} tries")
+            break
+        
         document = input_document.replace("FUZZ", " ".join(bucket))
-
+        iteration_valid_fields = set(bucket)
         start_time = time.time()
         response = await client().post(document)
         total_time = time.time() - start_time
 
         errors = response["errors"]
-
+        
         log().debug(
             f"Sent {len(bucket)} fields, received {len(errors)} errors in {round(total_time, 2)} seconds"
         )
 
         for error in errors:
             error_message = error["message"]
-
-            if (
-                "must not have a selection since type" in error_message
-                and "has no subfields" in error_message
-            ):
-                return set()
-
-            # ! LEGACY CODE please keep
+            if ("must not have a selection since type" in error_message
+                and "has no subfields" in error_message):
+                return set() # Since the field has no subfields, it cannot be queried
             # First remove field if it produced an 'Cannot query field' error
             match = re.search(
                 r"""Cannot query field [\'"](?P<invalid_field>[_A-Za-z][_0-9A-Za-z]*)[\'"]""",
                 error_message,
             )
             if match:
-                valid_fields.discard(match.group("invalid_field"))
-
-            # Second obtain field suggestions from error message
-            valid_fields |= get_valid_fields(error_message)
-
-        return valid_fields
-
-    # Create task list
-    tasks: List[asyncio.Task] = []
-    for i in range(0, len(wordlist), config().bucket_size):
-        tasks.append(asyncio.create_task(__probation(i)))
-
-    # Process results
-    valid_fields = set()
-    for task in track(
-        asyncio.as_completed(tasks),
-        description=f"Sending {len(tasks)} fields",
-        total=len(tasks),
-    ):
-        result = await task
-        valid_fields.update(result)
-
+                # Remove all invalid fields
+                iteration_valid_fields.discard(match.group("invalid_field"))
+            # Now examine the error to extract valid fields | if there is no error the field is already considered valid
+            iteration_valid_fields |= get_valid_fields(error_message)
+        valid_fields.update(iteration_valid_fields)
+        
     return valid_fields
 
 
 async def probe_valid_args(
     field: str,
-    wordlist: List[str],
+    bucket: List[str],
     input_document: str,
 ) -> Set[str]:
-    """Sends the wordlist as arguments and deduces its type from the error msgs received."""
+    """Sends the bucket as arguments and deduces its type from the error msgs received."""
 
-    valid_args = set(wordlist)
+    valid_args = set(bucket)
 
     document = input_document.replace(
-        "FUZZ", f'{field}({", ".join([w + ": 7" for w in wordlist])})'
+        "FUZZ", f'{field}({", ".join([w + ": 7" for w in bucket])})'
     )
 
     response = await client().post(document=document)
@@ -270,14 +258,15 @@ async def probe_valid_args(
 
 async def probe_args(
     field: str,
-    wordlist: List[str],
+    agent: KrakQLAgentSingleton,
+    max_tries: int,
     input_document: str,
 ) -> Set[str]:
     """Wrapper function for deducing the arg types."""
 
     tasks: List[asyncio.Task] = []
-    for i in range(0, len(wordlist), config().bucket_size):
-        bucket = wordlist[i : i + config().bucket_size]
+    for i in range(0, max_tries):
+        bucket = agent.suggest_new_fields("")
         tasks.append(
             asyncio.create_task(probe_valid_args(field, bucket, input_document))
         )
@@ -332,7 +321,7 @@ def get_valid_args(error_message: str) -> Set[str]:
 def get_typeref(
     error_message: str,
     context: FuzzingContext,
-) -> Optional[graphql.TypeRef]:
+) -> Optional[graphql_schema.TypeRef]:
     """Using predefined regex deduce the type of a field."""
 
     def __extract_matching_fields(
@@ -392,7 +381,7 @@ def get_typeref(
         non_null_item = bool(is_list and "!]" in tk)
         non_null = tk.endswith("!")
 
-        return graphql.TypeRef(
+        return graphql_schema.TypeRef(
             name=name,
             kind=kind,
             is_list=is_list,
@@ -406,10 +395,10 @@ def get_typeref(
 async def probe_typeref(
     documents: List[str],
     context: FuzzingContext,
-) -> Optional[graphql.TypeRef]:
+) -> Optional[graphql_schema.TypeRef]:
     """Sending a document to attain errors in order to deduce the type of fields."""
 
-    async def __probation(document: str) -> Optional[graphql.TypeRef]:
+    async def __probation(document: str) -> Optional[graphql_schema.TypeRef]:
         """Send a document to attempt discovering a typeref."""
 
         response = await client().post(document)
@@ -432,7 +421,7 @@ async def probe_typeref(
     for document in documents:
         tasks.append(asyncio.create_task(__probation(document)))
 
-    typeref: Optional[graphql.TypeRef] = None
+    typeref: Optional[graphql_schema.TypeRef] = None
     results = await asyncio.gather(*tasks)
     for result in results:
         if result:
@@ -449,7 +438,7 @@ async def probe_typeref(
 async def probe_field_type(
     field: str,
     input_document: str,
-) -> Optional[graphql.TypeRef]:
+) -> Optional[graphql_schema.TypeRef]:
     """Wrapper function for sending the queries to deduce the field type."""
 
     documents = [
@@ -464,7 +453,7 @@ async def probe_arg_typeref(
     field: str,
     arg: str,
     input_document: str,
-) -> Optional[graphql.TypeRef]:
+) -> Optional[graphql_schema.TypeRef]:
     """Wrapper function to deduce the type of an arg."""
 
     documents = [
@@ -539,9 +528,10 @@ async def fetch_root_typenames() -> Dict[str, Optional[str]]:
 async def explore_field(
     field_name: str,
     input_document: str,
-    wordlist: List[str],
+    agent: KrakQLAgentSingleton,
+    max_tries: int,
     typename: str,
-) -> Tuple[graphql.Field, List[graphql.InputValue]]:
+) -> Tuple[graphql_schema.Field, List[graphql_schema.InputValue]]:
     """Perform exploration on a field."""
 
     typeref = await probe_field_type(
@@ -550,13 +540,14 @@ async def explore_field(
     )
 
     args = []
-    field = graphql.Field(field_name, typeref)
+    field = graphql_schema.Field(field_name, typeref)
     if field.type.name in GraphQLPrimitive:
         log().debug(f'Skip probe_args() for "{field.name}" of type "{field.type.name}"')
     else:
         arg_names = await probe_args(
             field.name,
-            wordlist,
+            agent,
+            max_tries,
             input_document,
         )
 
@@ -570,7 +561,7 @@ async def explore_field(
                 )
                 continue
 
-            arg = graphql.InputValue(arg_name, arg_typeref)
+            arg = graphql_schema.InputValue(arg_name, arg_typeref)
 
             field.args.append(arg)
             args.append(arg)
@@ -579,34 +570,38 @@ async def explore_field(
 
 
 async def krakql(
-    model: str,
+    agent: KrakQLAgentSingleton,
+    max_tries: int,
     input_document: str,
     input_schema: Optional[Dict[str, Any]] = None,
 ) -> str:
 
     log().debug(f"input_document = {input_document}")
-
-    
-
+        
     if not input_schema:
         root_typenames = await fetch_root_typenames()
-        schema = graphql.Schema(
+        schema = graphql_schema.Schema(
             query_type=root_typenames["queryType"],
             mutation_type=root_typenames["mutationType"],
             subscription_type=root_typenames["subscriptionType"],
         )
     else:
-        schema = graphql.Schema(schema=input_schema)
+        schema = graphql_schema.Schema(schema=input_schema)
 
     typename = await probe_typename(input_document)
     log().debug(f"__typename = {typename}")
 
     valid_fields = await probe_valid_fields(
-        wordlist,
+        agent,
+        max_tries,
+        schema.sdl_representation,
         input_document,
     )
     log().debug(f"{typename}.fields = {valid_fields}")
-
+    
+    print("Quitting for debug")
+    exit(1)
+    
     tasks: List[asyncio.Task] = []
     for field_name in valid_fields:
         tasks.append(
@@ -614,7 +609,8 @@ async def krakql(
                 explore_field(
                     field_name,
                     input_document,
-                    wordlist,
+                    agent,
+                    max_tries,
                     typename,
                 )
             )

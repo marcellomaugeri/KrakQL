@@ -1,7 +1,4 @@
 from google.adk.agents import LlmAgent
-from google.adk.agents.callback_context import CallbackContext
-from google.adk.models.llm_response import LlmResponse
-
 from krakql.agent.prompts import FieldAdvisorSystemPrompt 
 from krakql.agent.config import MODEL
 

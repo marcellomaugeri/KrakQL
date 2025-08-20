@@ -21,11 +21,12 @@ REQUIRED_BUT_NOT_PROVIDED = r"""required(, but it was not provided| but not prov
 _FIELD_REGEXES = {
     'SKIP': [
         r"""Field ['"]""" + MAIN_REGEX + r"""['"] must not have a selection since type ['"]""" + MAIN_REGEX + r"""['"] has no subfields\.""",
+        r"""Field ['"]""" + MAIN_REGEX + r"""['"] of type ['"]""" + MAIN_REGEX + r"""['"] must not have a sub selection\.""",
         r"""Field ['"]""" + MAIN_REGEX + r"""['"] argument ['"]""" + MAIN_REGEX + r"""['"] of type ['"]""" + MAIN_REGEX + r"""['"] is """ + REQUIRED_BUT_NOT_PROVIDED,
         r"""Cannot query field ['"]""" + MAIN_REGEX + r"""['"] on type ['"]""" + MAIN_REGEX + r"""['"]\.""",
         r"""Cannot query field ['"]""" + MAIN_REGEX + r"""['"] on type ['"](""" + MAIN_REGEX + r""")['"]\. Did you mean to use an inline fragment on ['"]""" + MAIN_REGEX + r"""['"]\?""",
         r"""Cannot query field ['"]""" + MAIN_REGEX + r"""['"] on type ['"](""" + MAIN_REGEX + r""")['"]\. Did you mean to use an inline fragment on ['"]""" + MAIN_REGEX + r"""['"] or ['"]""" + MAIN_REGEX + r"""['"]\?""",
-        r"""Cannot query field ['"]""" + MAIN_REGEX + r"""['"] on type ['"](""" + MAIN_REGEX + r""")['"]\. Did you mean to use an inline fragment on (['"]""" + MAIN_REGEX + r"""['"], )+(or ['"]""" + MAIN_REGEX + r"""['"])?\?"""
+        r"""Cannot query field ['"]""" + MAIN_REGEX + r"""['"] on type ['"](""" + MAIN_REGEX + r""")['"]\. Did you mean to use an inline fragment on (['"]""" + MAIN_REGEX + r"""['"],? )+(or ['"]""" + MAIN_REGEX + r"""['"])?\?"""
     ],
     'VALID_FIELD': [
         r"""Field ['"](?P<field>""" + MAIN_REGEX + r""")['"] of type ['"](?P<typeref>""" + MAIN_REGEX + r""")['"] must have a selection of subfields\. Did you mean ['"]""" + MAIN_REGEX + r"""( \{ \.\.\. \})?['"]\?""",
@@ -38,7 +39,7 @@ _FIELD_REGEXES = {
         r"""Cannot query field ['"]""" + MAIN_REGEX + r"""['"] on type ['"]""" + MAIN_REGEX + r"""['"]\. Did you mean ['"](?P<one>""" + MAIN_REGEX + r""")['"] or ['"](?P<two>""" + MAIN_REGEX + r""")['"]\?"""
     ],
     'MULTI_SUGGESTION': [
-        r"""Cannot query field ['"](""" + MAIN_REGEX + r""")['"] on type ['"]""" + MAIN_REGEX + r"""['"]\. Did you mean (?P<multi>(['"]""" + MAIN_REGEX + r"""['"], )+)(or ['"](?P<last>""" + MAIN_REGEX + r""")['"])?\?"""
+        r"""Cannot query field ['"](""" + MAIN_REGEX + r""")['"] on type ['"]""" + MAIN_REGEX + r"""['"]\. Did you mean (?P<multi>(['"]""" + MAIN_REGEX + r"""['"],? )+)(or ['"](?P<last>""" + MAIN_REGEX + r""")['"])?\?"""
     ],
 }
 
@@ -57,7 +58,8 @@ _ARG_REGEXES = {
         r"""Unknown argument ['"]""" + MAIN_REGEX + r"""['"] on field ['"]""" + MAIN_REGEX + r"""['"]( of type ['"]""" + MAIN_REGEX + r"""['"])?\. Did you mean ['"](?P<first>""" + MAIN_REGEX + r""")['"] or ['"](?P<second>""" + MAIN_REGEX + r""")['"]\?"""
     ],
     'MULTI_SUGGESTION': [
-        r"""Unknown argument ['"]""" + MAIN_REGEX + r"""['"] on field ['"]""" + MAIN_REGEX + r"""['"]\. Did you mean (?P<multi>(['"]""" + MAIN_REGEX + r"""['"], )+)(or ['"](?P<last>""" + MAIN_REGEX + r""")['"])?\?"""
+        r"""Unknown argument ['"]""" + MAIN_REGEX + r"""['"] on field ['"]""" + MAIN_REGEX + r"""['"]\. Did you mean (?P<multi>(['"]""" + MAIN_REGEX + r"""['"],? )+)(or ['"](?P<last>""" + MAIN_REGEX + r""")['"])?\?""",
+        r"""Unknown argument ['"]""" + MAIN_REGEX + r"""['"] on field ['"]""" + MAIN_REGEX + r"""['"] of type ['"]""" + MAIN_REGEX + r"""['"]\. Did you mean (?P<multi>(['"]""" + MAIN_REGEX + r"""['"],? )+)(or ['"](?P<last>""" + MAIN_REGEX + r""")['"])?\?"""
     ],
 }
 
@@ -139,7 +141,7 @@ def get_valid_fields(error_message: str) -> Set[str]:
 
             for m in match.group("multi").split(", "):
                 if m:
-                    valid_fields.add(m.strip('"').strip("'"))
+                    valid_fields.add(m.strip("'\" "))
             if match.group("last"):
                 valid_fields.add(match.group("last"))
 
@@ -152,7 +154,6 @@ def get_valid_fields(error_message: str) -> Set[str]:
 
 async def probe_valid_fields(
     agent: KrakQLAgentSingleton,
-    max_tries: int,
     current_schema: str,
     input_document: str,
 ) -> Set[str]:
@@ -160,7 +161,6 @@ async def probe_valid_fields(
 
     Args:
         agent: The KrakQL agent instance.
-        max_tries: The maximum number of attempts to discover valid fields.
         current_schema: The current GraphQL schema in SDL
         input_document: The base document.
 
@@ -168,63 +168,71 @@ async def probe_valid_fields(
         A set of discovered valid fields.
     """
     
-    valid_fields = set()
-    for i in range(max_tries):
     # Get new candidate fields from the agent (atomic, updated each time)
-        bucket = await agent.suggest_new_fields(current_schema=current_schema, input_document=input_document)
-        if not bucket:
-            log().error(f"No suggestions from agent after {i + 1} tries")
-            break
-        
-        document = input_document.replace("FUZZ", " ".join(bucket))
-        iteration_valid_fields = set(bucket)
-        start_time = time.time()
-        response = await client().post(document)
-        total_time = time.time() - start_time
+    bucket = await agent.suggest_new_fields(current_schema=current_schema, input_document=input_document.replace("FUZZ", "..."))
+    if not bucket:
+        log().error(f"No suggestions from agent")
+        return set()
 
-        errors = response["errors"]
-        
-        log().debug(
-            f"Sent {len(bucket)} fields, received {len(errors)} errors in {round(total_time, 2)} seconds"
+    document = input_document.replace("FUZZ", " ".join(bucket))
+    start_time = time.time()
+    response = await client().post(document)
+    total_time = time.time() - start_time
+
+    errors = response["errors"]
+    
+    log().debug(
+        f"Sent {len(bucket)} fields, received {len(errors)} errors in {round(total_time, 2)} seconds"
+    )
+
+    valid_fields = set(bucket)
+    for error in errors:
+        error_message = error["message"]
+        if ("must not have a selection since type" in error_message
+            and "has no subfields" in error_message
+            ) or "must not have a sub selection" in error_message:
+            return set() # Since the field has no subfields, it cannot be queried
+        # First remove field if it produced an 'Cannot query field' error
+        match = re.search(
+            r"""Cannot query field [\'"](?P<invalid_field>[_A-Za-z][_0-9A-Za-z]*)[\'"]""",
+            error_message,
         )
+        if match:
+            # Remove all invalid fields
+            valid_fields.discard(match.group("invalid_field"))
+        # Now examine the error to extract valid fields | if there is no error the field is already considered valid
+        valid_fields |= get_valid_fields(error_message)
 
-        for error in errors:
-            error_message = error["message"]
-            if ("must not have a selection since type" in error_message
-                and "has no subfields" in error_message):
-                return set() # Since the field has no subfields, it cannot be queried
-            # First remove field if it produced an 'Cannot query field' error
-            match = re.search(
-                r"""Cannot query field [\'"](?P<invalid_field>[_A-Za-z][_0-9A-Za-z]*)[\'"]""",
-                error_message,
-            )
-            if match:
-                # Remove all invalid fields
-                iteration_valid_fields.discard(match.group("invalid_field"))
-            # Now examine the error to extract valid fields | if there is no error the field is already considered valid
-            iteration_valid_fields |= get_valid_fields(error_message)
-        valid_fields.update(iteration_valid_fields)
-        
     return valid_fields
 
 
 async def probe_valid_args(
-    field: str,
-    bucket: List[str],
+    agent: KrakQLAgentSingleton,
+    field: graphql_schema.Field,
+    current_schema: str,
     input_document: str,
 ) -> Set[str]:
     """Sends the bucket as arguments and deduces its type from the error msgs received."""
 
-    valid_args = set(bucket)
+    bucket = await agent.suggest_new_arguments(current_schema=current_schema, input_document=input_document.replace("FUZZ", f'{field.name}(...)'))
+    if not bucket:
+        log().error(f"No suggestions from agent")
+        return set()
 
     document = input_document.replace(
-        "FUZZ", f'{field}({", ".join([w + ": 7" for w in bucket])})'
+        "FUZZ", f'{field.name}({", ".join([w + ": 7" for w in bucket])})'
     )
-
+    start_time = time.time()
     response = await client().post(document=document)
-
+    total_time = time.time() - start_time
+    
+    valid_args = set(bucket)
     if "errors" not in response:
         return valid_args
+    
+    log().debug(
+        f"Sent {len(bucket)} fields, received {len(errors)} errors in {round(total_time, 2)} seconds"
+    )
 
     errors = response["errors"]
     for error in errors:
@@ -233,7 +241,7 @@ async def probe_valid_args(
         if (
             "must not have a selection since type" in error_message
             and "has no subfields" in error_message
-        ):
+            ) or "must not have a sub selection" in error_message:
             return set()
 
         # First remove arg if it produced an 'Unknown argument' error
@@ -254,31 +262,6 @@ async def probe_valid_args(
         valid_args |= get_valid_args(error_message)
 
     return valid_args
-
-
-async def probe_args(
-    field: str,
-    agent: KrakQLAgentSingleton,
-    max_tries: int,
-    input_document: str,
-) -> Set[str]:
-    """Wrapper function for deducing the arg types."""
-
-    tasks: List[asyncio.Task] = []
-    for i in range(0, max_tries):
-        bucket = agent.suggest_new_fields("")
-        tasks.append(
-            asyncio.create_task(probe_valid_args(field, bucket, input_document))
-        )
-
-    valid_args: Set[str] = set()
-
-    results = await asyncio.gather(*tasks)
-    for result in results:
-        valid_args |= result
-
-    return valid_args
-
 
 def get_valid_args(error_message: str) -> Set[str]:
     """Get the type of an arg using regex."""
@@ -307,7 +290,7 @@ def get_valid_args(error_message: str) -> Set[str]:
             if match:
                 for m in match.group("multi").split(", "):
                     if m:
-                        valid_args.add(m.strip('"').strip("'"))
+                        valid_args.add(m.strip("'\" "))
 
                 if match.group("last"):
                     valid_args.add(match.group("last"))
@@ -371,7 +354,7 @@ def get_typeref(
         elif context == FuzzingContext.ARGUMENT:
             kind = "INPUT_OBJECT"
             name = (
-                name.rstrip("Input") + "Input"
+                name.removesuffix("Input") + "Input"
             )  # Make sure `Input` is always once at the end
         else:
             log().debug(f"Unknown kind for `typeref`: '{error_message}'")
@@ -524,60 +507,7 @@ async def fetch_root_typenames() -> Dict[str, Optional[str]]:
     log().debug(f"Root typenames are: {typenames}")
     return typenames
 
-
-async def explore_field(
-    field_name: str,
-    input_document: str,
-    agent: KrakQLAgentSingleton,
-    max_tries: int,
-    typename: str,
-) -> Tuple[graphql_schema.Field, List[graphql_schema.InputValue]]:
-    """Perform exploration on a field."""
-
-    typeref = await probe_field_type(
-        field_name,
-        input_document,
-    )
-
-    args = []
-    field = graphql_schema.Field(field_name, typeref)
-    if field.type.name in GraphQLPrimitive:
-        log().debug(f'Skip probe_args() for "{field.name}" of type "{field.type.name}"')
-    else:
-        arg_names = await probe_args(
-            field.name,
-            agent,
-            max_tries,
-            input_document,
-        )
-
-        log().debug(f"{typename}.{field_name}.args = {arg_names}")
-        for arg_name in arg_names:
-            arg_typeref = await probe_arg_typeref(field.name, arg_name, input_document)
-
-            if not arg_typeref:
-                log().debug(
-                    f"Skip argument {arg_name} because TypeRef equals {arg_typeref}"
-                )
-                continue
-
-            arg = graphql_schema.InputValue(arg_name, arg_typeref)
-
-            field.args.append(arg)
-            args.append(arg)
-
-    return field, args
-
-
-async def krakql(
-    agent: KrakQLAgentSingleton,
-    max_tries: int,
-    input_document: str,
-    input_schema: Optional[Dict[str, Any]] = None,
-) -> str:
-
-    log().debug(f"input_document = {input_document}")
-        
+async def init_schema(input_schema: Optional[Dict[str, Any]] = None) -> graphql_schema.Schema:
     if not input_schema:
         root_typenames = await fetch_root_typenames()
         schema = graphql_schema.Schema(
@@ -587,44 +517,72 @@ async def krakql(
         )
     else:
         schema = graphql_schema.Schema(schema=input_schema)
+    return schema
 
-    typename = await probe_typename(input_document)
-    log().debug(f"__typename = {typename}")
-
+async def probe_fields_of_type(agent: KrakQLAgentSingleton, schema: graphql_schema.Schema, type: graphql_schema.Type) -> Tuple[int, int]:
+    """Probes the fields of a specific GraphQL type.
+    
+    Args:
+        agent: The KrakQL agent instance.
+        schema: The GraphQL schema.
+        type: The GraphQL type to probe.
+    
+    Returns:
+        A tuple containing the number of new fields and new types added.
+    """
+    _next = type.name
+    input_document = schema.convert_path_to_document(schema.get_path_from_root(_next))
+    log().debug(f"Input document for {type.name}: {input_document}")
+    
     valid_fields = await probe_valid_fields(
         agent,
-        max_tries,
-        schema.sdl_representation,
+        schema.sdl_representation(),
         input_document,
     )
-    log().debug(f"{typename}.fields = {valid_fields}")
     
-    print("Quitting for debug")
-    exit(1)
-    
-    tasks: List[asyncio.Task] = []
+    new_fields, new_types = (0, 0)
     for field_name in valid_fields:
-        tasks.append(
-            asyncio.create_task(
-                explore_field(
-                    field_name,
-                    input_document,
-                    agent,
-                    max_tries,
-                    typename,
-                )
+        if not type.has_field(field_name):
+            typeref = await probe_field_type(
+                field_name,
+                input_document,
             )
-        )
+            field = graphql_schema.Field(field_name, typeref)
+            if type.add_field(field):
+                new_fields += 1
+            # Ensure eventual new types are registered
+            if schema.add_type(field.type.name, "OBJECT"):
+                new_types += 1
 
-    for task in track(
-        asyncio.as_completed(tasks),
-        description=f"Processing {len(tasks)} responses",
-        total=len(tasks),
-    ):
-        field, args = await task
-        for arg in args:
-            schema.add_type(arg.type.name, "INPUT_OBJECT")
-        schema.types[typename].fields.append(field)
-        schema.add_type(field.type.name, "OBJECT")
+    return new_fields, new_types
 
-    return repr(schema)
+async def probe_arguments_for_field_of_type(agent: KrakQLAgentSingleton, schema: graphql_schema.Schema, field: graphql_schema.Field, type: graphql_schema.Type) -> Tuple[int, int]:
+    """Probe arguments for a specific field."""
+    input_document = schema.convert_path_to_document(schema.get_path_from_root(type.name))
+    
+    arg_names = await probe_valid_args(
+        agent,
+        field.name,
+        current_schema=schema,
+        input_document=input_document,
+    )
+    
+    new_args, new_args_type = (0, 0)
+
+    for arg_name in arg_names:
+        if not field.has_argument(arg_name):
+            log().debug(f"Adding argument {arg_name} to field {field.name}")
+            arg_typeref = await probe_arg_typeref(field.name, arg_name, input_document)
+
+            if not arg_typeref:
+                log().debug(f"Skip argument {arg_name} because TypeRef equals {arg_typeref}")
+                continue
+
+            argument = graphql_schema.InputValue(arg_name, arg_typeref)
+            if field.add_argument(argument):
+                new_args += 1
+
+            if schema.add_type(argument.type.name, "INPUT_OBJECT"):
+                new_args_type += 1
+                
+    return new_args, new_args_type

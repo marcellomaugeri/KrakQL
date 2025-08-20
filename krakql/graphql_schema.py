@@ -1,224 +1,10 @@
 import json
 from typing import Any, Dict, List, Optional, Set
-from graphql import print_schema
-
-from collections import Counter
+from graphql import print_schema, build_client_schema
 
 from krakql.entities import GraphQLPrimitive
 from krakql.entities.context import log
 from krakql.entities.primitives import GraphQLKind
-
-
-class Schema:
-    """Host of the introspection data."""
-
-    def __init__(
-        self,
-        query_type: Optional[str] = None,
-        mutation_type: Optional[str] = None,
-        subscription_type: Optional[str] = None,
-        schema: Optional[Dict[str, Any]] = None,
-    ):
-        if schema:
-            self._schema = {
-                "directives": schema["data"]["__schema"]["directives"],
-                "mutationType": schema["data"]["__schema"]["mutationType"],
-                "queryType": schema["data"]["__schema"]["queryType"],
-                "subscriptionType": schema["data"]["__schema"]["subscriptionType"],
-                "types": [],
-            }
-            self.types = {}
-            for t in schema["data"]["__schema"]["types"]:
-                typ = Type.from_json(t)
-                self.types[typ.name] = typ
-        else:
-            self.query_type = {"name": query_type} if query_type else None
-            self.mutation_type = {"name": mutation_type} if mutation_type else None
-            self.subscription_type = (
-                {"name": subscription_type} if subscription_type else None
-            )
-            self._schema = {
-                "directives": [],
-                "queryType": self.query_type,
-                "mutationType": self.mutation_type,
-                "subscriptionType": self.subscription_type,
-                "types": [],
-            }
-            self.types = {
-                GraphQLPrimitive.STRING: Type(
-                    name=GraphQLPrimitive.STRING,
-                    kind=GraphQLKind.SCALAR,
-                ),
-                GraphQLPrimitive.ID: Type(
-                    name=GraphQLPrimitive.ID,
-                    kind=GraphQLKind.SCALAR,
-                ),
-            }
-            if query_type:
-                self.add_type(query_type, "OBJECT")
-            if mutation_type:
-                self.add_type(mutation_type, "OBJECT")
-            if subscription_type:
-                self.add_type(subscription_type, "OBJECT")
-        self._selection_counter = Counter()
-
-
-    # Adds type to schema if it's not exists already
-    def add_type(
-        self,
-        name: str,
-        kind: str,
-    ) -> None:
-        """Adds type to schema if it's not exists already."""
-
-        if name not in self.types:
-            typ = Type(name=name, kind=kind)
-            self.types[name] = typ
-
-    def __repr__(self) -> str:
-        """String representation of the schema."""
-
-        schema = {"data": {"__schema": self._schema}}
-
-        for t in self.types.values():
-            schema["data"]["__schema"]["types"].append(t.to_json())
-
-        output = json.dumps(schema, indent=4, sort_keys=True)
-        return output
-    
-    def sdl_representation(self) -> str:
-        """Returns SDL representation of the schema."""
-        # get the json representation first
-        schema = {"data": {"__schema": self._schema}}
-
-        for t in self.types.values():
-            schema["data"]["__schema"]["types"].append(t.to_json())
-
-        output = print_schema(schema)
-        return output
-
-    def get_path_from_root(
-        self,
-        name: str,
-    ) -> List[str]:
-        """Getting path starting from root.
-
-        The algorigthm explores the schema in a DFS manner. It uses a set to keep track of visited nodes, and a list to keep track of the path. Keeping track of
-        the visited nodes is necessary to avoid infinite loops (ie. recursions in the schema). If a full iteration over the types is made without finding a
-        match, it means that the schema is not connected, and the path cannot be found.
-        """
-
-        log().debug(f"Entered get_path_from_root({name})")
-        path_from_root: List[str] = []
-
-        if name not in self.types:
-            raise ValueError(f"Type '{name}' not in schema!")
-
-        roots = [
-            self._schema["queryType"]["name"] if self._schema["queryType"] else "",
-            (
-                self._schema["mutationType"]["name"]
-                if self._schema["mutationType"]
-                else ""
-            ),
-            (
-                self._schema["subscriptionType"]["name"]
-                if self._schema["subscriptionType"]
-                else ""
-            ),
-        ]
-        roots = [r for r in roots if r]
-
-        visited = set()
-        initial_name = name
-        while name not in roots:
-            found = False
-            for t in self.types.values():
-                for f in t.fields:
-                    key = f"{t.name}.{f.name}"
-                    if key in visited:
-                        continue
-                    if f.type.name == name:
-                        path_from_root.insert(0, f.name)
-                        visited.add(key)
-                        name = t.name
-                        found = True
-            if not found:
-                log().debug(
-                    "get_path_from_root: Ran an iteration with no matches found"
-                )
-                raise ValueError(
-                    f"Could not find path from root to '{initial_name}' \nCurrent path: {path_from_root}"
-                )
-
-        # Prepend queryType or mutationType
-        path_from_root.insert(0, name)
-
-        return path_from_root
-
-    def get_type_without_fields(
-        self,
-        ignored: Optional[Set[str]] = None,
-    ) -> str:
-        """Gets the type without a field."""
-        ignored = ignored or set()
-
-        for t in self.types.values():
-            if (
-                not t.fields # No fields found
-                and t.name not in ignored # Not ignored
-                and t.kind != GraphQLKind.INPUT_OBJECT # Not an input object
-            ):
-                # increment counter for this type
-                self._selection_counter[t.name] += 1
-                return t.name
-
-        return ""
-    
-    def get_least_tried_type(
-        self,
-        ignored: Optional[Set[str]] = None,
-    ) -> str:
-        """Gets the least tried fields."""
-        ignored = ignored or set()
-
-        for t in self.types.values():
-            # Find the type with the lowest self._selection_counter (for ties pick alphabetically)
-            if t.name not in ignored and t.kind != GraphQLKind.INPUT_OBJECT:
-                if not least_tried_type or self._selection_counter[t.name] < self._selection_counter[least_tried_type]:
-                    least_tried_type = t.name
-
-        return ""
-
-    def convert_path_to_document(
-        self,
-        path: List[str],
-    ) -> str:
-        """Converts a path to document."""
-
-        log().debug(f"Entered convert_path_to_document({path})")
-        doc = "FUZZ"
-
-        while len(path) > 1:
-            doc = f"{path.pop()} {{ {doc} }}"
-
-        if self._schema["queryType"] and path[0] == self._schema["queryType"]["name"]:
-            doc = f"query {{ {doc} }}"
-        elif (
-            self._schema["mutationType"]
-            and path[0] == self._schema["mutationType"]["name"]
-        ):
-            doc = f"mutation {{ {doc} }}"
-        elif (
-            self._schema["subscriptionType"]
-            and path[0] == self._schema["subscriptionType"]["name"]
-        ):
-            doc = f"subscription {{ {doc} }}"
-        else:
-            raise ValueError("Unknown operation type")
-
-        return doc
-
 
 class TypeRef:
     def __init__(
@@ -292,11 +78,353 @@ class InputValue:
     ) -> "InputValue":
         name = _json["name"]
         typ = field_or_arg_type_from_json(_json["type"])
-
         return cls(
             name=name,
             typ=typ,
         )
+
+class Field:
+    def __init__(
+        self,
+        name: str,
+        typeref: Optional[TypeRef],
+        args: Optional[List[InputValue]] = None,
+        novelty_score: float = 1.0
+    ):
+        if not typeref:
+            raise ValueError(f"Can't create {name} Field from {typeref} TypeRef.")
+
+        self.name = name
+        self.type = typeref
+        self.args = args or []
+        self.novelty_score = novelty_score
+
+    def to_json(self) -> dict:
+        return {
+            "args": [a.to_json() for a in self.args],
+            "deprecationReason": None,
+            "description": None,
+            "isDeprecated": False,
+            "name": self.name,
+            "type": self.type.to_json(),
+        }
+
+    def has_argument(self, arg_name: str) -> bool:
+        """Checks if an argument is in the field."""
+        if self.args is None:
+            return False
+        return any(a.name == arg_name for a in self.args)
+
+    def reduce_novelty(self, step: float) -> None:
+        self.novelty_score = max(0.0, self.novelty_score - step)
+
+    def increase_novelty(self, step: float) -> None:
+        self.novelty_score = min(1.0, self.novelty_score + step)
+    
+    def add_arg(self, arg: InputValue) -> bool:
+        """Adds an argument to the field."""
+        if arg not in self.args:
+            self.args.append(arg)
+            return True
+        return False
+    
+    @classmethod
+    def from_json(cls, _json: Dict[str, Any]) -> "Field":
+        name = _json["name"]
+        typ = field_or_arg_type_from_json(_json["type"])
+
+        args = []
+        for a in _json["args"]:
+            args.append(InputValue.from_json(a))
+        novelty_score = 1.0
+
+        return cls(name, typ, args, novelty_score)
+    
+
+class Type:
+    def __init__(
+        self,
+        name: str = "",
+        kind: str = "",
+        fields: Optional[List[Field]] = None,
+        novelty_score: float = 1.0
+    ):
+        self.name = name
+        self.kind = kind
+        self.fields: List[Field] = fields or []
+        self.novelty_score = novelty_score
+        
+    def reduce_novelty(self, step: float) -> None:
+        self.novelty_score = max(0.0, self.novelty_score - step)
+
+    def increase_novelty(self, step: float) -> None:
+        self.novelty_score = min(1.0, self.novelty_score + step)
+        
+    def get_next_field_by_novelty(self) -> Optional[Field]:
+        # Get the field with the lowest novelty score which is > 0 and is not a GraphQLPrimitive
+        if not self.fields:
+            return None
+        return min((f for f in self.fields if f.novelty_score > 0 and f.type.name not in GraphQLPrimitive), key=lambda f: f.novelty_score, default=None)
+
+    def add_field(self, field: Field) -> bool:
+        """Adds a field to the type."""
+        if self.fields is None:
+            self.fields = []
+
+        if field not in self.fields:
+            self.fields.append(field)
+            return True
+        return False
+
+    def has_field(self, field_name: str) -> bool:
+        """Checks if a field is in the type."""
+        if self.fields is None:
+            return False
+        return any(f.name == field_name for f in self.fields)
+
+    def to_json(self) -> Dict[str, Any]:
+        output: Dict[str, Any] = {
+            "description": None,
+            "enumValues": None,
+            "interfaces": [],
+            "kind": self.kind,
+            "name": self.name,
+            "possibleTypes": None,
+        }
+
+        if self.kind in [GraphQLKind.OBJECT, GraphQLKind.INTERFACE]:
+            output["fields"] = [f.to_json() for f in (self.fields or [Field("dummy", TypeRef(name=GraphQLPrimitive.STRING, kind=GraphQLKind.SCALAR))])]
+            output["inputFields"] = None
+        elif self.kind == GraphQLKind.INPUT_OBJECT:
+            output["fields"] = None
+            output["inputFields"] = [f.to_json() for f in self.fields]
+
+        return output
+
+    @classmethod
+    def from_json(
+        cls,
+        _json: Dict[str, Any],
+    ) -> "Type":
+        name = _json["name"]
+        kind = _json["kind"]
+        fields = []
+        novelty_score = 1.0
+
+        if kind in [
+            GraphQLKind.OBJECT,
+            GraphQLKind.INTERFACE,
+            GraphQLKind.INPUT_OBJECT,
+        ]:
+            fields_field = ""
+            if kind in [GraphQLKind.OBJECT, GraphQLKind.INTERFACE]:
+                fields_field = "fields"
+            elif kind == GraphQLKind.INPUT_OBJECT:
+                fields_field = "inputFields"
+
+            for f in _json[fields_field]:
+                # Don't add dummy fields!
+                if f["name"] == "dummy":
+                    continue
+                fields.append(Field.from_json(f))
+
+        return cls(
+            name=name,
+            kind=kind,
+            fields=fields,
+            novelty_score=novelty_score
+        )
+
+class Schema:
+    """Host of the introspection data."""
+
+    def __init__(
+        self,
+        query_type: Optional[str] = None,
+        mutation_type: Optional[str] = None,
+        subscription_type: Optional[str] = None,
+        schema: Optional[Dict[str, Any]] = None,
+    ):
+        if schema:
+            self._schema = {
+                "directives": schema["data"]["__schema"]["directives"],
+                "mutationType": schema["data"]["__schema"]["mutationType"],
+                "queryType": schema["data"]["__schema"]["queryType"],
+                "subscriptionType": schema["data"]["__schema"]["subscriptionType"],
+                "types": [],
+            }
+            self.types = {}
+            for t in schema["data"]["__schema"]["types"]:
+                typ = Type.from_json(t)
+                self.types[typ.name] = typ
+        else:
+            self.query_type = {"name": query_type} if query_type else None
+            self.mutation_type = {"name": mutation_type} if mutation_type else None
+            self.subscription_type = (
+                {"name": subscription_type} if subscription_type else None
+            )
+            self._schema = {
+                "directives": [],
+                "queryType": self.query_type,
+                "mutationType": self.mutation_type,
+                "subscriptionType": self.subscription_type,
+                "types": [],
+            }
+            self.types = {
+                GraphQLPrimitive.STRING: Type(
+                    name=GraphQLPrimitive.STRING,
+                    kind=GraphQLKind.SCALAR,
+                    novelty_score=0.0,
+                ),
+                GraphQLPrimitive.ID: Type(
+                    name=GraphQLPrimitive.ID,
+                    kind=GraphQLKind.SCALAR,
+                    novelty_score=0.0,
+                ),
+            }
+            if query_type:
+                self.add_type(query_type, "OBJECT")
+            if mutation_type:
+                self.add_type(mutation_type, "OBJECT")
+            if subscription_type:
+                self.add_type(subscription_type, "OBJECT")
+
+    # Adds type to schema if it's not exists already, return False if it was already present
+    def add_type(
+        self,
+        name: str,
+        kind: str,
+    ) -> bool:
+        """Adds type to schema if it's not exists already."""
+
+        if name not in self.types:
+            typ = Type(name=name, kind=kind)
+            self.types[name] = typ
+            return True
+        return False
+
+    def __repr__(self) -> str:
+        """String representation of the schema."""
+
+        schema = {"data": {"__schema": self._schema}}
+
+        for t in self.types.values():
+            schema["data"]["__schema"]["types"].append(t.to_json())
+
+        output = json.dumps(schema, indent=4, sort_keys=True)
+        return output
+    
+    def sdl_representation(self) -> str:
+        """Returns SDL representation of the schema."""
+        # get the json representation first
+        schema = {"data": {"__schema": self._schema}}
+
+        for t in self.types.values():
+            schema["data"]["__schema"]["types"].append(t.to_json())
+        
+        log().debug(f"Schema JSON: {schema}")
+        schema = build_client_schema(schema["data"])
+        output = print_schema(schema)
+        return output
+
+    def get_path_from_root(
+        self,
+        name: str,
+    ) -> List[str]:
+        """Getting path starting from root.
+
+        The algorigthm explores the schema in a DFS manner. It uses a set to keep track of visited nodes, and a list to keep track of the path. Keeping track of
+        the visited nodes is necessary to avoid infinite loops (ie. recursions in the schema). If a full iteration over the types is made without finding a
+        match, it means that the schema is not connected, and the path cannot be found.
+        """
+
+        log().debug(f"Entered get_path_from_root({name})")
+        path_from_root: List[str] = []
+
+        if name not in self.types:
+            raise ValueError(f"Type '{name}' not in schema!")
+
+        roots = [
+            self._schema["queryType"]["name"] if self._schema["queryType"] else "",
+            (
+                self._schema["mutationType"]["name"]
+                if self._schema["mutationType"]
+                else ""
+            ),
+            (
+                self._schema["subscriptionType"]["name"]
+                if self._schema["subscriptionType"]
+                else ""
+            ),
+        ]
+        roots = [r for r in roots if r]
+
+        visited = set()
+        initial_name = name
+        while name not in roots:
+            found = False
+            for t in self.types.values():
+                for f in t.fields:
+                    key = f"{t.name}.{f.name}"
+                    if key in visited:
+                        continue
+                    if f.type.name == name:
+                        path_from_root.insert(0, f.name)
+                        visited.add(key)
+                        name = t.name
+                        found = True
+            if not found:
+                log().debug(
+                    "get_path_from_root: Ran an iteration with no matches found"
+                )
+                raise ValueError(
+                    f"Could not find path from root to '{initial_name}' \nCurrent path: {path_from_root}"
+                )
+
+        # Prepend queryType or mutationType
+        path_from_root.insert(0, name)
+
+        return path_from_root
+
+    def get_next_type_by_novelty(
+        self,
+    ) -> Optional[Type]:
+        """Gets the type with the maximum novelty score, which is not 0 and not INPUT_OBJECT or SCALAR"""
+
+        return max(
+            (t for t in self.types.values() if t.novelty_score > 0 and t.kind != GraphQLKind.INPUT_OBJECT and t.kind != GraphQLKind.SCALAR),
+            key=lambda t: t.novelty_score,
+            default=None,
+        )
+
+    def convert_path_to_document(
+        self,
+        path: List[str],
+    ) -> str:
+        """Converts a path to document."""
+
+        log().debug(f"Entered convert_path_to_document({path})")
+        doc = "FUZZ"
+
+        while len(path) > 1:
+            doc = f"{path.pop()} {{ {doc} }}"
+
+        if self._schema["queryType"] and path[0] == self._schema["queryType"]["name"]:
+            doc = f"query {{ {doc} }}"
+        elif (
+            self._schema["mutationType"]
+            and path[0] == self._schema["mutationType"]["name"]
+        ):
+            doc = f"mutation {{ {doc} }}"
+        elif (
+            self._schema["subscriptionType"]
+            and path[0] == self._schema["subscriptionType"]["name"]
+        ):
+            doc = f"subscription {{ {doc} }}"
+        else:
+            raise ValueError("Unknown operation type")
+
+        return doc
 
 
 def field_or_arg_type_from_json(_json: Dict[str, Any]) -> "TypeRef":
@@ -357,112 +485,3 @@ def field_or_arg_type_from_json(_json: Dict[str, Any]) -> "TypeRef":
         raise ValueError("Invalid field or arg (too many 'ofType')")
 
     return typ
-
-
-class Field:
-    def __init__(
-        self,
-        name: str,
-        typeref: Optional[TypeRef],
-        args: Optional[List[InputValue]] = None,
-    ):
-        if not typeref:
-            raise ValueError(f"Can't create {name} Field from {typeref} TypeRef.")
-
-        self.name = name
-        self.type = typeref
-        self.args = args or []
-
-    def to_json(self) -> dict:
-        return {
-            "args": [a.to_json() for a in self.args],
-            "deprecationReason": None,
-            "description": None,
-            "isDeprecated": False,
-            "name": self.name,
-            "type": self.type.to_json(),
-        }
-
-    @classmethod
-    def from_json(cls, _json: Dict[str, Any]) -> "Field":
-        name = _json["name"]
-        typ = field_or_arg_type_from_json(_json["type"])
-
-        args = []
-        for a in _json["args"]:
-            args.append(InputValue.from_json(a))
-
-        return cls(name, typ, args)
-
-
-class Type:
-    def __init__(
-        self,
-        name: str = "",
-        kind: str = "",
-        fields: Optional[List[Field]] = None,
-    ):
-        self.name = name
-        self.kind = kind
-        self.fields: List[Field] = fields or []
-
-    def to_json(self) -> Dict[str, Any]:
-        # dirty hack
-
-        if not self.fields:
-            field_typeref = TypeRef(
-                name=GraphQLPrimitive.STRING,
-                kind=GraphQLKind.SCALAR,
-            )
-            dummy = Field("dummy", field_typeref)
-            self.fields.append(dummy)
-
-        output: Dict[str, Any] = {
-            "description": None,
-            "enumValues": None,
-            "interfaces": [],
-            "kind": self.kind,
-            "name": self.name,
-            "possibleTypes": None,
-        }
-
-        if self.kind in [GraphQLKind.OBJECT, GraphQLKind.INTERFACE]:
-            output["fields"] = [f.to_json() for f in self.fields]
-            output["inputFields"] = None
-        elif self.kind == GraphQLKind.INPUT_OBJECT:
-            output["fields"] = None
-            output["inputFields"] = [f.to_json() for f in self.fields]
-
-        return output
-
-    @classmethod
-    def from_json(
-        cls,
-        _json: Dict[str, Any],
-    ) -> "Type":
-        name = _json["name"]
-        kind = _json["kind"]
-        fields = []
-
-        if kind in [
-            GraphQLKind.OBJECT,
-            GraphQLKind.INTERFACE,
-            GraphQLKind.INPUT_OBJECT,
-        ]:
-            fields_field = ""
-            if kind in [GraphQLKind.OBJECT, GraphQLKind.INTERFACE]:
-                fields_field = "fields"
-            elif kind == GraphQLKind.INPUT_OBJECT:
-                fields_field = "inputFields"
-
-            for f in _json[fields_field]:
-                # Don't add dummy fields!
-                if f["name"] == "dummy":
-                    continue
-                fields.append(Field.from_json(f))
-
-        return cls(
-            name=name,
-            kind=kind,
-            fields=fields,
-        )

@@ -113,12 +113,12 @@ def parse_args(args: List[str]) -> argparse.Namespace:
         help="Time budget for the introspection in seconds (default: 60)",
     )
     parser.add_argument(
-        "-mt",
-        "--max-tries",
-        metavar="<int>",
-        type=int,
-        default=10,
-        help="Maximum number of agent calls for a single type iteration (default: 10)",
+        "-s",
+        "--step",
+        metavar="<float>",
+        type=float,
+        default=0.1,
+        help="The step size of  (default: 0.1)",
     )
     parser.add_argument(
         "-x",

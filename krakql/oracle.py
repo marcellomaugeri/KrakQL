@@ -229,12 +229,10 @@ async def probe_valid_args(
     valid_args = set(bucket)
     if "errors" not in response:
         return valid_args
-    
-    log().debug(
-        f"Sent {len(bucket)} fields, received {len(errors)} errors in {round(total_time, 2)} seconds"
-    )
 
     errors = response["errors"]
+    
+    log().debug(f"Sent {len(bucket)} fields, received {len(errors)} errors in {round(total_time, 2)} seconds")
     for error in errors:
         error_message = error["message"]
 
@@ -562,7 +560,7 @@ async def probe_arguments_for_field_of_type(agent: KrakQLAgentSingleton, schema:
     
     arg_names = await probe_valid_args(
         agent,
-        field.name,
+        field,
         current_schema=schema,
         input_document=input_document,
     )
@@ -579,7 +577,7 @@ async def probe_arguments_for_field_of_type(agent: KrakQLAgentSingleton, schema:
                 continue
 
             argument = graphql_schema.InputValue(arg_name, arg_typeref)
-            if field.add_argument(argument):
+            if field.add_arg(argument):
                 new_args += 1
 
             if schema.add_type(argument.type.name, "INPUT_OBJECT"):

@@ -102,7 +102,7 @@ Target Field:
 {document_path}
 
 Arguments to avoid:
-{fields_to_avoid}
+{arguments_to_avoid}
 
 # Return exactly 64 argument names per the Output contract.
 """

@@ -1,14 +1,12 @@
 [tool.poetry]
 name = "KrakQL"
 version = "1.0.0"
-description = "Obtain GraphQL API Schema even if the introspection is not enabled"
+description = "Obtain GraphQL API Schema even if the introspection is not enabled (LLM-powered)"
 authors = [
-    "Marcello Maugeri <marcellomaugeriphd@gmail.com>",
-    "Abenezer Kebede <aben.jacob3@gmail.com"
+    "ANONYMOUS AUTHORS"
 ]
 maintainers = [
-    "Marcello Maugeri <marcellomaugeriphd@gmail.com>",
-    "Abenezer Kebede <aben.jacob3@gmail.com"
+    "ANONYMOUS AUTHORS"
 ]
 license = "Apache-2.0"
 packages = [
@@ -29,7 +27,7 @@ omit = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.12"
+python = ">=3.11,<3.13"
 google-adk = "^1.9.0"
 google-genai= "^1.28.0"
 aiohttp = {extras = ["speedups"], version = "^3.12.15"}

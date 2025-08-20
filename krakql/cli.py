@@ -11,9 +11,9 @@ from krakql import graphql_schema, oracle
 from krakql.client import Client
 from krakql.config import Config
 from krakql.entities import GraphQLPrimitive
-from krakql.entities.context import client, logger_ctx
+from krakql.entities.context import client, logger_ctx, file_logger_ctx, file_log
 from krakql.krakql_agent import KrakQLAgentSingleton
-from krakql.utils import parse_args, setup_logger
+from krakql.utils import parse_args, setup_logger, setup_file_logger
 
 
 def setup_context(
@@ -112,6 +112,8 @@ async def blind_introspection(  # pylint: disable=too-many-arguments
             next_type.reduce_novelty(0.1)
             logger.info("No new fields or types discovered.")
             
+        file_log().info(f"(# New Fields): {n_new_fields}")
+            
         # Get the next field on which probe arguments
         next_field_to_probe_args = next_type.get_next_field_by_novelty()
 
@@ -130,6 +132,8 @@ async def blind_introspection(  # pylint: disable=too-many-arguments
         else:
             logger.info(f"No new arguments discovered for {next_field_to_probe_args.name}.")
             next_field_to_probe_args.reduce_novelty(0.1)
+            
+        file_log().info(f"(# New Args): {n_new_args}")
         
         # Save progress
         if output_path:
@@ -149,6 +153,8 @@ def cli(argv: Optional[List[str]] = None) -> None:
 
     args = parse_args(argv)
     setup_logger(args.verbose)
+    file_logger = setup_file_logger(filename=args.output_log)
+    file_logger_ctx.set(file_logger)
 
     headers = {}
     for h in args.headers:

@@ -26,7 +26,8 @@ _FIELD_REGEXES = {
         r"""Cannot query field ['"]""" + MAIN_REGEX + r"""['"] on type ['"]""" + MAIN_REGEX + r"""['"]\.""",
         r"""Cannot query field ['"]""" + MAIN_REGEX + r"""['"] on type ['"](""" + MAIN_REGEX + r""")['"]\. Did you mean to use an inline fragment on ['"]""" + MAIN_REGEX + r"""['"]\?""",
         r"""Cannot query field ['"]""" + MAIN_REGEX + r"""['"] on type ['"](""" + MAIN_REGEX + r""")['"]\. Did you mean to use an inline fragment on ['"]""" + MAIN_REGEX + r"""['"] or ['"]""" + MAIN_REGEX + r"""['"]\?""",
-        r"""Cannot query field ['"]""" + MAIN_REGEX + r"""['"] on type ['"](""" + MAIN_REGEX + r""")['"]\. Did you mean to use an inline fragment on (['"]""" + MAIN_REGEX + r"""['"],? )+(or ['"]""" + MAIN_REGEX + r"""['"])?\?"""
+        r"""Cannot query field ['"]""" + MAIN_REGEX + r"""['"] on type ['"](""" + MAIN_REGEX + r""")['"]\. Did you mean to use an inline fragment on (['"]""" + MAIN_REGEX + r"""['"],? )+(or ['"]""" + MAIN_REGEX + r"""['"])?\?""",
+        r"""Validation error of type FieldUndefined: Field ''""" + MAIN_REGEX + r"""' in type '""" + MAIN_REGEX + r"""' is undefined @ ''""" + MAIN_REGEX + r"""'""" # Java
     ],
     'VALID_FIELD': [
         r"""Field ['"](?P<field>""" + MAIN_REGEX + r""")['"] of type ['"](?P<typeref>""" + MAIN_REGEX + r""")['"] must have a selection of subfields\. Did you mean ['"]""" + MAIN_REGEX + r"""( \{ \.\.\. \})?['"]\?""",
@@ -71,7 +72,7 @@ _TYPEREF_REGEXES = {
         r"""Cannot query field ['"]""" + MAIN_REGEX + r"""['"] on type ['"](?P<typeref>""" + MAIN_REGEX + r""")['"]\. Did you mean [^\?]+\?""",
         r"""Field ['"]""" + MAIN_REGEX + r"""['"] of type ['"](?P<typeref>""" + MAIN_REGEX + r""")['"] must not have a sub selection\.""",
         r"""Field ['"]""" + MAIN_REGEX + r"""['"] of type ['"](?P<typeref>""" + MAIN_REGEX + r""")['"] must have a sub selection\.""",
-
+        r"""Validation error of type SubSelectionNotAllowed: Sub selection not allowed on leaf type (?P<typeref>""" + MAIN_REGEX + r""") of field """ + MAIN_REGEX + r""" @ '""" + MAIN_REGEX + r"""'"""
     ],
     'ARG': [
         r"""Field ['"]""" + MAIN_REGEX + r"""['"] argument ['"]""" + MAIN_REGEX + r"""['"] of type ['"](?P<typeref>""" + MAIN_REGEX + r""")['"] is """ + REQUIRED_BUT_NOT_PROVIDED,
@@ -193,13 +194,17 @@ async def probe_valid_fields(
             ) or "must not have a sub selection" in error_message:
             return set() # Since the field has no subfields, it cannot be queried
         # First remove field if it produced an 'Cannot query field' error
-        match = re.search(
-            r"""Cannot query field [\'"](?P<invalid_field>[_A-Za-z][_0-9A-Za-z]*)[\'"]""",
-            error_message,
-        )
-        if match:
+        log().debug(error)
+        error_patterns = [
+                re.compile(r"""Cannot query field [\'"](?P<invalid_field>[_A-Za-z][_0-9A-Za-z]*)[\'"]"""),
+                re.compile(r"""Validation error of type FieldUndefined: Field ['"](?P<invalid_field>[_A-Za-z][_0-9A-Za-z]*)['"]"""),
+            ]
+        for error_pattern in error_patterns:
+            match = re.search(error_pattern, error_message)
+            if match:
+                log().debug(f"Found invalid field: {match.group('invalid_field')}")
             # Remove all invalid fields
-            valid_fields.discard(match.group("invalid_field"))
+                valid_fields.discard(match.group("invalid_field"))
         # Now examine the error to extract valid fields | if there is no error the field is already considered valid
         valid_fields |= get_valid_fields(error_message)
 
@@ -561,7 +566,7 @@ async def probe_arguments_for_field_of_type(agent: KrakQLAgentSingleton, schema:
     arg_names = await probe_valid_args(
         agent,
         field,
-        current_schema=schema,
+        current_schema=schema.sdl_representation(),
         input_document=input_document,
     )
     

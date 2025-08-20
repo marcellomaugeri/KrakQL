@@ -65,8 +65,8 @@ Your task is to propose likely GraphQL **argument names** for a specific field.
 ## Objective
 Return **exactly 64** unique candidate argument names that are semantically related to what appears in current_schema and target_field.
 
-## Style & heuristics
-- **Match naming style** you observe (prefer camelCase if present; otherwise match snake_case/kebabCase as seen; keep American/British spelling consistent with the schema).
+## Rules
+- **Match naming style** you observe
 - **Be schema-adjacent**: prioritize names that are plausible siblings/complements of already seen names like fields of the same type.
 
 ## Output contract (STRICT)

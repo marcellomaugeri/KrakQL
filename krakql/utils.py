@@ -61,6 +61,13 @@ def parse_args(args: List[str]) -> argparse.Namespace:
         help="Output file containing JSON schema (default to stdout)",
     )
     parser.add_argument(
+        "-ol",
+        "--output_log",
+        metavar="<file>",
+        default="krakql.log",
+        help="Output file containing log",
+    )
+    parser.add_argument(
         "-d",
         "--document",
         metavar="<string>",
@@ -109,8 +116,8 @@ def parse_args(args: List[str]) -> argparse.Namespace:
         "--time-budget",
         metavar="<int>",
         type=int,
-        default=60,
-        help="Time budget for the introspection in seconds (default: 60)",
+        default=300,
+        help="Time budget for the introspection in seconds (default: 300 seconds)",
     )
     parser.add_argument(
         "-s",
@@ -186,3 +193,30 @@ def setup_logger(verbosity: int) -> None:
     )
 
     logging.getLogger("asyncio").setLevel(logging.ERROR)
+    
+def setup_file_logger(filename: str = "krakql.log", logger_name: str = "krakql.file") -> logging.Logger:
+    fmt = getenv("LOG_FMT") or "%(asctime)s \t%(levelname)s\t| %(message)s"
+    datefmt = getenv("LOG_DATEFMT") or "%Y-%m-%d %H:%M:%S"
+
+    default_level = "INFO"
+
+    logger = logging.getLogger(logger_name)
+
+    # avoid adding multiple file handlers for the same file
+    for h in logger.handlers:
+        if isinstance(h, logging.FileHandler) and getattr(h, "baseFilename", "") == filename:
+            logger.setLevel("INFO")
+            return logger
+
+    fh = logging.FileHandler(filename, encoding="utf-8")
+    fh.setLevel("INFO")
+    fh.setFormatter(logging.Formatter(fmt=fmt, datefmt=datefmt))
+
+    logger.addHandler(fh)
+    logger.propagate = False
+    logger.setLevel("INFO")
+
+    # keep existing behavior of silencing asyncio if desired
+    logging.getLogger("asyncio").setLevel(logging.ERROR)
+
+    return logger

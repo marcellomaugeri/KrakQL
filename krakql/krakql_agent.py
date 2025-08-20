@@ -8,6 +8,7 @@ from google.adk.sessions import InMemorySessionService
 from google.genai import types
 
 from krakql.agent.agent import root_agent as KrakQLAgent
+from krakql.agent.plugins.token_logger import TokenCounterLoggerPlugin
 from krakql.agent.prompts import FieldAdvisorPromptTemplate, ArgumentAdvisorPromptTemplate
 from krakql.entities.context import log
 
@@ -51,7 +52,8 @@ class KrakQLAgentSingleton:
         self.runner = Runner(
             agent=self.agent,
             app_name=self.app_name,
-            session_service=self.session_service
+            session_service=self.session_service,
+            plugins=[TokenCounterLoggerPlugin()]
         )
 
     def format_field_advisor_prompt(self, current_schema: str, input_document: str) -> str:

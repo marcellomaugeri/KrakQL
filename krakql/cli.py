@@ -91,54 +91,55 @@ async def blind_introspection(  # pylint: disable=too-many-arguments
         logger.info(f"Iteration {iterations}")
         iterations += 1
         
-        # Get next type to probe by novelty score
-        next_type = schema.get_next_type_by_novelty()
+        # Get the next most novel item (Type or Field) to explore
+        next_item_tuple = schema.get_by_novelty()
 
-        # STOPPING CONDITION
-        if next_type:
-            logger.debug(f"Next type to explore: {next_type.name if next_type else 'None'}")
-        else:
-            # We stop even if we could probe arguments
-            logger.info("No more types to explore ->  Stopping introspection.")
+        # STOPPING CONDITION: If nothing has novelty, we are done.
+        if not next_item_tuple:
+            logger.info("No more novel types or fields to explore. Introspection complete.")
             break
 
-        n_new_fields, n_new_types = await oracle.probe_fields_of_type(agent, schema, next_type)
+        next_item, item_kind = next_item_tuple
 
-        # If new fields or types were discovered, update the schema
-        if n_new_fields > 0 or n_new_types > 0:
-            logger.info(f"Discovered {n_new_fields} new fields and {n_new_types} new types.")
-            next_type.increase_novelty(0.1)
-        else:
-            next_type.reduce_novelty(0.1)
-            logger.info("No new fields or types discovered.")
+        if item_kind == "type":
+            # The most novel action is to probe a Type for its fields
+            next_type = next_item
+            assert isinstance(next_type, graphql_schema.Type)
+            logger.debug(f"Exploring fields of type: {next_type.name}")
+
+            n_new_fields, n_new_types = await oracle.probe_fields_of_type(agent, schema, next_type)
+
+            if n_new_fields > 0 or n_new_types > 0:
+                logger.info(f"Discovered {n_new_fields} new fields and {n_new_types} new types.")
+                next_type.increase_novelty(0.1)
+            else:
+                next_type.reduce_novelty(0.05)
+                logger.info(f"No new fields or types discovered for type {next_type.name}.")
             
-        file_log().info(f"(# New Fields): {n_new_fields}")
+            file_log().info(f"(# New Fields): {n_new_fields}")
+
+        elif item_kind == "field":
+            # The most novel action is to probe a Field for its arguments
+            next_field = next_item
+            assert isinstance(next_field, graphql_schema.Field)
+            logger.debug(f"Exploring arguments of field: {next_field.parent_type.name}.{next_field.name}")
+
+            n_new_args, n_new_arg_types = await oracle.probe_arguments_for_field_of_type(agent, schema, next_field, next_field.parent_type)
+
+            if n_new_args > 0 or n_new_arg_types > 0:
+                logger.info(f"Discovered {n_new_args} new arguments and {n_new_arg_types} new argument types for {next_field.name}.")
+                next_field.increase_novelty(0.1)
+            else:
+                logger.info(f"No new arguments discovered for field {next_field.name}.")
+                next_field.reduce_novelty(0.5)
             
-        # Get the next field on which probe arguments
-        next_field_to_probe_args = next_type.get_next_field_by_novelty()
-
-        if next_field_to_probe_args:
-            logger.debug(f"Next field to explore: {next_field_to_probe_args.name if next_field_to_probe_args else 'None'}")
-        else:
-            logger.info("No more arguments to explore -> Continue")
-            continue
-
-        # Get argument suggestions for the next field
-        n_new_args, n_new_arg_types = await oracle.probe_arguments_for_field_of_type(agent, schema, next_field_to_probe_args, next_type)
-
-        if n_new_args > 0 or n_new_arg_types > 0:
-            logger.info(f"Discovered {n_new_args} new arguments and {n_new_arg_types} new argument types for {next_field_to_probe_args.name}.")
-            next_field_to_probe_args.increase_novelty(0.1)
-        else:
-            logger.info(f"No new arguments discovered for {next_field_to_probe_args.name}.")
-            next_field_to_probe_args.reduce_novelty(0.1)
-            
-        file_log().info(f"(# New Args): {n_new_args}")
+            file_log().info(f"(# New Args): {n_new_args}")
         
-        # Save progress
+        # Save progress after each action
         if output_path:
             with open(output_path, "w", encoding="utf-8") as f:
                 f.write(schema.sdl_representation())
+
 
     if time.monotonic() >= end_time:
         logger.info("Time budget expired.")

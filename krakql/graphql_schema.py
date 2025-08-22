@@ -1,5 +1,5 @@
 import json
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
 from graphql import print_schema, build_client_schema
 
 from krakql.entities import GraphQLPrimitive
@@ -161,10 +161,14 @@ class Type:
         self.novelty_score = min(1.0, self.novelty_score + step)
         
     def get_next_field_by_novelty(self) -> Optional[Field]:
-        # Get the field with the lowest novelty score which is > 0 and is not a GraphQLPrimitive
+        """Gets the field with the maximum novelty score."""
         if not self.fields:
             return None
-        return min((f for f in self.fields if f.novelty_score > 0 and f.type.name not in GraphQLPrimitive), key=lambda f: f.novelty_score, default=None)
+        return max(
+            (f for f in self.fields if f.novelty_score > 0 and f.type.name not in GraphQLPrimitive),
+            key=lambda f: f.novelty_score,
+            default=None
+        )
 
     def add_field(self, field: Field) -> bool:
         """Adds a field to the type."""
@@ -173,6 +177,7 @@ class Type:
 
         if field not in self.fields:
             self.fields.append(field)
+            field.parent_type = self
             return True
         return False
 
@@ -228,12 +233,18 @@ class Type:
                     continue
                 fields.append(Field.from_json(f))
 
-        return cls(
+        new_type = cls(
             name=name,
             kind=kind,
             fields=fields,
             novelty_score=novelty_score
         )
+        
+        # Set the parent for all fields after the type is created
+        for field in new_type.fields:
+            field.parent_type = new_type
+
+        return new_type
 
 class Schema:
     """Host of the introspection data."""
@@ -323,7 +334,7 @@ class Schema:
             schema["data"]["__schema"]["types"].append(t.to_json())
         
         log().debug(f"Schema JSON: {schema}")
-        schema = build_client_schema(schema["data"])
+        schema = build_client_schema(schema["data"], assume_valid=True)
         output = print_schema(schema)
         return output
 
@@ -373,6 +384,9 @@ class Schema:
                         visited.add(key)
                         name = t.name
                         found = True
+                        break
+                if found:
+                    break
             if not found:
                 log().debug(
                     "get_path_from_root: Ran an iteration with no matches found"
@@ -396,6 +410,37 @@ class Schema:
             key=lambda t: t.novelty_score,
             default=None,
         )
+    
+    def get_by_novelty(self) -> Optional[Tuple[Union[Type, Field], str]]:
+        """
+        Inspects the schema and selects the Type or Field with the highest novelty score.
+        
+        Returns a tuple containing the object (Type or Field) and its kind ('type' or 'field'),
+        or None if no novel items are found.
+        """
+        best_type = self.get_next_type_by_novelty()
+
+        # For each type, let's get the the next_field_by_novelty
+        possible_fields = [type_obj.get_next_field_by_novelty() for type_obj in self.types.values()]
+
+        # Find the field with the maximum novelty score
+        best_field = max(possible_fields, key=lambda f: f.novelty_score if f else 0, default=None)
+
+        # Determine which object has a higher novelty score
+        if not best_type and not best_field:
+            return None
+
+        if best_type and not best_field:
+            return best_type, "type"
+
+        if best_field and not best_type:
+            return best_field, "field"
+
+        # If both exist, compare their scores
+        if best_type.novelty_score >= best_field.novelty_score:
+            return best_type, "type"
+        else:
+            return best_field, "field"
 
     def convert_path_to_document(
         self,

@@ -3,18 +3,20 @@ name = "KrakQL"
 version = "1.0.0"
 description = "Obtain GraphQL API Schema even if the introspection is not enabled (LLM-powered)"
 authors = [
-    "ANONYMOUS AUTHORS"
+    "Marcello Maugeri <marcello.maugeri@phd.unict.it>",
+    "Abenezer Angamo <abenezer.angamo@gmail.com>"
 ]
 maintainers = [
-    "ANONYMOUS AUTHORS"
+    "Marcello Maugeri <marcello.maugeri@phd.unict.it>",
+    "Abenezer Angamo <abenezer.angamo@gmail.com>"
 ]
 license = "Apache-2.0"
 packages = [
     { include = "krakql" }
 ]
 readme = "README.md"
-#"homepage" = "https://github.com/nikitastupin/clairvoyance"
-#"repository" = "https://github.com/nikitastupin/clairvoyance"
+"homepage" = "https://github.com/marcellomaugeri/KrakQL"
+"repository" = "https://github.com/marcellomaugeri/KrakQL"
 
 [tool.poetry.scripts]
 krakql = 'krakql:cli'

@@ -1,0 +1,210 @@
+type Query {
+  theme: Theme
+  people: Contact
+  themes: Theme
+  series(id: ID!): Series
+  locations: Location
+  contact(contactName: String!, conferenceId: ID!): Contact
+  schedule(day: String!, conferenceId: ID!): Schedule
+  allSeries: Series
+  allConferences: Conference
+  conferences: Conference
+  conference(id: ID!): Conference
+  sponsors: Contact
+}
+
+type Theme {
+  textures: Image
+  colors: Colors
+  fonts: Fonts
+  logos: Logos
+  id: ID!
+}
+
+type Contact {
+  type: [ContactType!]!
+  name: String!
+  social: Social
+  tagline: String
+  lastName: String!
+  company: String
+  country: Country
+  location: Location
+  talks: Session
+  firstName: String!
+  image: Image
+  about: String!
+  noPhotography: Boolean
+  workshops: Session
+  aboutShort: String
+  keywords: [String!]
+}
+
+type Series {
+  name: String!
+  conferences: Conference
+  id: ID!
+}
+
+type Location {
+  name: String
+  image: Image
+  address: String
+  country: Country
+  city: String
+  social: Social
+  about: String
+}
+
+type Schedule {
+  day: String!
+  location: Location
+  description: String
+}
+
+type Conference {
+  speakers: Contact
+  name: String!
+  websiteUrl: String!
+  locations: Location
+  endDate: String!
+  partners: Contact
+  silverSponsors: Contact
+  series: Series
+  sponsors: Contact
+  goldSponsors: Contact
+  keynotes: Session
+  slogan: String!
+  attendees: Contact
+  bronzeSponsors: Contact
+  startDate: String!
+  schedules: Schedule
+  id: ID!
+  talks: Session
+  workshops: Session
+  organizer: Contact
+  organizers: Contact
+  keynoteSpeakers: Contact
+  platformSponsors: Contact
+  allSpeakers: Contact
+  fullTalkSpeakers: Contact
+  panelOnlySpeakers: Contact
+  lightningTalkSpeakers: Contact
+  fullTalks: Session
+  lightningTalks: Session
+  workshopInstructors: Contact
+  year: String!
+}
+
+type Image {
+  url: String!
+  title: String
+  style: Style
+}
+
+type Colors {
+  secondary: String!
+  text: String!
+  primary: String!
+  background: String!
+}
+
+type Fonts {
+  secondary: String!
+  variants: Font
+  primary: String!
+}
+
+type Logos {
+  colored: WithWithoutText
+}
+
+type ContactType {
+  dummy: String
+}
+
+type Social {
+  twitter: String
+  homepage: String
+  tiktok: String
+  twitch: String
+  medium: String
+  facebook: String
+  youtube: String
+  vimeo: String
+  mastodon: String
+  linkedin: String
+  github: String
+  instagram: String
+  devto: String
+  dribble: String
+  pinterest: String
+  googleMaps: String
+  vk: String
+}
+
+type Country {
+  name: String!
+  code: String!
+}
+
+type Session {
+  speakers: Contact
+  level: Level!
+  end: String
+  people: Contact
+  sessions: Session
+  urls: SessionUrls
+  hasTitle: Boolean!
+  location: Location
+  description: String
+  keywords: [String!]
+  title: String!
+  type: SessionType!
+  parent: Interval
+  begin: String
+  day: String
+}
+
+type Font {
+  style: String
+  weight: String
+  fileName: String
+  family: String
+  formats: [String!]
+}
+
+type WithWithoutText {
+  withText: Image
+  withoutText: Image
+}
+
+type Level {
+  dummy: String
+}
+
+type SessionUrls {
+  slides: String
+  drawing: String
+  video: String
+  web: String
+  demo: String
+}
+
+type SessionType {
+  dummy: String
+}
+
+type Interval {
+  end: String!
+  drawing: String
+  sessions: Session
+  urls: SessionUrls
+  begin: String!
+  location: Location
+  title: String
+}
+
+type Style {
+  backgroundSize: String!
+}

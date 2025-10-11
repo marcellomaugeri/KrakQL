@@ -1,0 +1,39 @@
+schema {
+  query: Query
+  mutation: Mutations
+}
+
+type Query {
+  deleteAllPastes: Boolean
+  systemUpdate: String
+  systemDebug: String
+  systemHealth: String
+  systemDiagnostics: String
+  audits: AuditObject
+  me: UserObject
+  users: UserObject
+  search: SearchResult
+  readAndBurn: PasteObject
+  paste: PasteObject
+  pastes: PasteObject
+}
+
+type Mutations {
+  dummy: String
+}
+
+type AuditObject {
+  dummy: String
+}
+
+type UserObject {
+  dummy: String
+}
+
+type SearchResult {
+  dummy: String
+}
+
+type PasteObject {
+  dummy: String
+}

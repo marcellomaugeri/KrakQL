@@ -1,0 +1,44 @@
+type Query {
+  filterFruitsFam(family: String!): Fruits
+  fruits: Fruits
+  filterFruitsOri(origin: String!): Fruits
+  fruit(id: ID!): Fruit
+}
+
+type Mutation {
+  deleteFruit(id: ID!): Fruits
+  updateFruit(origin: ID!, id: String!, bloom: ID!, family: ID!, life_cycle: ID!, climatic_zone: ID!, maturation_fruit: ID!, tree_name: ID!, description: ID!, fruit_name: ID!): Fruits
+  addFruit(origin: ID!, id: String!, bloom: ID!, family: ID!, climatic_zone: ID!, fruit_name: ID!, maturation_fruit: ID!, tree_name: ID!, life_cycle: ID!, description: ID!): Fruits
+}
+
+type Fruits {
+  origin: String
+  id: ID
+  bloom: String
+  life_cycle: String
+  climatic_zone: String
+  maturation_fruit: String
+  tree_name: String
+  fruit_name: String
+  family: String
+  description: String
+  producing_countries: countries
+}
+
+type Fruit {
+  origin: String
+  climatic_zone: String
+  maturation_fruit: String
+  tree_name: String
+  fruit_name: String
+  bloom: String
+  family: String
+  life_cycle: String
+  id: ID
+  description: String
+  producing_countries: countries
+}
+
+type countries {
+  country: String
+}

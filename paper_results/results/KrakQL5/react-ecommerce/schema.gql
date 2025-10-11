@@ -1,0 +1,128 @@
+type Query {
+  getAllCategories: Category
+  getAllProducts: Product
+  findStoreById(id: String!): Store
+  getAllStores: Store
+  findById(id: String!): User
+  findByEmail(email: String!): User
+  getAllAttributes: Attribute
+}
+
+type Mutation {
+  createUser(data: CreateUserDtoInput!): User
+  createStore(data: CreateStoreDtoInput!): Store
+  linkProductsToStore(data: LinkProductToStoreDtoInput!): Store
+  linkAttributeToProduct(data: LinkAttributeToProductDtoInput!): Product
+  createProduct(data: CreateProductDtoInput!): Product
+  createCategory(data: CreateCategoryDtoInput!): Category
+  linkCategoryToProduct(data: LinkCategoryToProductDtoInput!): Product
+  linkEmployeesToStore(data: LinkEmployeeToStoreDtoInput!): Store
+  createAttribute(data: CreateAttributeDtoInput!): Attribute
+}
+
+type User {
+  id: ID!
+  updatedAt: DateTime!
+  bio: String!
+  email: String!
+  image: String!
+  store: Store
+  status: Status!
+  username: String!
+  name: String!
+  role: Roles!
+  createdAt: DateTime!
+  __typename: String!
+}
+
+type Store {
+  id: ID!
+  updatedAt: DateTime!
+  city: String!
+  bio: String!
+  country: String!
+  rate: Float!
+  slug: String!
+  state: String!
+  name: String!
+  products: Product
+  sales: Float!
+  createdAt: DateTime!
+  street: String!
+  neighborhood: String!
+  zipCode: String!
+  number: String!
+  employees: User
+  __typename: String!
+}
+
+type DateTime {
+  dummy: String
+}
+
+type Status {
+  dummy: String
+}
+
+type Roles {
+  dummy: String
+}
+
+type Product {
+  images: String!
+  id: ID!
+  brand: String!
+  updatedAt: DateTime!
+  description: String!
+  store: Store
+  dimension: String!
+  reviews: Float!
+  price: Float!
+  categories: Category
+  sku: String!
+  createdAt: DateTime!
+  thumbnail: String!
+  title: String!
+  quantity: Float!
+  attributes: Attribute
+  __typename: String!
+}
+
+type Category {
+  id: ID!
+  description: String!
+  name: String!
+  products: Product
+  __typename: String!
+}
+
+input CreateUserDtoInput
+
+input CreateStoreDtoInput
+
+input LinkAttributeToProductDtoInput
+
+input CreateProductDtoInput
+
+input CreateCategoryDtoInput
+
+input LinkCategoryToProductDtoInput
+
+input LinkEmployeeToStoreDtoInput
+
+type Attribute {
+  id: ID!
+  value: String!
+  product: Product
+  type: Types!
+  name: String!
+  __typename: String!
+}
+
+type Types {
+  dummy: String
+}
+
+input CreateAttributeDtoInput
+
+input LinkProductToStoreDtoInput

@@ -100,7 +100,7 @@ class KrakQLAgentSingleton:
         """Get field advice from the KrakQL agent"""
         async with self._async_lock:
             prompt = self.format_field_advisor_prompt(current_schema, input_document)
-            log().error(f"Prompt for FieldAdvisor: {prompt}")
+            log().info(f"Prompt for FieldAdvisor: {prompt}")
             user_content = types.Content(
                 role='user',
                 parts=[types.Part(text=prompt)]

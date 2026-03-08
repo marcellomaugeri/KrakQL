@@ -1,0 +1,127 @@
+type Query {
+  getAllStores: Store
+  getAllProducts: Product
+  findStoreById(id: String!): Store
+  getAllAttributes: Attribute
+  getAllCategories: Category
+  findById(id: String!): User
+  findByEmail(email: String!): User
+}
+
+type Mutation {
+  login: AuthType
+  createCategory(data: CreateCategoryDtoInput!): Category
+  createUser(data: CreateUserDtoInput!): User
+  createStore(data: CreateStoreDtoInput!): Store
+  createProduct(data: CreateProductDtoInput!): Product
+  createAttribute(data: CreateAttributeDtoInput!): Attribute
+  linkProductsToStore(data: LinkProductToStoreDtoInput!): Store
+  linkAttributeToProduct(data: LinkAttributeToProductDtoInput!): Product
+  linkCategoryToProduct: Product
+  linkEmployeesToStore(data: LinkEmployeeToStoreDtoInput!): Store
+}
+
+type AuthType {
+  token: String!
+  user: User
+}
+
+type Category {
+  id: ID!
+  description: String!
+  products: Product
+  name: String!
+}
+
+type User {
+  createdAt: DateTime!
+  id: ID!
+  store: Store
+  updatedAt: DateTime!
+  username: String!
+  name: String!
+  role: Roles!
+  email: String!
+  bio: String!
+  status: Status!
+  image: String!
+}
+
+type Store {
+  street: String!
+  country: String!
+  createdAt: DateTime!
+  id: ID!
+  city: String!
+  updatedAt: DateTime!
+  rate: Float!
+  products: Product
+  state: String!
+  zipCode: String!
+  name: String!
+  sales: Float!
+  employees: User
+  bio: String!
+  number: String!
+  slug: String!
+  neighborhood: String!
+}
+
+type Product {
+  createdAt: DateTime!
+  id: ID!
+  reviews: Float!
+  store: Store
+  description: String!
+  updatedAt: DateTime!
+  title: String!
+  sku: String!
+  brand: String!
+  thumbnail: String!
+  categories: Category
+  price: Float!
+  quantity: Float!
+  dimension: String!
+  images: String!
+  attributes: Attribute
+}
+
+type Attribute {
+  product: Product
+  id: ID!
+  name: String!
+  type: Types!
+  value: String!
+}
+
+type DateTime {
+  dummy: String
+}
+
+type Roles {
+  dummy: String
+}
+
+type Status {
+  dummy: String
+}
+
+type Types {
+  dummy: String
+}
+
+input CreateUserDtoInput
+
+input CreateStoreDtoInput
+
+input CreateProductDtoInput
+
+input CreateAttributeDtoInput
+
+input LinkAttributeToProductDtoInput
+
+input LinkEmployeeToStoreDtoInput
+
+input CreateCategoryDtoInput
+
+input LinkProductToStoreDtoInput

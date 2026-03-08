@@ -1,0 +1,1418 @@
+type Query {
+  Header: Header
+  Page: Page
+  Access: Access
+  Pages: Pages
+  Search: Search
+  countPages: countPages
+  Users: Users
+  Media: Media
+  Forms: Forms
+  User: User
+  Category: Category
+  countPosts: countPosts
+  Footer: Footer
+  Posts: Posts
+  FormSubmissions: FormSubmissions
+  countFormSubmissions: countFormSubmissions
+  Categories: Categories
+  Searches: Searches
+  FormSubmission: FormSubmission
+  countCategories: countCategories
+  versionsPosts: versionsPosts
+  countUsers: countUsers
+  versionsPages: versionsPages
+  Post: Post
+  versionPost: PostVersion
+  versionPage: PageVersion
+  countRedirects: countRedirects
+  meUser: usersMe
+  Redirect: Redirect
+  Redirects: Redirects
+}
+
+type Mutation {
+  logoutUser: String
+  submitForm: Mutation
+  deletePost: Post
+  reorderForms: Mutation
+  createPost: Post
+  duplicatePage: Page
+  createCategory: Category
+  createForm: Form
+  deleteUser: User
+  updateUser: User
+  exportFormSubmissions: Mutation
+  deleteFormSubmission: FormSubmission
+  createMedia: Media
+  deleteMedia: Media
+  updatePost: Post
+  listForms: Mutation
+  createUser: User
+  createSearch: Search
+  restoreVersionPost: Post
+  updateCategory: Category
+  restoreVersionPage: Page
+  updateHeader: Header
+  getFormSubmission: Mutation
+  updateFooter: Footer
+  updateFormSubmission: FormSubmission
+  listFormSubmissions: Mutation
+  loginUser: usersLoginResult
+  deleteForm: Form
+  verifyFormSubmission: Mutation
+  createPage: Page
+  verifyEmailUser: Boolean
+  createFormSubmission: FormSubmission
+  deleteSearch: Search
+  deletePage: Page
+  updatePage: Page
+  deleteCategory: Category
+  duplicatePost: Post
+  importFormSubmissions: Mutation
+  updateForm: Form
+  updateMedia: Media
+  createRedirect: Redirect
+  updateSearch: Search
+  unlockUser: Boolean!
+  deleteRedirect: Redirect
+  duplicateFormSubmission: FormSubmission
+  updateRedirect: Redirect
+  duplicateMedia: Media
+  updatePayloadJob: PayloadJob
+  duplicateRedirect: Redirect
+  duplicateForm: Form
+  duplicateSearch: Search
+  duplicateCategory: Category
+  createPayloadJob: PayloadJob
+  deletePayloadJob: PayloadJob
+  duplicatePayloadJob: PayloadJob
+  assignUserRole: Mutation
+  resetUserPassword: Mutation
+  reorderPages: Mutation
+  movePage: Mutation
+  removeUserRole: Mutation
+  linkUserProfile: Mutation
+  mergeFormSubmissions: Mutation
+  purgeUsers: Mutation
+  createUsersGroup: Mutation
+  duplicateUser: Mutation
+  unlinkUserProfile: Mutation
+  renamePage: Mutation
+  mergeCategories: Mutation
+  publishPage: Mutation
+  rejectFormSubmission: Mutation
+  archivePost: Mutation
+  approveFormSubmission: Mutation
+}
+
+type Header {
+  createdAt: DateTime
+  navItems: Header_NavItems
+  updatedAt: DateTime
+}
+
+type Page {
+  slug: String
+  id: String!
+  _status: Page__status
+  title: String
+  createdAt: DateTime
+  publishedAt: DateTime
+  layout: Page_Layout
+  meta: Page_Meta
+  updatedAt: DateTime
+  hero: Page_Hero
+}
+
+type Access {
+  users: usersAccess
+  posts: postsAccess
+  pages: pagesAccess
+  forms: formsAccess
+  search: searchAccess
+  media: mediaAccess
+  categories: categoriesAccess
+  form_submissions: form_submissionsAccess
+  footer: footerAccess
+  redirects: redirectsAccess
+}
+
+type Pages {
+  page: Int!
+  prevPage: Int
+  hasNextPage: Boolean!
+  nextPage: Int
+  hasPrevPage: Boolean!
+  docs: Page
+  limit: Int!
+  totalDocs: Int!
+  offset: Int
+  totalPages: Int!
+}
+
+type Search {
+  categories: Search_Categories
+  title: String
+  doc: Search_Doc_Relationship
+  meta: Search_Meta
+  updatedAt: DateTime
+  slug: String
+  id: String!
+  createdAt: DateTime
+  priority: Float
+}
+
+type countPages {
+  totalDocs: Int
+}
+
+type Users {
+  pagingCounter: Int!
+  docs: User
+  page: Int!
+  prevPage: Int
+  hasNextPage: Boolean!
+  nextPage: Int
+  hasPrevPage: Boolean!
+  limit: Int!
+  totalDocs: Int!
+  offset: Int
+  totalPages: Int!
+}
+
+type Media {
+  id: String!
+  createdAt: DateTime
+  mimeType: String
+  url: String
+  alt: String
+  filename: String
+  thumbnailURL: String
+  height: Float
+  sizes: Media_Sizes
+  filesize: Float
+  updatedAt: DateTime
+  caption: JSON
+  width: Float
+}
+
+type Forms {
+  prevPage: Int
+  hasNextPage: Boolean!
+  nextPage: Int
+  hasPrevPage: Boolean!
+  docs: Form
+  limit: Int!
+  totalDocs: Int!
+  offset: Int
+  totalPages: Int!
+  page: Int!
+}
+
+type User {
+  id: String!
+  createdAt: DateTime
+  name: String
+  email: EmailAddress!
+  updatedAt: DateTime
+  sessions: User_Sessions
+  loginAttempts: Float
+}
+
+type Category {
+  slug: String
+  id: String!
+  parent: Category
+  title: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type countPosts {
+  totalDocs: Int
+}
+
+type Footer {
+  createdAt: DateTime
+  navItems: Footer_NavItems
+  updatedAt: DateTime
+}
+
+type Posts {
+  prevPage: Int
+  hasNextPage: Boolean!
+  nextPage: Int
+  hasPrevPage: Boolean!
+  docs: Post
+  limit: Int!
+  page: Int!
+  totalDocs: Int!
+  offset: Int
+  totalPages: Int!
+}
+
+type FormSubmissions {
+  docs: FormSubmission
+  totalDocs: Int!
+  totalPages: Int!
+  page: Int!
+  prevPage: Int
+  hasNextPage: Boolean!
+  nextPage: Int
+  hasPrevPage: Boolean!
+  limit: Int!
+  offset: Int
+}
+
+type countFormSubmissions {
+  totalDocs: Int
+}
+
+type Categories {
+  prevPage: Int
+  hasNextPage: Boolean!
+  nextPage: Int
+  hasPrevPage: Boolean!
+  docs: Category
+  limit: Int!
+  totalDocs: Int!
+  offset: Int
+  totalPages: Int!
+  page: Int!
+}
+
+type Searches {
+  prevPage: Int
+  hasNextPage: Boolean!
+  nextPage: Int
+  hasPrevPage: Boolean!
+  docs: Search
+  limit: Int!
+  totalDocs: Int!
+  offset: Int
+  totalPages: Int!
+  page: Int!
+}
+
+type FormSubmission {
+  form: Form
+  id: String!
+  createdAt: DateTime
+  submissionData: FormSubmission_SubmissionData
+  updatedAt: DateTime
+}
+
+type countCategories {
+  totalDocs: Int
+}
+
+type versionsPosts {
+  prevPage: Int
+  hasNextPage: Boolean!
+  nextPage: Int
+  hasPrevPage: Boolean!
+  docs: PostVersion
+  limit: Int!
+  page: Int!
+  totalDocs: Int!
+  offset: Int
+  totalPages: Int!
+}
+
+type countUsers {
+  totalDocs: Int
+}
+
+type versionsPages {
+  prevPage: Int
+  hasNextPage: Boolean!
+  nextPage: Int
+  hasPrevPage: Boolean!
+  docs: PageVersion
+  limit: Int!
+  totalDocs: Int!
+  offset: Int
+  totalPages: Int!
+  page: Int!
+}
+
+type Post {
+  categories: Category
+  slug: String
+  id: String!
+  _status: Post__status
+  relatedPosts: Post
+  slugLock: Boolean
+  heroImage: Media
+  title: String
+  createdAt: DateTime
+  content: JSON
+  publishedAt: DateTime
+  meta: Post_Meta
+  authors: User
+  updatedAt: DateTime
+}
+
+type PostVersion {
+  latest: Boolean
+  id: String
+  createdAt: DateTime
+  version: PostVersion_Version
+  updatedAt: DateTime
+  autosave: Boolean
+}
+
+type PageVersion {
+  latest: Boolean
+  id: String
+  createdAt: DateTime
+  autosave: Boolean
+  version: PageVersion_Version
+  updatedAt: DateTime
+  parent: Page
+}
+
+type countRedirects {
+  totalDocs: Int
+}
+
+type usersMe {
+  token: String
+}
+
+type Redirect {
+  id: String!
+  createdAt: DateTime
+  to: Redirect_To
+  from: String!
+  updatedAt: DateTime
+}
+
+type Redirects {
+  prevPage: Int
+  hasNextPage: Boolean!
+  nextPage: Int
+  hasPrevPage: Boolean!
+  docs: Redirect
+  limit: Int!
+  totalDocs: Int!
+  offset: Int
+  totalPages: Int!
+  page: Int!
+}
+
+type Form {
+  redirect: Form_Redirect
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type usersLoginResult {
+  dummy: String
+}
+
+type PayloadJob {
+  error: JSON
+  id: String!
+  queue: String
+  createdAt: DateTime
+  log: PayloadJob_Log
+  input: JSON
+  completedAt: DateTime
+  updatedAt: DateTime
+  taskStatus: JSON
+  processing: Boolean
+  totalTried: Float
+  hasError: Boolean
+}
+
+type DateTime {
+  dummy: String
+}
+
+type Header_NavItems {
+  id: String
+  link: Header_NavItems_Link
+}
+
+type Page__status {
+  dummy: String
+}
+
+type Page_Layout {
+  dummy: String
+}
+
+type Page_Meta {
+  description: String
+  image: Media
+  title: String
+}
+
+type Page_Hero {
+  links: Page_Hero_Links
+  type: Page_Hero_type
+  richText: JSON
+}
+
+type usersAccess {
+  create: UsersCreateAccess
+  unlock: UsersUnlockAccess
+  update: UsersUpdateAccess
+  delete: UsersDeleteAccess
+  read: UsersReadAccess
+}
+
+type postsAccess {
+  create: PostsCreateAccess
+  readVersions: PostsReadVersionsAccess
+  update: PostsUpdateAccess
+  delete: PostsDeleteAccess
+  read: PostsReadAccess
+}
+
+type pagesAccess {
+  readVersions: PagesReadVersionsAccess
+  create: PagesCreateAccess
+  update: PagesUpdateAccess
+  delete: PagesDeleteAccess
+  read: PagesReadAccess
+}
+
+type formsAccess {
+  delete: FormsDeleteAccess
+  create: FormsCreateAccess
+  read: FormsReadAccess
+  update: FormsUpdateAccess
+  fields: FormsFields
+}
+
+type searchAccess {
+  delete: SearchDeleteAccess
+  create: SearchCreateAccess
+  read: SearchReadAccess
+  update: SearchUpdateAccess
+}
+
+type mediaAccess {
+  create: MediaCreateAccess
+  update: MediaUpdateAccess
+  fields: MediaFields
+}
+
+type categoriesAccess {
+  create: CategoriesCreateAccess
+  read: CategoriesReadAccess
+  update: CategoriesUpdateAccess
+}
+
+type form_submissionsAccess {
+  dummy: String
+}
+
+type footerAccess {
+  read: FooterReadAccess
+  update: FooterUpdateAccess
+}
+
+type redirectsAccess {
+  create: RedirectsCreateAccess
+  read: RedirectsReadAccess
+  update: RedirectsUpdateAccess
+  delete: RedirectsDeleteAccess
+}
+
+type Search_Categories {
+  id: String
+  title: String
+  categoryID: String
+}
+
+type Search_Doc_Relationship {
+  dummy: String
+}
+
+type Search_Meta {
+  image: Media
+  title: String
+  description: String
+}
+
+type Media_Sizes {
+  medium: Media_Sizes_Medium
+  large: Media_Sizes_Large
+  thumbnail: Media_Sizes_Thumbnail
+  og: Media_Sizes_Og
+  small: Media_Sizes_Small
+  xlarge: Media_Sizes_Xlarge
+  square: Media_Sizes_Square
+}
+
+type JSON {
+  dummy: String
+}
+
+type EmailAddress {
+  dummy: String
+}
+
+type User_Sessions {
+  id: String
+  createdAt: DateTime
+  expiresAt: DateTime
+}
+
+type Footer_NavItems {
+  id: String
+  link: Footer_NavItems_Link
+}
+
+type FormSubmission_SubmissionData {
+  field: String
+  id: String
+  value: String
+}
+
+type Post__status {
+  dummy: String
+}
+
+type Post_Meta {
+  description: String
+  image: Media
+  title: String
+}
+
+type PostVersion_Version {
+  categories: Category
+  slug: String
+  _status: PostVersion_Version__status
+  slugLock: Boolean
+  title: String
+  createdAt: DateTime
+  content: JSON
+  publishedAt: DateTime
+  meta: PostVersion_Version_Meta
+  authors: User
+  updatedAt: DateTime
+  relatedPosts: Post
+  heroImage: Media
+}
+
+type PageVersion_Version {
+  slug: String
+  _status: PageVersion_Version__status
+  title: String
+  createdAt: DateTime
+  publishedAt: DateTime
+  layout: PageVersion_Version_Layout
+  hero: PageVersion_Version_Hero
+  meta: PageVersion_Version_Meta
+  updatedAt: DateTime
+  slugLock: Boolean
+}
+
+type Redirect_To {
+  url: String
+  type: Redirect_To_type
+  reference: Redirect_To_Reference_Relationship
+}
+
+type Form_Redirect {
+  url: String
+}
+
+type PayloadJob_Log {
+  error: JSON
+  id: String
+  taskSlug: PayloadJob_Log_taskSlug
+  executedAt: DateTime
+  state: PayloadJob_Log_state
+  input: JSON
+  completedAt: DateTime
+  output: JSON
+  taskID: String
+}
+
+type Header_NavItems_Link {
+  reference: Header_NavItems_Link_Reference_Relationship
+  label: String
+  url: String
+  type: Header_NavItems_Link_type
+}
+
+type Page_Hero_Links {
+  id: String
+  link: Page_Hero_Links_Link
+}
+
+type Page_Hero_type {
+  dummy: String
+}
+
+type UsersCreateAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type UsersUnlockAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersUpdateAccess {
+  dummy: String
+}
+
+type UsersDeleteAccess {
+  dummy: String
+}
+
+type UsersReadAccess {
+  dummy: String
+}
+
+type PostsCreateAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type PostsReadVersionsAccess {
+  dummy: String
+}
+
+type PostsUpdateAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type PostsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PostsReadAccess {
+  dummy: String
+}
+
+type PagesReadVersionsAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type PagesCreateAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type PagesUpdateAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type PagesDeleteAccess {
+  dummy: String
+}
+
+type PagesReadAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type FormsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormsCreateAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type FormsReadAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type FormsUpdateAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type FormsFields {
+  redirect: FormsFields_redirect
+  title: FormsFields_title
+  fields: FormsFields_fields
+  createdAt: FormsFields_createdAt
+  updatedAt: FormsFields_updatedAt
+}
+
+type SearchDeleteAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type SearchCreateAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type SearchReadAccess {
+  dummy: String
+}
+
+type SearchUpdateAccess {
+  dummy: String
+}
+
+type MediaCreateAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type MediaUpdateAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type MediaFields {
+  createdAt: MediaFields_createdAt
+  mimeType: MediaFields_mimeType
+  url: MediaFields_url
+  alt: MediaFields_alt
+  filename: MediaFields_filename
+  thumbnailURL: MediaFields_thumbnailURL
+  focalX: MediaFields_focalX
+  height: MediaFields_height
+  focalY: MediaFields_focalY
+  sizes: MediaFields_sizes
+  filesize: MediaFields_filesize
+  updatedAt: MediaFields_updatedAt
+  caption: MediaFields_caption
+  width: MediaFields_width
+}
+
+type CategoriesCreateAccess {
+  dummy: String
+}
+
+type CategoriesReadAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type CategoriesUpdateAccess {
+  dummy: String
+}
+
+type FooterReadAccess {
+  dummy: String
+}
+
+type FooterUpdateAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type RedirectsCreateAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type RedirectsReadAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type RedirectsUpdateAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type RedirectsDeleteAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type Media_Sizes_Medium {
+  mimeType: String
+  url: String
+  filename: String
+  height: Float
+  filesize: Float
+  width: Float
+}
+
+type Media_Sizes_Large {
+  mimeType: String
+  url: String
+  filename: String
+  height: Float
+  filesize: Float
+  width: Float
+}
+
+type Media_Sizes_Thumbnail {
+  mimeType: String
+  url: String
+  filename: String
+  height: Float
+  filesize: Float
+  width: Float
+}
+
+type Media_Sizes_Og {
+  mimeType: String
+  url: String
+  filename: String
+  height: Float
+  filesize: Float
+  width: Float
+}
+
+type Media_Sizes_Small {
+  mimeType: String
+  url: String
+  filename: String
+  height: Float
+  filesize: Float
+  width: Float
+}
+
+type Media_Sizes_Xlarge {
+  mimeType: String
+  url: String
+  filename: String
+  height: Float
+  filesize: Float
+  width: Float
+}
+
+type Media_Sizes_Square {
+  mimeType: String
+  url: String
+  filename: String
+  height: Float
+  filesize: Float
+  width: Float
+}
+
+type Footer_NavItems_Link {
+  newTab: Boolean
+  reference: Footer_NavItems_Link_Reference_Relationship
+  label: String
+  url: String
+  type: Footer_NavItems_Link_type
+}
+
+type PostVersion_Version__status {
+  dummy: String
+}
+
+type PostVersion_Version_Meta {
+  description: String
+  image: Media
+  title: String
+}
+
+type PageVersion_Version__status {
+  dummy: String
+}
+
+type PageVersion_Version_Layout {
+  dummy: String
+}
+
+type PageVersion_Version_Hero {
+  links: PageVersion_Version_Hero_Links
+  richText: JSON
+  type: PageVersion_Version_Hero_type
+  media: Media
+}
+
+type PageVersion_Version_Meta {
+  description: String
+  image: Media
+  title: String
+}
+
+type Redirect_To_type {
+  dummy: String
+}
+
+type Redirect_To_Reference_Relationship {
+  dummy: String
+}
+
+type PayloadJob_Log_taskSlug {
+  dummy: String
+}
+
+type PayloadJob_Log_state {
+  dummy: String
+}
+
+type Header_NavItems_Link_Reference_Relationship {
+  dummy: String
+}
+
+type Header_NavItems_Link_type {
+  dummy: String
+}
+
+type Page_Hero_Links_Link {
+  newTab: Boolean
+  reference: Page_Hero_Links_Link_Reference_Relationship
+  label: String
+  url: String
+  type: Page_Hero_Links_Link_type
+}
+
+type JSONObject {
+  dummy: String
+}
+
+type FormsFields_redirect {
+  create: FormsFields_redirect_Create
+  read: FormsFields_redirect_Read
+  update: FormsFields_redirect_Update
+  delete: FormsFields_redirect_Delete
+  fields: FormsFields_redirect_Fields
+}
+
+type FormsFields_title {
+  delete: FormsFields_title_Delete
+  create: FormsFields_title_Create
+  read: FormsFields_title_Read
+  update: FormsFields_title_Update
+}
+
+type FormsFields_fields {
+  delete: FormsFields_fields_Delete
+  read: FormsFields_fields_Read
+  update: FormsFields_fields_Update
+  create: FormsFields_fields_Create
+}
+
+type FormsFields_createdAt {
+  create: FormsFields_createdAt_Create
+  read: FormsFields_createdAt_Read
+  update: FormsFields_createdAt_Update
+  delete: FormsFields_createdAt_Delete
+}
+
+type FormsFields_updatedAt {
+  delete: FormsFields_updatedAt_Delete
+  create: FormsFields_updatedAt_Create
+  read: FormsFields_updatedAt_Read
+  update: FormsFields_updatedAt_Update
+}
+
+type MediaFields_createdAt {
+  create: MediaFields_createdAt_Create
+  update: MediaFields_createdAt_Update
+  read: MediaFields_createdAt_Read
+}
+
+type MediaFields_mimeType {
+  delete: MediaFields_mimeType_Delete
+  create: MediaFields_mimeType_Create
+  read: MediaFields_mimeType_Read
+  update: MediaFields_mimeType_Update
+}
+
+type MediaFields_url {
+  create: MediaFields_url_Create
+  update: MediaFields_url_Update
+  delete: MediaFields_url_Delete
+  read: MediaFields_url_Read
+}
+
+type MediaFields_alt {
+  create: MediaFields_alt_Create
+  update: MediaFields_alt_Update
+}
+
+type MediaFields_filename {
+  create: MediaFields_filename_Create
+  read: MediaFields_filename_Read
+  update: MediaFields_filename_Update
+}
+
+type MediaFields_thumbnailURL {
+  create: MediaFields_thumbnailURL_Create
+  read: MediaFields_thumbnailURL_Read
+  update: MediaFields_thumbnailURL_Update
+  delete: MediaFields_thumbnailURL_Delete
+}
+
+type MediaFields_focalX {
+  create: MediaFields_focalX_Create
+  read: MediaFields_focalX_Read
+  update: MediaFields_focalX_Update
+}
+
+type MediaFields_height {
+  create: MediaFields_height_Create
+  read: MediaFields_height_Read
+  update: MediaFields_height_Update
+  delete: MediaFields_height_Delete
+}
+
+type MediaFields_focalY {
+  create: MediaFields_focalY_Create
+  read: MediaFields_focalY_Read
+  update: MediaFields_focalY_Update
+}
+
+type MediaFields_sizes {
+  create: MediaFields_sizes_Create
+  update: MediaFields_sizes_Update
+  read: MediaFields_sizes_Read
+}
+
+type MediaFields_filesize {
+  create: MediaFields_filesize_Create
+  update: MediaFields_filesize_Update
+  delete: MediaFields_filesize_Delete
+  read: MediaFields_filesize_Read
+}
+
+type MediaFields_updatedAt {
+  delete: MediaFields_updatedAt_Delete
+  create: MediaFields_updatedAt_Create
+  read: MediaFields_updatedAt_Read
+  update: MediaFields_updatedAt_Update
+}
+
+type MediaFields_caption {
+  delete: MediaFields_caption_Delete
+  create: MediaFields_caption_Create
+  update: MediaFields_caption_Update
+  read: MediaFields_caption_Read
+}
+
+type MediaFields_width {
+  delete: MediaFields_width_Delete
+  create: MediaFields_width_Create
+  update: MediaFields_width_Update
+}
+
+type Footer_NavItems_Link_Reference_Relationship {
+  value: Footer_NavItems_Link_Reference
+}
+
+type Footer_NavItems_Link_type {
+  dummy: String
+}
+
+type PageVersion_Version_Hero_Links {
+  id: String
+  link: PageVersion_Version_Hero_Links_Link
+}
+
+type PageVersion_Version_Hero_type {
+  dummy: String
+}
+
+type Page_Hero_Links_Link_Reference_Relationship {
+  value: Page_Hero_Links_Link_Reference
+  relationTo: Page_Hero_Links_Link_Reference_RelationTo
+}
+
+type Page_Hero_Links_Link_type {
+  dummy: String
+}
+
+type FormsFields_redirect_Create {
+  permission: Boolean!
+}
+
+type FormsFields_redirect_Read {
+  dummy: String
+}
+
+type FormsFields_redirect_Update {
+  dummy: String
+}
+
+type FormsFields_redirect_Delete {
+  dummy: String
+}
+
+type FormsFields_redirect_Fields {
+  dummy: String
+}
+
+type FormsFields_title_Delete {
+  dummy: String
+}
+
+type FormsFields_title_Create {
+  dummy: String
+}
+
+type FormsFields_title_Read {
+  dummy: String
+}
+
+type FormsFields_title_Update {
+  dummy: String
+}
+
+type FormsFields_fields_Delete {
+  dummy: String
+}
+
+type FormsFields_fields_Read {
+  dummy: String
+}
+
+type FormsFields_fields_Update {
+  dummy: String
+}
+
+type FormsFields_fields_Create {
+  dummy: String
+}
+
+type FormsFields_createdAt_Create {
+  dummy: String
+}
+
+type FormsFields_createdAt_Read {
+  dummy: String
+}
+
+type FormsFields_createdAt_Update {
+  dummy: String
+}
+
+type FormsFields_createdAt_Delete {
+  dummy: String
+}
+
+type FormsFields_updatedAt_Delete {
+  dummy: String
+}
+
+type FormsFields_updatedAt_Create {
+  dummy: String
+}
+
+type FormsFields_updatedAt_Read {
+  dummy: String
+}
+
+type FormsFields_updatedAt_Update {
+  dummy: String
+}
+
+type MediaFields_createdAt_Create {
+  dummy: String
+}
+
+type MediaFields_createdAt_Update {
+  dummy: String
+}
+
+type MediaFields_createdAt_Read {
+  dummy: String
+}
+
+type MediaFields_mimeType_Delete {
+  dummy: String
+}
+
+type MediaFields_mimeType_Create {
+  dummy: String
+}
+
+type MediaFields_mimeType_Read {
+  dummy: String
+}
+
+type MediaFields_mimeType_Update {
+  dummy: String
+}
+
+type MediaFields_url_Create {
+  dummy: String
+}
+
+type MediaFields_url_Update {
+  dummy: String
+}
+
+type MediaFields_url_Delete {
+  dummy: String
+}
+
+type MediaFields_url_Read {
+  dummy: String
+}
+
+type MediaFields_alt_Create {
+  dummy: String
+}
+
+type MediaFields_alt_Update {
+  dummy: String
+}
+
+type MediaFields_filename_Create {
+  dummy: String
+}
+
+type MediaFields_filename_Read {
+  dummy: String
+}
+
+type MediaFields_filename_Update {
+  dummy: String
+}
+
+type MediaFields_thumbnailURL_Create {
+  dummy: String
+}
+
+type MediaFields_thumbnailURL_Read {
+  dummy: String
+}
+
+type MediaFields_thumbnailURL_Update {
+  dummy: String
+}
+
+type MediaFields_thumbnailURL_Delete {
+  dummy: String
+}
+
+type MediaFields_focalX_Create {
+  dummy: String
+}
+
+type MediaFields_focalX_Read {
+  dummy: String
+}
+
+type MediaFields_focalX_Update {
+  dummy: String
+}
+
+type MediaFields_height_Create {
+  dummy: String
+}
+
+type MediaFields_height_Read {
+  dummy: String
+}
+
+type MediaFields_height_Update {
+  dummy: String
+}
+
+type MediaFields_height_Delete {
+  dummy: String
+}
+
+type MediaFields_focalY_Create {
+  dummy: String
+}
+
+type MediaFields_focalY_Read {
+  dummy: String
+}
+
+type MediaFields_focalY_Update {
+  dummy: String
+}
+
+type MediaFields_sizes_Create {
+  dummy: String
+}
+
+type MediaFields_sizes_Update {
+  dummy: String
+}
+
+type MediaFields_sizes_Read {
+  dummy: String
+}
+
+type MediaFields_filesize_Create {
+  dummy: String
+}
+
+type MediaFields_filesize_Update {
+  dummy: String
+}
+
+type MediaFields_filesize_Delete {
+  dummy: String
+}
+
+type MediaFields_filesize_Read {
+  dummy: String
+}
+
+type MediaFields_updatedAt_Delete {
+  dummy: String
+}
+
+type MediaFields_updatedAt_Create {
+  dummy: String
+}
+
+type MediaFields_updatedAt_Read {
+  dummy: String
+}
+
+type MediaFields_updatedAt_Update {
+  dummy: String
+}
+
+type MediaFields_caption_Delete {
+  dummy: String
+}
+
+type MediaFields_caption_Create {
+  dummy: String
+}
+
+type MediaFields_caption_Update {
+  dummy: String
+}
+
+type MediaFields_caption_Read {
+  dummy: String
+}
+
+type MediaFields_width_Delete {
+  dummy: String
+}
+
+type MediaFields_width_Create {
+  dummy: String
+}
+
+type MediaFields_width_Update {
+  dummy: String
+}
+
+type Footer_NavItems_Link_Reference {
+  dummy: String
+}
+
+type PageVersion_Version_Hero_Links_Link {
+  dummy: String
+}
+
+type Page_Hero_Links_Link_Reference {
+  dummy: String
+}
+
+type Page_Hero_Links_Link_Reference_RelationTo {
+  dummy: String
+}

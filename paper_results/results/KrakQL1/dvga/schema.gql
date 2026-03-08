@@ -1,0 +1,101 @@
+schema {
+  query: Query
+  mutation: Mutations
+}
+
+type Query {
+  systemHealth: String
+  search: SearchResult
+  systemDebug: String
+  systemUpdate: String
+  pastes: PasteObject
+  audits: AuditObject
+  systemDiagnostics: String
+  paste: PasteObject
+  me: UserObject
+  users: UserObject
+  deleteAllPastes: Boolean
+}
+
+type Mutations {
+  importPaste(port: String!, host: String!, scheme: String!, path: String!): ImportPaste
+  deletePaste: DeletePaste
+  createUser(userData: UserInput!): CreateUser
+  editPaste: EditPaste
+  login: Login
+  createPaste: CreatePaste
+  uploadPaste(filename: String!, content: String!): UploadPaste
+}
+
+type SearchResult {
+  dummy: String
+}
+
+type PasteObject {
+  ownerId: Int
+  title: String
+  id: ID!
+  owner: OwnerObject
+  public: Boolean
+  content: String
+  burn: Boolean
+  userAgent: String
+  ipAddr: String
+}
+
+type AuditObject {
+  id: ID!
+  timestamp: DateTime
+  gqloperation: String
+  gqlquery: String
+}
+
+type UserObject {
+  id: ID!
+  username: String
+  password: String!
+}
+
+type ImportPaste {
+  result: String
+}
+
+type DeletePaste {
+  result: Boolean
+}
+
+type CreateUser {
+  user: UserObject
+}
+
+type EditPaste {
+  paste: PasteObject
+}
+
+type Login {
+  accessToken: String
+  refreshToken: String
+}
+
+type CreatePaste {
+  paste: PasteObject
+}
+
+type UploadPaste {
+  filename: String
+  content: String
+  result: String
+}
+
+type OwnerObject {
+  paste: PasteObject
+  pastes: PasteObject
+  name: String
+  id: ID!
+}
+
+type DateTime {
+  dummy: String
+}
+
+input UserInput

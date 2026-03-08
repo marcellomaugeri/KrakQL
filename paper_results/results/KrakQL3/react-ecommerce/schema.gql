@@ -1,0 +1,138 @@
+type Query {
+  findById(id: String!): User
+  findByEmail(email: String!): User
+  getAllStores: Store
+  findStoreById(id: String!): Store
+  getAllProducts: Product
+  getAllCategories: Category
+  __typename: String!
+  getAllAttributes: Attribute
+}
+
+type Mutation {
+  login(data: AuthDtoInput!): AuthType
+  createUser(data: CreateUserDtoInput!): User
+  createStore(data: CreateStoreDtoInput!): Store
+  createProduct(data: CreateProductDtoInput!): Product
+  createCategory(data: CreateCategoryDtoInput!): Category
+  linkProductsToStore(data: LinkProductToStoreDtoInput!): Store
+  linkCategoryToProduct(data: LinkCategoryToProductDtoInput!): Product
+  linkAttributeToProduct(data: LinkAttributeToProductDtoInput!): Product
+  linkEmployeesToStore(data: LinkEmployeeToStoreDtoInput!): Store
+  createAttribute(data: CreateAttributeDtoInput!): Attribute
+}
+
+type User {
+  username: String!
+  createdAt: DateTime!
+  role: Roles!
+  id: ID!
+  updatedAt: DateTime!
+  name: String!
+  email: String!
+  status: Status!
+  image: String!
+  bio: String!
+  store: Store
+  __typename: String!
+}
+
+type Store {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  street: String!
+  country: String!
+  number: String!
+  id: ID!
+  name: String!
+  sales: Float!
+  zipCode: String!
+  city: String!
+  rate: Float!
+  neighborhood: String!
+  employees: User
+  state: String!
+  products: Product
+  bio: String!
+  slug: String!
+  __typename: String!
+}
+
+type AuthType {
+  token: String!
+  user: User
+  __typename: String!
+}
+
+type DateTime {
+  dummy: String
+}
+
+type Roles {
+  dummy: String
+}
+
+type Status {
+  dummy: String
+}
+
+type Product {
+  categories: Category
+  createdAt: DateTime!
+  dimension: String!
+  price: Float!
+  id: ID!
+  updatedAt: DateTime!
+  title: String!
+  brand: String!
+  description: String!
+  reviews: Float!
+  images: String!
+  store: Store
+  quantity: Float!
+  sku: String!
+  thumbnail: String!
+  __typename: String!
+  attributes: Attribute
+}
+
+type Category {
+  id: ID!
+  name: String!
+  description: String!
+  products: Product
+  __typename: String!
+}
+
+input CreateUserDtoInput
+
+input CreateStoreDtoInput
+
+input CreateProductDtoInput
+
+input CreateCategoryDtoInput
+
+input LinkProductToStoreDtoInput
+
+input LinkAttributeToProductDtoInput
+
+input LinkEmployeeToStoreDtoInput
+
+type Attribute {
+  id: ID!
+  name: String!
+  type: Types!
+  value: String!
+  product: Product
+  __typename: String!
+}
+
+type Types {
+  dummy: String
+}
+
+input CreateAttributeDtoInput
+
+input AuthDtoInput
+
+input LinkCategoryToProductDtoInput

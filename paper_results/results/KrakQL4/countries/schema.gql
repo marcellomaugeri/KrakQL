@@ -1,0 +1,37 @@
+type Query {
+  country(code: ID!): Country
+  language(code: ID!): Language
+  countries: Country
+  continents: Continent
+  continent(code: ID!): Continent
+  languages: Language
+}
+
+type Country {
+  capital: String
+  currencies: [String!]!
+  emoji: String!
+  code: ID!
+  name: String!
+  native: String!
+  awsRegion: String!
+  continent: Continent
+  currency: String
+  languages: Language
+  emojiU: String!
+  phones: [String!]!
+  phone: String!
+}
+
+type Language {
+  code: ID!
+  name: String!
+  native: String!
+  rtl: Boolean!
+}
+
+type Continent {
+  code: ID!
+  name: String!
+  countries: Country
+}

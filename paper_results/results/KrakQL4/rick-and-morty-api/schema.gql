@@ -1,0 +1,79 @@
+type Query {
+  episodes(filter: FilterEpisodeInput, page: Int): Episodes
+  location(id: ID!): Location
+  locations(filter: FilterLocationInput, page: Int): Locations
+  episode(id: ID!): Episode
+  episodesByIds(ids: [ID!]!): Episode
+  locationsByIds(ids: [ID!]!): Location
+  characters(filter: FilterCharacterInput, page: Int): Characters
+  charactersByIds(ids: [ID!]!): Character
+  character(id: ID!): Character
+  __typename: String!
+}
+
+type Episodes {
+  info: Info
+  results: Episode
+  __typename: String!
+}
+
+type Location {
+  id: ID
+  residents: Character
+  name: String
+  type: String
+  created: String
+  dimension: String
+  __typename: String!
+}
+
+type Locations {
+  results: Location
+  info: Info
+  __typename: String!
+}
+
+type Episode {
+  episode: String
+  characters: Character
+  air_date: String
+  id: ID
+  name: String
+  created: String
+  __typename: String!
+}
+
+type Info {
+  pages: Int
+  count: Int
+  next: Int
+  prev: Int
+  __typename: String!
+}
+
+type Character {
+  episode: Episode
+  status: String
+  origin: Location
+  species: String
+  id: ID
+  name: String
+  image: String
+  type: String
+  created: String
+  location: Location
+  gender: String
+  __typename: String!
+}
+
+input FilterEpisodeInput
+
+input FilterLocationInput
+
+type Characters {
+  results: Character
+  info: Info
+  __typename: String!
+}
+
+input FilterCharacterInput

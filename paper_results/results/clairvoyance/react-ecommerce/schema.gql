@@ -1,0 +1,66 @@
+type Query {
+  getAllStores: Store
+  getAllCategories: Category
+  getAllAttributes: Attribute
+  findByEmail(email: String!): User
+  findStoreById(id: String!): Store
+  findById(id: String!): User
+  getAllProducts: Product
+}
+
+type Mutation {
+  linkEmployeesToStore(data: LinkEmployeeToStoreDtoInput!): Store
+  createAttribute(data: CreateAttributeDtoInput!): Attribute
+  createCategory(data: CreateCategoryDtoInput!): Category
+  createStore(data: CreateStoreDtoInput!): Store
+  createProduct(data: CreateProductDtoInput!): Product
+  linkProductsToStore(data: LinkProductToStoreDtoInput!): Store
+  linkCategoryToProduct(data: LinkCategoryToProductDtoInput!): Product
+  linkAttributeToProduct(data: LinkAttributeToProductDtoInput!): Product
+  createUser(data: CreateUserDtoInput!): User
+  login(data: AuthDtoInput!): AuthType
+}
+
+type Store {
+  dummy: String
+}
+
+type Category {
+  dummy: String
+}
+
+type Attribute {
+  dummy: String
+}
+
+type User {
+  dummy: String
+}
+
+type Product {
+  dummy: String
+}
+
+input LinkEmployeeToStoreDtoInput
+
+input CreateAttributeDtoInput
+
+input CreateCategoryDtoInput
+
+input CreateStoreDtoInput
+
+input CreateProductDtoInput
+
+input LinkProductToStoreDtoInput
+
+input LinkCategoryToProductDtoInput
+
+input LinkAttributeToProductDtoInput
+
+input CreateUserDtoInput
+
+input AuthDtoInput
+
+type AuthType {
+  dummy: String
+}

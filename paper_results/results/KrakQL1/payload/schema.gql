@@ -1,0 +1,1035 @@
+type Query {
+  FormSubmissions: FormSubmissions
+  Searches: Searches
+  Pages: Pages
+  countPages: countPages
+  Search: Search
+  docAccessSearch: searchDocAccess
+  Page: Page
+  FormSubmission: FormSubmission
+  docAccessFormSubmission: form_submissionsDocAccess
+  countFormSubmissions: countFormSubmissions
+  countSearches: countSearches
+  docAccessUser: usersDocAccess
+  docAccessFooter: footerDocAccess
+  docAccessMedia: mediaDocAccess
+  docAccessHeader: headerDocAccess
+  docAccessPage: pagesDocAccess
+  versionsPages: versionsPages
+  docAccessPost: postsDocAccess
+  versionPage: PageVersion
+  docAccessForm: formsDocAccess
+  countPosts: countPosts
+  docAccessCategory: categoriesDocAccess
+  versionPost: PostVersion
+  Categories: Categories
+  Category: Category
+  Posts: Posts
+  Post: Post
+  Media: Media
+  versionsPosts: versionsPosts
+  Access: Access
+  Forms: Forms
+  Users: Users
+}
+
+type Mutation {
+  duplicateFormSubmission: FormSubmission
+  deleteUser: User
+  duplicateMedia: Media
+  assignMediaToPost: Mutation
+  createVersion: Mutation
+  assignRole: Mutation
+  deleteFormSubmission: FormSubmission
+  restoreVersion: Mutation
+  deletePage: Page
+  deletePost: Post
+  updatePage: Page
+  duplicatePost: Post
+  createForm: Form
+  updateUser: User
+  updateForm: Form
+  unlockUser: Boolean!
+  resetUserPassword: Mutation
+  updateAccess: Mutation
+  deleteMedia: Media
+  createAccess: Mutation
+  createCategory: Category
+  createUser: User
+  deleteAccess: Mutation
+  revokeAccess: Mutation
+  lockUser: Mutation
+  updateMedia: Media
+  createFormSubmission: FormSubmission
+  updatePost: Post
+  grantAccess: Mutation
+  createMedia: Media
+  removeRole: Mutation
+  deleteForm: Form
+  updateCategory: Category
+  deleteCategory: Category
+  updateFormSubmission: FormSubmission
+  createPost: Post
+  createPage: Page
+  duplicateRedirect: Redirect
+  duplicateCategory: Category
+  duplicateSearch: Search
+  duplicateForm: Form
+  duplicatePage: Page
+  createPageVersion: Mutation
+  createPostVersion: Mutation
+  updateRedirect: Redirect
+  deletePostVersion: Mutation
+  cloneCategory: Mutation
+  createRedirect: Redirect
+  unlinkMediaFromPost: Mutation
+  updatePageVersion: Mutation
+  duplicatePageVersion: Mutation
+  logoutUser: String
+  updateSearch: Search
+  deleteRedirect: Redirect
+  removeMediaFromPost: Mutation
+  deleteSearch: Search
+  publishContent: Mutation
+  updatePostVersion: Mutation
+  deletePageVersion: Mutation
+  duplicatePostVersion: Mutation
+  createSearch: Search
+  loginUser: usersLoginResult
+  archivePost: Mutation
+  publishPost: Mutation
+  unpublishPost: Mutation
+  clonePost: Mutation
+  linkMediaToPost: Mutation
+  unpublishContent: Mutation
+  clonePage: Mutation
+  movePost: Mutation
+  mergeCategories: Mutation
+  updateRole: Mutation
+  archivePage: Mutation
+  deleteMediaFromPost: Mutation
+  updateFooter: Footer
+  archiveMedia: Mutation
+  archiveRedirect: Mutation
+  archiveFooter: Mutation
+  authorizeAccess: Mutation
+  duplicatePayloadJob: PayloadJob
+  archiveAccess: Mutation
+  archiveCategory: Mutation
+  createFooter: Mutation
+  restoreVersionPage: Page
+  restoreVersionPost: Post
+}
+
+type FormSubmissions {
+  totalPages: Int!
+  page: Int!
+  totalDocs: Int!
+  prevPage: Int
+  docs: FormSubmission
+  nextPage: Int
+  limit: Int!
+  offset: Int
+  hasPrevPage: Boolean!
+  hasNextPage: Boolean!
+}
+
+type Searches {
+  totalPages: Int!
+  totalDocs: Int!
+  hasPrevPage: Boolean!
+  prevPage: Int
+  offset: Int
+  docs: Search
+  page: Int!
+  nextPage: Int
+  limit: Int!
+  hasNextPage: Boolean!
+}
+
+type Pages {
+  prevPage: Int
+  page: Int!
+  hasPrevPage: Boolean!
+  totalPages: Int!
+  docs: Page
+  nextPage: Int
+  limit: Int!
+  totalDocs: Int!
+  hasNextPage: Boolean!
+  offset: Int
+}
+
+type countPages {
+  totalDocs: Int
+}
+
+type Search {
+  createdAt: DateTime
+  doc: Search_Doc_Relationship
+  categories: Search_Categories
+  title: String
+  meta: Search_Meta
+  id: String!
+  updatedAt: DateTime
+  priority: Float
+}
+
+type searchDocAccess {
+  dummy: String
+}
+
+type Page {
+  layout: Page_Layout
+  createdAt: DateTime
+  updatedAt: DateTime
+  hero: Page_Hero
+  _status: Page__status
+  slug: String
+  title: String
+  publishedAt: DateTime
+  meta: Page_Meta
+  id: String!
+}
+
+type FormSubmission {
+  form: Form
+  createdAt: DateTime
+  updatedAt: DateTime
+  submissionData: FormSubmission_SubmissionData
+  id: String!
+}
+
+type form_submissionsDocAccess {
+  delete: FormSubmissionsDeleteDocAccess
+  read: FormSubmissionsReadDocAccess
+  create: FormSubmissionsCreateDocAccess
+  update: FormSubmissionsUpdateDocAccess
+}
+
+type countFormSubmissions {
+  totalDocs: Int
+}
+
+type countSearches {
+  totalDocs: Int
+}
+
+type usersDocAccess {
+  read: UsersReadDocAccess
+  update: UsersUpdateDocAccess
+  create: UsersCreateDocAccess
+  unlock: UsersUnlockDocAccess
+  delete: UsersDeleteDocAccess
+}
+
+type footerDocAccess {
+  read: FooterReadDocAccess
+  update: FooterUpdateDocAccess
+}
+
+type mediaDocAccess {
+  read: MediaReadDocAccess
+  update: MediaUpdateDocAccess
+  create: MediaCreateDocAccess
+  delete: MediaDeleteDocAccess
+}
+
+type headerDocAccess {
+  read: HeaderReadDocAccess
+  update: HeaderUpdateDocAccess
+}
+
+type pagesDocAccess {
+  read: PagesReadDocAccess
+  update: PagesUpdateDocAccess
+  create: PagesCreateDocAccess
+  readVersions: PagesReadVersionsDocAccess
+  delete: PagesDeleteDocAccess
+}
+
+type versionsPages {
+  docs: PageVersion
+  page: Int!
+  hasPrevPage: Boolean!
+  prevPage: Int
+  totalPages: Int!
+  nextPage: Int
+  limit: Int!
+  totalDocs: Int!
+  hasNextPage: Boolean!
+  offset: Int
+}
+
+type postsDocAccess {
+  read: PostsReadDocAccess
+  update: PostsUpdateDocAccess
+  create: PostsCreateDocAccess
+  readVersions: PostsReadVersionsDocAccess
+  delete: PostsDeleteDocAccess
+}
+
+type PageVersion {
+  createdAt: DateTime
+  updatedAt: DateTime
+  latest: Boolean
+  parent: Page
+  id: String
+  version: PageVersion_Version
+}
+
+type formsDocAccess {
+  read: FormsReadDocAccess
+  update: FormsUpdateDocAccess
+  create: FormsCreateDocAccess
+  delete: FormsDeleteDocAccess
+}
+
+type countPosts {
+  totalDocs: Int
+}
+
+type categoriesDocAccess {
+  read: CategoriesReadDocAccess
+  update: CategoriesUpdateDocAccess
+  create: CategoriesCreateDocAccess
+  delete: CategoriesDeleteDocAccess
+}
+
+type PostVersion {
+  createdAt: DateTime
+  updatedAt: DateTime
+  latest: Boolean
+  version: PostVersion_Version
+  id: String
+  parent: Post
+}
+
+type Categories {
+  hasPrevPage: Boolean!
+  prevPage: Int
+  totalPages: Int!
+  docs: Category
+  page: Int!
+  nextPage: Int
+  limit: Int!
+  totalDocs: Int!
+  hasNextPage: Boolean!
+  offset: Int
+}
+
+type Category {
+  createdAt: DateTime
+  updatedAt: DateTime
+  slug: String
+  parent: Category
+  title: String!
+  id: String!
+}
+
+type Posts {
+  hasPrevPage: Boolean!
+  prevPage: Int
+  totalPages: Int!
+  docs: Post
+  page: Int!
+  nextPage: Int
+  limit: Int!
+  totalDocs: Int!
+  hasNextPage: Boolean!
+  offset: Int
+}
+
+type Post {
+  authors: User
+  relatedPosts: Post
+  createdAt: DateTime
+  _status: Post__status
+  updatedAt: DateTime
+  categories: Category
+  slug: String
+  content: JSON
+  title: String
+  heroImage: Media
+  publishedAt: DateTime
+  meta: Post_Meta
+  id: String!
+}
+
+type Media {
+  createdAt: DateTime
+  height: Float
+  updatedAt: DateTime
+  caption: JSON
+  sizes: Media_Sizes
+  alt: String
+  mimeType: String
+  thumbnailURL: String
+  width: Float
+  id: String!
+  filesize: Float
+  filename: String
+  url: String
+  focalX: Float
+  focalY: Float
+}
+
+type versionsPosts {
+  hasPrevPage: Boolean!
+  prevPage: Int
+  totalPages: Int!
+  docs: PostVersion
+  page: Int!
+  nextPage: Int
+  limit: Int!
+  totalDocs: Int!
+  hasNextPage: Boolean!
+  offset: Int
+}
+
+type Access {
+  forms: formsAccess
+  posts: postsAccess
+  search: searchAccess
+  pages: pagesAccess
+  header: headerAccess
+  footer: footerAccess
+  redirects: redirectsAccess
+  media: mediaAccess
+  users: usersAccess
+  categories: categoriesAccess
+  form_submissions: form_submissionsAccess
+}
+
+type Forms {
+  page: Int!
+  hasPrevPage: Boolean!
+  prevPage: Int
+  offset: Int
+  totalPages: Int!
+  docs: Form
+  nextPage: Int
+  limit: Int!
+  totalDocs: Int!
+  hasNextPage: Boolean!
+}
+
+type Users {
+  hasPrevPage: Boolean!
+  prevPage: Int
+  totalPages: Int!
+  docs: User
+  pagingCounter: Int!
+  page: Int!
+  nextPage: Int
+  limit: Int!
+  totalDocs: Int!
+  hasNextPage: Boolean!
+  offset: Int
+}
+
+type User {
+  createdAt: DateTime
+  lockUntil: DateTime
+  resetPasswordToken: String
+  updatedAt: DateTime
+}
+
+type Form {
+  createdAt: DateTime
+  updatedAt: DateTime
+  redirect: Form_Redirect
+  title: String!
+  id: String!
+  fields: Form_Fields
+}
+
+type Redirect {
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type usersLoginResult {
+  user: User
+}
+
+type Footer {
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type PayloadJob {
+  createdAt: DateTime
+  updatedAt: DateTime
+  log: PayloadJob_Log
+  taskStatus: JSON
+  queue: String
+  completedAt: DateTime
+  error: JSON
+  hasError: Boolean
+  processing: Boolean
+  id: String!
+  taskSlug: PayloadJob_taskSlug
+  totalTried: Float
+}
+
+type DateTime {
+  dummy: String
+}
+
+type Search_Doc_Relationship {
+  relationTo: Search_Doc_RelationTo
+  value: Search_Doc
+}
+
+type Search_Categories {
+  relationTo: String
+  categoryID: String
+  title: String
+  id: String
+}
+
+type Search_Meta {
+  image: Media
+  title: String
+  description: String
+}
+
+type Page_Layout {
+  dummy: String
+}
+
+type Page_Hero {
+  type: Page_Hero_type
+  links: Page_Hero_Links
+  media: Media
+}
+
+type Page__status {
+  dummy: String
+}
+
+type Page_Meta {
+  description: String
+  image: Media
+  title: String
+}
+
+type FormSubmission_SubmissionData {
+  dummy: String
+}
+
+type FormSubmissionsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormSubmissionsReadDocAccess {
+  permission: Boolean!
+}
+
+type FormSubmissionsCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormSubmissionsUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersReadDocAccess {
+  permission: Boolean!
+}
+
+type UsersUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersUnlockDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FooterReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FooterUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type MediaReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type MediaUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type MediaCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type MediaDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type HeaderReadDocAccess {
+  dummy: String
+}
+
+type HeaderUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PagesReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PagesUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PagesCreateDocAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type PagesReadVersionsDocAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type PagesDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PostsReadDocAccess {
+  dummy: String
+}
+
+type PostsUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PostsCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PostsReadVersionsDocAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type PostsDeleteDocAccess {
+  where: JSONObject
+  permission: Boolean!
+}
+
+type PageVersion_Version {
+  createdAt: DateTime
+  updatedAt: DateTime
+  _status: PageVersion_Version__status
+  slug: String
+  title: String
+  publishedAt: DateTime
+  meta: PageVersion_Version_Meta
+  layout: PageVersion_Version_Layout
+  hero: PageVersion_Version_Hero
+}
+
+type FormsReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormsUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormsCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CategoriesReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CategoriesUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CategoriesCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CategoriesDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PostVersion_Version {
+  authors: User
+  createdAt: DateTime
+  updatedAt: DateTime
+  categories: Category
+  _status: PostVersion_Version__status
+  slug: String
+  content: JSON
+  title: String
+  heroImage: Media
+  publishedAt: DateTime
+  meta: PostVersion_Version_Meta
+  relatedPosts: Post
+}
+
+type Post__status {
+  dummy: String
+}
+
+type JSON {
+  dummy: String
+}
+
+type Post_Meta {
+  image: Media
+  title: String
+  description: String
+}
+
+type Media_Sizes {
+  thumbnail: Media_Sizes_Thumbnail
+  square: Media_Sizes_Square
+  og: Media_Sizes_Og
+}
+
+type formsAccess {
+  read: FormsReadAccess
+  create: FormsCreateAccess
+  update: FormsUpdateAccess
+  fields: FormsFields
+  delete: FormsDeleteAccess
+}
+
+type postsAccess {
+  read: PostsReadAccess
+  update: PostsUpdateAccess
+  create: PostsCreateAccess
+  readVersions: PostsReadVersionsAccess
+  delete: PostsDeleteAccess
+}
+
+type searchAccess {
+  create: SearchCreateAccess
+  update: SearchUpdateAccess
+  fields: SearchFields
+  read: SearchReadAccess
+  delete: SearchDeleteAccess
+}
+
+type pagesAccess {
+  delete: PagesDeleteAccess
+  read: PagesReadAccess
+  update: PagesUpdateAccess
+  create: PagesCreateAccess
+  readVersions: PagesReadVersionsAccess
+  fields: PagesFields
+}
+
+type headerAccess {
+  read: HeaderReadAccess
+  update: HeaderUpdateAccess
+  fields: HeaderFields
+}
+
+type footerAccess {
+  update: FooterUpdateAccess
+}
+
+type redirectsAccess {
+  read: RedirectsReadAccess
+  update: RedirectsUpdateAccess
+  create: RedirectsCreateAccess
+  delete: RedirectsDeleteAccess
+}
+
+type mediaAccess {
+  update: MediaUpdateAccess
+  create: MediaCreateAccess
+  delete: MediaDeleteAccess
+  read: MediaReadAccess
+}
+
+type usersAccess {
+  read: UsersReadAccess
+  update: UsersUpdateAccess
+  create: UsersCreateAccess
+  fields: UsersFields
+  delete: UsersDeleteAccess
+}
+
+type categoriesAccess {
+  dummy: String
+}
+
+type form_submissionsAccess {
+  dummy: String
+}
+
+type Form_Redirect {
+  dummy: String
+}
+
+type Form_Fields {
+  dummy: String
+}
+
+type PayloadJob_Log {
+  dummy: String
+}
+
+type PayloadJob_taskSlug {
+  dummy: String
+}
+
+type Search_Doc_RelationTo {
+  dummy: String
+}
+
+type Search_Doc {
+  dummy: String
+}
+
+type Page_Hero_type {
+  dummy: String
+}
+
+type Page_Hero_Links {
+  dummy: String
+}
+
+type JSONObject {
+  dummy: String
+}
+
+type PageVersion_Version__status {
+  dummy: String
+}
+
+type PageVersion_Version_Meta {
+  dummy: String
+}
+
+type PageVersion_Version_Layout {
+  dummy: String
+}
+
+type PageVersion_Version_Hero {
+  dummy: String
+}
+
+type PostVersion_Version__status {
+  dummy: String
+}
+
+type PostVersion_Version_Meta {
+  dummy: String
+}
+
+type Media_Sizes_Thumbnail {
+  dummy: String
+}
+
+type Media_Sizes_Square {
+  dummy: String
+}
+
+type Media_Sizes_Og {
+  dummy: String
+}
+
+type FormsReadAccess {
+  dummy: String
+}
+
+type FormsCreateAccess {
+  dummy: String
+}
+
+type FormsUpdateAccess {
+  dummy: String
+}
+
+type FormsFields {
+  dummy: String
+}
+
+type FormsDeleteAccess {
+  dummy: String
+}
+
+type PostsReadAccess {
+  dummy: String
+}
+
+type PostsUpdateAccess {
+  dummy: String
+}
+
+type PostsCreateAccess {
+  dummy: String
+}
+
+type PostsReadVersionsAccess {
+  dummy: String
+}
+
+type PostsDeleteAccess {
+  dummy: String
+}
+
+type SearchCreateAccess {
+  dummy: String
+}
+
+type SearchUpdateAccess {
+  dummy: String
+}
+
+type SearchFields {
+  dummy: String
+}
+
+type SearchReadAccess {
+  dummy: String
+}
+
+type SearchDeleteAccess {
+  dummy: String
+}
+
+type PagesDeleteAccess {
+  dummy: String
+}
+
+type PagesReadAccess {
+  dummy: String
+}
+
+type PagesUpdateAccess {
+  dummy: String
+}
+
+type PagesCreateAccess {
+  dummy: String
+}
+
+type PagesReadVersionsAccess {
+  dummy: String
+}
+
+type PagesFields {
+  dummy: String
+}
+
+type HeaderReadAccess {
+  dummy: String
+}
+
+type HeaderUpdateAccess {
+  dummy: String
+}
+
+type HeaderFields {
+  dummy: String
+}
+
+type FooterUpdateAccess {
+  dummy: String
+}
+
+type RedirectsReadAccess {
+  dummy: String
+}
+
+type RedirectsUpdateAccess {
+  dummy: String
+}
+
+type RedirectsCreateAccess {
+  dummy: String
+}
+
+type RedirectsDeleteAccess {
+  dummy: String
+}
+
+type MediaUpdateAccess {
+  dummy: String
+}
+
+type MediaCreateAccess {
+  dummy: String
+}
+
+type MediaDeleteAccess {
+  dummy: String
+}
+
+type MediaReadAccess {
+  dummy: String
+}
+
+type UsersReadAccess {
+  dummy: String
+}
+
+type UsersUpdateAccess {
+  dummy: String
+}
+
+type UsersCreateAccess {
+  dummy: String
+}
+
+type UsersFields {
+  dummy: String
+}
+
+type UsersDeleteAccess {
+  dummy: String
+}

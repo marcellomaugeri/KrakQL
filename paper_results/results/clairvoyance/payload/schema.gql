@@ -1,0 +1,282 @@
+type Query {
+  initializedUser: Boolean
+  Access: Access
+  docAccessFooter: footerDocAccess
+  meUser: usersMe
+  docAccessHeader: headerDocAccess
+  docAccessSearch(id: String!): searchDocAccess
+  Header: Header
+  docAccessFormSubmission(id: String!): form_submissionsDocAccess
+  docAccessPost(id: String!): postsDocAccess
+  docAccessPage(id: String!): pagesDocAccess
+  docAccessForm(id: String!): formsDocAccess
+  docAccessCategory(id: String!): categoriesDocAccess
+  docAccessMedia(id: String!): mediaDocAccess
+  docAccessPayloadPreference(id: String!): payload_preferencesDocAccess
+  docAccessRedirect(id: String!): redirectsDocAccess
+  docAccessUser(id: String!): usersDocAccess
+  Footer: Footer
+  versionPost: PostVersion
+  versionPage: PageVersion
+  Post(id: String!, trash: String!, draft: String!): Post
+  Media(id: String!, trash: String!, draft: String!): Media
+  Search(id: String!, trash: String!, draft: String!): Search
+  countPages: countPages
+  PayloadLockedDocument(id: String!, trash: String!, draft: String!): PayloadLockedDocument
+  PayloadJob(id: String!, trash: String!, draft: String!): PayloadJob
+  PayloadPreference(id: String!, trash: String!, draft: String!): PayloadPreference
+  Page(id: String!, trash: String!, draft: String!): Page
+  countPosts: countPosts
+  User(id: String!, trash: String!, draft: String!): User
+  countFormSubmissions: countFormSubmissions
+  countSearches: countSearches
+  countForms: countForms
+  countPayloadJobs: countPayloadJobs
+  FormSubmission(id: String!, trash: String!, draft: String!): FormSubmission
+  Redirect(id: String!, trash: String!, draft: String!): Redirect
+  Category(id: String!, trash: String!, draft: String!): Category
+  countUsers: countUsers
+  countallMedia: countallMedia
+  countRedirects: countRedirects
+  Form(id: String!, trash: String!, draft: String!): Form
+  countCategories: countCategories
+  countPayloadPreferences: countPayloadPreferences
+  versionsPosts: versionsPosts
+  FormSubmissions: FormSubmissions
+  versionsPages: versionsPages
+  Users: Users
+  PayloadPreferences: PayloadPreferences
+  PayloadLockedDocuments: PayloadLockedDocuments
+  Pages: Pages
+  Posts: Posts
+  PayloadJobs: PayloadJobs
+  Forms: Forms
+  allMedia: allMedia
+  Searches: Searches
+  Categories: Categories
+  Redirects: Redirects
+}
+
+type Mutation {
+  dummy: String
+}
+
+type Access {
+  dummy: String
+}
+
+type footerDocAccess {
+  dummy: String
+}
+
+type usersMe {
+  dummy: String
+}
+
+type headerDocAccess {
+  dummy: String
+}
+
+type searchDocAccess {
+  dummy: String
+}
+
+type Header {
+  dummy: String
+}
+
+type form_submissionsDocAccess {
+  dummy: String
+}
+
+type postsDocAccess {
+  dummy: String
+}
+
+type pagesDocAccess {
+  dummy: String
+}
+
+type formsDocAccess {
+  dummy: String
+}
+
+type categoriesDocAccess {
+  dummy: String
+}
+
+type mediaDocAccess {
+  dummy: String
+}
+
+type payload_preferencesDocAccess {
+  dummy: String
+}
+
+type redirectsDocAccess {
+  dummy: String
+}
+
+type usersDocAccess {
+  dummy: String
+}
+
+type Footer {
+  dummy: String
+}
+
+type PostVersion {
+  dummy: String
+}
+
+type PageVersion {
+  dummy: String
+}
+
+type Post {
+  dummy: String
+}
+
+type Media {
+  dummy: String
+}
+
+type Search {
+  dummy: String
+}
+
+type countPages {
+  dummy: String
+}
+
+type PayloadLockedDocument {
+  dummy: String
+}
+
+type PayloadJob {
+  dummy: String
+}
+
+type PayloadPreference {
+  dummy: String
+}
+
+type Page {
+  dummy: String
+}
+
+type countPosts {
+  dummy: String
+}
+
+type User {
+  dummy: String
+}
+
+type countFormSubmissions {
+  dummy: String
+}
+
+type countSearches {
+  dummy: String
+}
+
+type countForms {
+  dummy: String
+}
+
+type countPayloadJobs {
+  dummy: String
+}
+
+type FormSubmission {
+  dummy: String
+}
+
+type Redirect {
+  dummy: String
+}
+
+type Category {
+  dummy: String
+}
+
+type countUsers {
+  dummy: String
+}
+
+type countallMedia {
+  dummy: String
+}
+
+type countRedirects {
+  dummy: String
+}
+
+type Form {
+  dummy: String
+}
+
+type countCategories {
+  dummy: String
+}
+
+type countPayloadPreferences {
+  dummy: String
+}
+
+type versionsPosts {
+  dummy: String
+}
+
+type FormSubmissions {
+  dummy: String
+}
+
+type versionsPages {
+  dummy: String
+}
+
+type Users {
+  dummy: String
+}
+
+type PayloadPreferences {
+  dummy: String
+}
+
+type PayloadLockedDocuments {
+  dummy: String
+}
+
+type Pages {
+  dummy: String
+}
+
+type Posts {
+  dummy: String
+}
+
+type PayloadJobs {
+  dummy: String
+}
+
+type Forms {
+  dummy: String
+}
+
+type allMedia {
+  dummy: String
+}
+
+type Searches {
+  dummy: String
+}
+
+type Categories {
+  dummy: String
+}
+
+type Redirects {
+  dummy: String
+}

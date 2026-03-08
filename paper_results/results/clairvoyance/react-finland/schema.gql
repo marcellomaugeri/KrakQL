@@ -1,0 +1,113 @@
+type Query {
+  themes: Theme
+  allSeries: Series
+  locations: Location
+  allConferences: Conference
+  conferences: Conference
+  sponsors: Contact
+  conference(id: ID!): Conference
+  theme(conferenceId: ID!): Theme
+  series(id: ID!): Series
+  contact(conferenceId: ID!, contactName: String!): Contact
+  schedule(day: String!, conferenceId: ID!): Schedule
+  people: Contact
+  interval(conferenceId: ID!, intervalTitle: String!): Interval
+}
+
+type Theme {
+  id: ID!
+  fonts: Fonts
+  colors: Colors
+  logos: Logos
+  textures: Image
+}
+
+type Series {
+  name: String!
+  id: ID!
+  conferences: Conference
+}
+
+type Location {
+  name: String
+  address: String
+  about: String
+  city: String
+  country: Country
+  social: Social
+  image: Image
+}
+
+type Conference {
+  endDate: String!
+  name: String!
+  startDate: String!
+  year: String!
+  websiteUrl: String!
+  slogan: String!
+  id: ID!
+  organizer: Contact
+  talks: Session
+  locations: Location
+  goldSponsors: Contact
+  allSpeakers: Contact
+  keynotes: Session
+  workshopInstructors: Contact
+  fullTalkSpeakers: Contact
+  sponsors: Contact
+  bronzeSponsors: Contact
+  partners: Contact
+  attendees: Contact
+  series: Series
+  schedules: Schedule
+  platformSponsors: Contact
+  speakers: Contact
+  lightningTalks: Session
+  silverSponsors: Contact
+  workshops: Session
+  organizers: Contact
+  mcs: Contact
+  keynoteSpeakers: Contact
+  fullTalks: Session
+  panelOnlySpeakers: Contact
+}
+
+type Contact {
+  dummy: String
+}
+
+type Schedule {
+  dummy: String
+}
+
+type Interval {
+  dummy: String
+}
+
+type Fonts {
+  dummy: String
+}
+
+type Colors {
+  dummy: String
+}
+
+type Logos {
+  dummy: String
+}
+
+type Image {
+  dummy: String
+}
+
+type Country {
+  dummy: String
+}
+
+type Social {
+  dummy: String
+}
+
+type Session {
+  dummy: String
+}

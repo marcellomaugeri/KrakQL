@@ -45,7 +45,8 @@ async def blind_introspection(  # pylint: disable=too-many-arguments
     url: str,
     logger: logging.Logger,
     model: str,
-    step: float,
+    reward_factor: float,
+    decay_factor: float,
     time_budget: int,
     concurrent_requests: Optional[int] = None,
     headers: Optional[Dict[str, str]] = None,
@@ -111,9 +112,9 @@ async def blind_introspection(  # pylint: disable=too-many-arguments
 
             if n_new_fields > 0 or n_new_types > 0:
                 logger.info(f"Discovered {n_new_fields} new fields and {n_new_types} new types.")
-                next_type.increase_novelty(0.1)
+                next_type.increase_novelty(reward_factor)
             else:
-                next_type.reduce_novelty(0.05)
+                next_type.reduce_novelty(decay_factor)
                 logger.info(f"No new fields or types discovered for type {next_type.name}.")
             
             file_log().info(f"(# New Fields): {n_new_fields}")
@@ -128,10 +129,10 @@ async def blind_introspection(  # pylint: disable=too-many-arguments
 
             if n_new_args > 0 or n_new_arg_types > 0:
                 logger.info(f"Discovered {n_new_args} new arguments and {n_new_arg_types} new argument types for {next_field.name}.")
-                next_field.increase_novelty(0.1)
+                next_field.increase_novelty(reward_factor)
             else:
                 logger.info(f"No new arguments discovered for field {next_field.name}.")
-                next_field.reduce_novelty(0.5)
+                next_field.reduce_novelty(decay_factor)
             
             file_log().info(f"(# New Args): {n_new_args}")
         
@@ -159,8 +160,8 @@ def cli(argv: Optional[List[str]] = None) -> None:
 
     headers = {}
     for h in args.headers:
-        key, value = h.split(": ", 1)
-        headers[key] = value
+        key, value = h.split(":", 1)
+        headers[key.strip()] = value.strip()
 
     asyncio.run(
         blind_introspection(
@@ -172,7 +173,8 @@ def cli(argv: Optional[List[str]] = None) -> None:
             input_schema_path=args.input_schema,
             output_path=args.output,
             model=args.model,
-            step=args.step,
+            reward_factor=args.reward_factor,
+            decay_factor=args.decay_factor,
             time_budget=args.time_budget,
             proxy=args.proxy,
             max_retries=args.max_retries,

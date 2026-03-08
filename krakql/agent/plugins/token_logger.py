@@ -1,7 +1,6 @@
 from google.adk.agents.callback_context import CallbackContext
 from google.adk.models.llm_response import LlmResponse
 from google.adk.plugins.base_plugin import BasePlugin
-import logging
 from krakql.entities.context import file_log
 
 class TokenCounterLoggerPlugin(BasePlugin):
@@ -20,6 +19,5 @@ class TokenCounterLoggerPlugin(BasePlugin):
         """Log the fields of the LLM response."""
         prompt_token_count = llm_response.usage_metadata.prompt_token_count # Input tokens
         candidates_token_count = llm_response.usage_metadata.candidates_token_count # Output tokens
-        #thoughts_token = llm_response.usage_metadata.thoughts_token_count if llm_response.usage_metadata.thoughts_token_count else 0 # Thoughts tokens
 
         file_log().info(f"(# I/O Tokens): {prompt_token_count},{candidates_token_count}")

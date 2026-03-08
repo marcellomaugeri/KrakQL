@@ -90,13 +90,6 @@ def parse_args(args: List[str]) -> argparse.Namespace:
         default=None,
         help="Number of concurrent requests to send to the server",
     )
-    #parser.add_argument(
-    #    "-w",
-    #    "--wordlist",
-    #    metavar="<file>",
-    #    type=argparse.FileType("r"),
-    #    help="This wordlist will be used for all brute force effots (fields, arguments and so on)",
-    #)
     parser.add_argument(
         "-M",
         "--model",
@@ -120,12 +113,18 @@ def parse_args(args: List[str]) -> argparse.Namespace:
         help="Time budget for the introspection in seconds (default: 300 seconds)",
     )
     parser.add_argument(
-        "-s",
-        "--step",
+        "--reward-factor",
         metavar="<float>",
         type=float,
         default=0.1,
-        help="The step size of  (default: 0.1)",
+        help="Novelty reward factor (α in the paper, default: 0.1)",
+    )
+    parser.add_argument(
+        "--decay-factor",
+        metavar="<float>",
+        type=float,
+        default=0.05,
+        help="Novelty decay factor (β in the paper, default: 0.05)",
     )
     parser.add_argument(
         "-x",

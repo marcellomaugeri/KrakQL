@@ -3,11 +3,11 @@ name = "KrakQL"
 version = "1.0.0"
 description = "Obtain GraphQL API Schema even if the introspection is not enabled (LLM-powered)"
 authors = [
-    "Marcello Maugeri <marcello.maugeri@phd.unict.it>",
+    "Marcello Maugeri <marcellomaugeriphd@gmail.com>",
     "Abenezer Angamo <abenezer.angamo@gmail.com>"
 ]
 maintainers = [
-    "Marcello Maugeri <marcello.maugeri@phd.unict.it>",
+    "Marcello Maugeri <marcellomaugeriphd@gmail.com>",
     "Abenezer Angamo <abenezer.angamo@gmail.com>"
 ]
 license = "Apache-2.0"
@@ -23,9 +23,8 @@ krakql = 'krakql:cli'
 
 [tool.coverage.run]
 omit = [
-    'tests/*',
-    'examples/*',
     'docs/*',
+    'paper_results/*'
 ]
 
 [tool.poetry.dependencies]

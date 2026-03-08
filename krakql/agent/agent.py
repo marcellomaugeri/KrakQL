@@ -1,4 +1,3 @@
-from venv import logger
 from typing import AsyncGenerator
 
 from google.adk.agents.invocation_context import InvocationContext
@@ -23,16 +22,17 @@ class KrakQLAgent(BaseAgent):
         # Get the content
         if ctx.session.state["role"] is None:
             yield Event(error_message="Role not defined. Please select one of FieldAdvisor or ArgumentAdvisor.")
-        if ctx.session.state["role"] == "FieldAdvisor":
+        elif ctx.session.state["role"] == "FieldAdvisor":
             async for event in self.sub_agents[0].run_async(ctx):
                 #logger.info(f"[{self.name}] Event from FieldAdvisor: {event.model_dump_json(indent=2, exclude_none=True)}")
                 yield event
-        if ctx.session.state["role"] == "ArgumentAdvisor":
+        elif ctx.session.state["role"] == "ArgumentAdvisor":
             async for event in self.sub_agents[1].run_async(ctx):
                 #logger.info(f"[{self.name}] Event from ArgumentAdvisor: {event.model_dump_json(indent=2, exclude_none=True)}")
                 yield event
-        # Default
-        yield Event(error_message="Role not supported. Please select one of FieldAdvisor or ArgumentAdvisor.")
+        else:
+            # Default
+            yield Event(error_message="Role not supported. Please select one of FieldAdvisor or ArgumentAdvisor.")
 
 krakQLAgent = KrakQLAgent(
     name="KrakQLAgent",

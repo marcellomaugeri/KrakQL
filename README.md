@@ -5,19 +5,21 @@ Schema retrieval requires sending a series of `guesses` to a GraphQL endpoint to
 *KrakQL* uses LLMs to generate more effective guesses, which significantly reduces the number of queries needed to retrieve the schema, compared to dictionary-based approaches.
 
 ## Citation
-*KrakQL* was first presented in the paper "KrakQL: LLM-Guided Blind Introspection of GraphQL Schemas" at the 17th International Symposium on Search-Based Software Engineering (SSBSE 2025).
+*KrakQL* was first presented in the paper ["KrakQL: LLM-Guided Blind Introspection of GraphQL Schemas"](https://link.springer.com/chapter/10.1007/978-3-032-24839-8_2) at the 17th International Symposium on Search-Based Software Engineering (SSBSE 2025).
 If you use this code in your research, please cite the following paper:
 ```
 @InProceedings{maugeri2025krakql,
     author="Maugeri, Marcello and Angamo, Abenezer and Bella, Giampaolo",
-    title="KrakQL: LLM-Guided Blind Introspection of GraphQL Schemas",
+    editor="Wagner, Markus and Zhang, Man",
+    title="KrakQL: LLM-Guided Blind Introspection of GraphQL Schemas",
     booktitle="Search-Based Software Engineering",
-    year="2025",
+    year="2026",
     publisher="Springer Nature Switzerland",
+    address="Cham",
+    pages="19--33",
+    isbn="978-3-032-24839-8"
 }
 ```
-
-**Note:** At the time of writing, the DOI is not yet available. Please check online for the latest citation details.
 
 ## Design and Architecture
 
